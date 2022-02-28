@@ -1,13 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PrayerTimesFragment">
 
+    <Button
+        android:id="@+id/prayer_location_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/location_text_margin_top"
+        android:background="@color/transparent"
+        android:text="Cardiff, United Kingdom"
+        android:textColor="@color/chinese_white"
+        android:textSize="@dimen/txt_size"
+        app:icon="@drawable/ic_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/current_prayer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top"
+        android:text="Maghrib"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/current_prayer_txt_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prayer_location_btn" />
+
+    <TextView
+        android:id="@+id/current_date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top"
+        android:text="Saturday, 1 January"
+        android:textColor="@color/chinese_white"
+        android:textSize="@dimen/txt_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/current_prayer_text" />
+
     <ListView
         android:id="@+id/prayer_times_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/list_view_margin_edge"
+        android:layout_marginTop="@dimen/margin_top"
+        android:layout_marginEnd="@dimen/list_view_margin_edge"
+        android:background="@drawable/listview_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/current_date_text" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="location_text_margin_top">25dp</dimen>
+    <dimen name="txt_size">16sp</dimen>
+    <dimen name="margin_top">40dp</dimen>
+    <dimen name="current_prayer_txt_size">40sp</dimen>
+    <dimen name="list_view_margin_edge">20dp</dimen>
+</resources>
