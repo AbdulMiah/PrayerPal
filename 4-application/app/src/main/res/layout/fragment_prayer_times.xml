@@ -51,7 +51,7 @@
         android:layout_marginStart="@dimen/list_view_margin_edge"
         android:layout_marginTop="@dimen/margin_top"
         android:layout_marginEnd="@dimen/list_view_margin_edge"
-        android:background="@drawable/listview_radius"
+        android:background="@drawable/listview_corners"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/current_date_text" />
