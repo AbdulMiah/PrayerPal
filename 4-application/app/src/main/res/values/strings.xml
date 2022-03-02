@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PrayerPal</string>
+    <string name="prayers_nav_title">Prayer</string>
+    <string name="qibla_nav_title">Qibla</string>
+    <string name="tracker_nav_title">Tracker</string>
+    <string name="dua_nav_title">Dua\'s</string>
 </resources>

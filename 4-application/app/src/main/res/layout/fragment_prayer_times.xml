@@ -55,5 +55,4 @@
         app:layout_constraintTop_toBottomOf="@+id/current_date_text" />
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
