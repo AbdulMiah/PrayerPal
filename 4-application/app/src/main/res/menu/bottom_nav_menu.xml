@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_prayer_times"
+        android:title="@string/prayers_nav_title"
+        android:icon="@drawable/ic_clock" />
+
+    <item
+        android:id="@+id/nav_qibla"
+        android:title="@string/qibla_nav_title"
+        android:icon="@drawable/ic_compass" />
+
+    <item
+        android:id="@+id/nav_tracker"
+        android:title="@string/tracker_nav_title"
+        android:icon="@drawable/ic_check_circle" />
+
+    <item
+        android:id="@+id/nav_dua"
+        android:title="@string/dua_nav_title"
+        android:icon="@drawable/ic_person_praying" />
+</menu>
