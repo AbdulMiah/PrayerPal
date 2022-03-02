@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,14 +26,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 public class PrayerTimesFragment extends Fragment {
 
@@ -44,6 +39,7 @@ public class PrayerTimesFragment extends Fragment {
     private ArrayList<PrayerModel> prayerModels = new ArrayList<PrayerModel>();
     private Button locationBtn;
     private TextView currentDateText;
+    private TextView currentPrayerText;
 
     public PrayerTimesFragment() {
         // Required empty public constructor
@@ -56,8 +52,8 @@ public class PrayerTimesFragment extends Fragment {
 
         this.locationBtn = (Button) v.findViewById(R.id.prayer_location_btn);
         this.currentDateText = (TextView) v.findViewById(R.id.current_date_text);
+        this.currentPrayerText = (TextView) v.findViewById(R.id.current_prayer_text);
         this.lv = (ListView) v.findViewById(R.id.prayer_times_list_view);
-
 
         onAPIRequest(v);
 
@@ -73,7 +69,8 @@ public class PrayerTimesFragment extends Fragment {
     }
 
     public void onAPIRequest(View view) {
-        String apiUrl = "https://api.pray.zone/v2/times/today.json?city=london";
+        // API URL
+        String apiUrl = "https://api.pray.zone/v2/times/today.json?city=cardiff";
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonObjectRequest apiRequest = new JsonObjectRequest(
@@ -149,8 +146,20 @@ public class PrayerTimesFragment extends Fragment {
         prayerListAdapter = new PrayerListAdapter(lv.getContext(), prayerModels);
         this.lv.setAdapter(prayerListAdapter);
 
+        // Get the current time
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime timeNow = LocalTime.now();
 
+        // Iterate through the prayer models
+        for (PrayerModel pm : prayerModels) {
+            LocalTime prayerTime = LocalTime.parse(pm.getPrayerTime());             // Parse the prayer time into LocalTime
 
+            // If the current prayer time is after the prayer times from the model, then set the current prayer text to that prayer name
+            if (timeNow.isAfter(prayerTime)) {
+                currentPrayerText.setText(pm.getPrayerName());
+//                Log.i("PRAYER TIME",pm.getPrayerName());
+            }
+        }
     }
 
 }

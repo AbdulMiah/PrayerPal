@@ -24,7 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_top"
-        android:text="Maghrib"
         android:textColor="@color/yellow"
         android:textSize="@dimen/current_prayer_txt_size"
         app:layout_constraintEnd_toEndOf="parent"
