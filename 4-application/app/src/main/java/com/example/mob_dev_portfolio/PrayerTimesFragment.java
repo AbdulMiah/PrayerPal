@@ -151,13 +151,11 @@ public class PrayerTimesFragment extends Fragment {
         this.lv.setAdapter(prayerListAdapter);
 
         // Get the current time
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime timeNow = LocalTime.now();
 
         // Iterate through the prayer models
         for (PrayerModel pm : prayerModels) {
             LocalTime prayerTime = LocalTime.parse(pm.getPrayerTime());             // Parse the prayer time into LocalTime
-
             // If the current prayer time is after the prayer times from the model, then set the current prayer text to that prayer name
             if (timeNow.isAfter(prayerTime)) {
                 currentPrayerText.setText(pm.getPrayerName());
