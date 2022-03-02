@@ -2,7 +2,6 @@ package com.example.mob_dev_portfolio;
 
 import android.os.Bundle;
 
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -20,18 +19,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.mob_dev_portfolio.model.PrayerModel;
+import com.example.mob_dev_portfolio.adapters.PrayerListAdapter;
+import com.example.mob_dev_portfolio.models.PrayerModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PrayerTimesFragment extends Fragment {
 
     private ListView lv;
     private ArrayAdapter<String> arrayAdapter;
+    private PrayerListAdapter prayerListAdapter;
     private String[] prayerNamesList;
     private ArrayList<PrayerModel> prayerModels = new ArrayList<PrayerModel>();
 
@@ -44,31 +46,34 @@ public class PrayerTimesFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_prayer_times, container, false);
 
+        this.lv = (ListView) v.findViewById(R.id.prayer_times_list_view);
+
+        onAPIRequest(v);
+
         TextView locationBtn = v.findViewById(R.id.prayer_location_btn);
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onAPIRequest(view);
-//                Toast.makeText(getActivity(), "you clicked on location", Toast.LENGTH_SHORT).show();
             }
         });
 
-        this.lv = (ListView) v.findViewById(R.id.prayer_times_list_view);
-        prayerNamesList = getResources().getStringArray(R.array.prayer_names);
-
-        this.arrayAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_list_item_1,
-                prayerNamesList
-        );
-        this.lv.setAdapter(arrayAdapter);
-
         return v;
+//        } else {
+//            prayerNamesList = getResources().getStringArray(R.array.prayer_names);
+//            this.arrayAdapter = new ArrayAdapter<String>(
+//                getActivity(),
+//                android.R.layout.simple_list_item_1,
+//                prayerNamesList
+//            );
+//            this.lv.setAdapter(arrayAdapter);
+//            return v;
+//        }
     }
 
     public void onAPIRequest(View view) {
         String apiUrl = "https://api.pray.zone/v2/times/today.json?city=cardiff";
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonObjectRequest apiRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -105,11 +110,15 @@ public class PrayerTimesFragment extends Fragment {
             } catch (JSONException e) {
                 Log.e("ERROR!", e.toString());
             }
-            Log.i("PRAYER MODEL",prayerModels.toString());
+            Log.i("NEW PRAYER MODEL",prayerModels.toString());
         } else {
             Toast.makeText(getActivity(), "You already have the current prayer times", Toast.LENGTH_SHORT).show();
-            Log.i("PRAYER MODEL",prayerModels.toString());
+            Log.i("CURRENT PRAYER MODEL",prayerModels.toString());
         }
+
+        prayerListAdapter = new PrayerListAdapter(lv.getContext(), prayerModels);
+        this.lv.setAdapter(prayerListAdapter);
+
     }
 
 }

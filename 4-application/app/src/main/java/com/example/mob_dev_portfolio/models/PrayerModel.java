@@ -1,4 +1,4 @@
-package com.example.mob_dev_portfolio.model;
+package com.example.mob_dev_portfolio.models;
 
 public class PrayerModel {
 
