@@ -11,7 +11,6 @@ import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.models.PrayerModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PrayerListAdapter extends BaseAdapter {
 

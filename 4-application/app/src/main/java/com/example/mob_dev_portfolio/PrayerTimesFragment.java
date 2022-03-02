@@ -50,13 +50,16 @@ public class PrayerTimesFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_prayer_times, container, false);
 
+        // Gettings all the Views from fragment_prayer_times layout
         this.locationBtn = (Button) v.findViewById(R.id.prayer_location_btn);
         this.currentDateText = (TextView) v.findViewById(R.id.current_date_text);
         this.currentPrayerText = (TextView) v.findViewById(R.id.current_prayer_text);
         this.lv = (ListView) v.findViewById(R.id.prayer_times_list_view);
 
+        // Run the API request when fragment is loaded
         onAPIRequest(v);
 
+        // Temporary refresh API request on button click
         TextView locationBtn = v.findViewById(R.id.prayer_location_btn);
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +76,7 @@ public class PrayerTimesFragment extends Fragment {
         String apiUrl = "https://api.pray.zone/v2/times/today.json?city=cardiff";
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
+        // On API request, send the JSON Object response to the handleResponse() method
         JsonObjectRequest apiRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 apiUrl,
