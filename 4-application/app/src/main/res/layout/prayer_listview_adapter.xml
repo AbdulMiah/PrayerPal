@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/listview_corners"
     android:orientation="horizontal">
 
@@ -9,12 +11,28 @@
         android:id="@+id/prayer_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left" />
+        android:layout_marginStart="@dimen/lv_items_margin"
+        android:layout_marginTop="@dimen/lv_items_margin"
+        android:layout_marginBottom="@dimen/lv_items_margin"
+        android:textSize="@dimen/lv_items_text_size"
+        android:textColor="@color/almost_black"
+        android:text="prayer name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/prayer_time_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right" />
+        android:layout_marginTop="@dimen/lv_items_margin"
+        android:layout_marginEnd="@dimen/lv_items_margin"
+        android:layout_marginBottom="@dimen/lv_items_margin"
+        android:textSize="@dimen/lv_items_text_size"
+        android:textColor="@color/almost_black"
+        android:text="prayer time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
