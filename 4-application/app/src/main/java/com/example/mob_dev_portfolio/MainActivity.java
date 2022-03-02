@@ -1,22 +1,56 @@
 package com.example.mob_dev_portfolio;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+
+    private BottomNavigationView bottomNavView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.main_frag_container, new PrayerTimesFragment());
-        fragmentTransaction.commit();
+        // Load PrayerTimesFragment on application startup
+        changeInternalFragment(new PrayerTimesFragment(), R.id.main_frag_container);
 
+        // Add an item listener to the bottom navigation view
+        bottomNavView = findViewById(R.id.bottom_nav);
+        bottomNavView.setOnNavigationItemSelectedListener(this);
     }
+
+    // Method to replace internal fragment
+    private void changeInternalFragment(Fragment fragment, int fragmentContainer){
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+
+        supportFragmentManager.beginTransaction()
+                .replace(fragmentContainer, fragment)
+                .commit();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_prayer_times:
+                changeInternalFragment(new PrayerTimesFragment(), R.id.main_frag_container);
+                break;
+            case R.id.nav_tracker:
+                changeInternalFragment(new TrackerFragment(), R.id.main_frag_container);
+                break;
+            default:
+                changeInternalFragment(new PrayerTimesFragment(), R.id.main_frag_container);
+                break;
+        }
+        return true;
+    }
+
 }
