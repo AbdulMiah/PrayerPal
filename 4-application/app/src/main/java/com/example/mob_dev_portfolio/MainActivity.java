@@ -43,8 +43,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.nav_prayer_times:
                 changeInternalFragment(new PrayerTimesFragment(), R.id.main_frag_container);
                 break;
+            case R.id.nav_qibla:
+                changeInternalFragment(new QiblaFragment(), R.id.main_frag_container);
+                break;
             case R.id.nav_tracker:
                 changeInternalFragment(new TrackerFragment(), R.id.main_frag_container);
+                break;
+            case R.id.nav_dua:
+                changeInternalFragment(new DuaFragment(), R.id.main_frag_container);
                 break;
             default:
                 changeInternalFragment(new PrayerTimesFragment(), R.id.main_frag_container);
