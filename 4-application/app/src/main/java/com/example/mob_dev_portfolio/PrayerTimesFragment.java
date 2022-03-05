@@ -50,7 +50,7 @@ public class PrayerTimesFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_prayer_times, container, false);
 
-        // Gettings all the Views from fragment_prayer_times layout
+        // Getting all the Views from fragment_prayer_times layout
         this.locationBtn = (Button) v.findViewById(R.id.prayer_location_btn);
         this.currentDateText = (TextView) v.findViewById(R.id.current_date_text);
         this.currentPrayerText = (TextView) v.findViewById(R.id.current_prayer_text);
