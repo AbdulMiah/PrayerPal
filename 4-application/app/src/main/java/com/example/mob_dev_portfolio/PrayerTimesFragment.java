@@ -2,15 +2,15 @@ package com.example.mob_dev_portfolio;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -37,9 +37,9 @@ public class PrayerTimesFragment extends Fragment {
     private PrayerListAdapter prayerListAdapter;
     private String[] prayerNamesList;
     private ArrayList<PrayerModel> prayerModels = new ArrayList<PrayerModel>();
-    private Button locationBtn;
-    private TextView currentDateText;
-    private TextView currentPrayerText;
+    private AppCompatButton locationBtn;
+    private AppCompatTextView currentDateText;
+    private AppCompatTextView currentPrayerText;
 
     public PrayerTimesFragment() {
         // Required empty public constructor
@@ -51,30 +51,29 @@ public class PrayerTimesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_prayer_times, container, false);
 
         // Getting all the Views from fragment_prayer_times layout
-        this.locationBtn = (Button) v.findViewById(R.id.prayer_location_btn);
-        this.currentDateText = (TextView) v.findViewById(R.id.current_date_text);
-        this.currentPrayerText = (TextView) v.findViewById(R.id.current_prayer_text);
-        this.lv = (ListView) v.findViewById(R.id.prayer_times_list_view);
+        this.locationBtn = v.findViewById(R.id.prayer_location_btn);
+        this.currentDateText = v.findViewById(R.id.current_date_text);
+        this.currentPrayerText = v.findViewById(R.id.current_prayer_text);
+        this.lv = v.findViewById(R.id.prayer_times_list_view);
+
+        // Temporary set onClickListener to refresh API request on button click
+        this.locationBtn.setOnClickListener(this::onClick);
 
         // Run the API request when fragment is loaded
         onAPIRequest(v);
 
-        // Temporary refresh API request on button click
-        TextView locationBtn = v.findViewById(R.id.prayer_location_btn);
-        locationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onAPIRequest(view);
-            }
-        });
-
         return v;
+    }
+
+//    @Override
+    public void onClick(View view) {
+        onAPIRequest(view);
     }
 
     public void onAPIRequest(View view) {
         // API URL
-        String apiUrl = "https://api.pray.zone/v2/times/today.json?city=cardiff";
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        String apiUrl = "https://api.pray.zone/v2/times/today.json?city=antalya";
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
         // On API request, send the JSON Object response to the handleResponse() method
         JsonObjectRequest apiRequest = new JsonObjectRequest(
@@ -91,6 +90,7 @@ public class PrayerTimesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Empty
+                        Log.e("REQUEST FROM API ERROR:", String.valueOf(error));
                     }
                 }
         );
@@ -113,12 +113,9 @@ public class PrayerTimesFragment extends Fragment {
                 JSONArray datetimeArray = resultsJson.getJSONArray("datetime");
                 JSONObject locationObject = resultsJson.getJSONObject("location");
 
-                // Setting current location button to prayer location from API
+                // Get prayer location from API
                 city = locationObject.getString("city");
                 country = locationObject.getString("country");
-                String prayerLocation = city.concat(", "+country);
-                this.locationBtn.setText(prayerLocation);
-//                Log.i("PRAYER LOCATION",prayerLocation);
 
                 // Looping through datetime array to get prayer times and storing them in an ArrayList of PrayerModel objects
                 for (int i=0; i<listSize; i++) {
@@ -127,14 +124,11 @@ public class PrayerTimesFragment extends Fragment {
                     prayerModels.add(new PrayerModel(prayerNamesList[i], prayerTimes.getString(prayerNamesList[i])));
                 }
 
-                // Get current date from API and format it, then set the current date text to formatted date
+                // Get current date from API
                 currentDate = datetimeArray.getJSONObject(0).getJSONObject("date").getString("gregorian");
-                DateTimeFormatter apiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy");
-                LocalDate formatDate = LocalDate.parse(currentDate, apiFormat);
-                String output = myFormat.format(formatDate);
-                currentDateText.setText(output);
-//                Log.i("CURRENT DATE IS...", output);
+
+                // Set the location and current date texts
+                setLocationAndDateText(city, country, currentDate);
 
             // Catch any JSONExceptions and Log to console
             } catch (JSONException e) {
@@ -146,10 +140,30 @@ public class PrayerTimesFragment extends Fragment {
             Log.i("CURRENT PRAYER MODEL",prayerModels.toString());
         }
 
+        // Set current prayer text
+        setCurrentPrayerText();
+
         // Populate ListView with the prayer times and names
         prayerListAdapter = new PrayerListAdapter(lv.getContext(), prayerModels);
         this.lv.setAdapter(prayerListAdapter);
+    }
 
+    public void setLocationAndDateText(String city, String country, String currentDate) {
+        // Setting current location text in button to prayer location from API
+        String prayerLocation = city.concat(", "+country);
+        this.locationBtn.setText(prayerLocation);
+//        Log.i("PRAYER LOCATION",prayerLocation);
+
+        // Format current date from API, then set the current date text to formatted date
+        DateTimeFormatter apiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy");
+        LocalDate formatDate = LocalDate.parse(currentDate, apiFormat);
+        String output = myFormat.format(formatDate);
+        currentDateText.setText(output);
+//        Log.i("CURRENT DATE IS...", output);
+    }
+
+    public void setCurrentPrayerText() {
         // Get the current time
         LocalTime timeNow = LocalTime.now();
 
