@@ -2,6 +2,8 @@ package com.example.mob_dev_portfolio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -37,10 +39,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class PrayerTimesFragment extends Fragment {
 
@@ -82,16 +87,16 @@ public class PrayerTimesFragment extends Fragment {
         this.locationBtn.setOnClickListener(this::onClick);
 
         // Run the API request when fragment is loaded
-        onAPIRequest(v);
+        onAPIRequest(v, "antalya");
 
         this.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getContext());
 
         // If there are not location permissions granted, request location permissions
-        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
-            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
-        } else {
-            fetchLocationData(v.getId());           // Call fetch location method
-        }
+//        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
+//            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
+//        } else {
+//            fetchLocationData(v.getId());           // Call fetch location method
+//        }
 
         return v;
     }
@@ -148,24 +153,34 @@ public class PrayerTimesFragment extends Fragment {
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
 
-            Log.i("LOCATION_UPDATE", String.valueOf(locationResult.getLocations()));
-
             // Get last location data and send to updateLocationText method
-            updateLocationText(locationResult.getLastLocation());
+            updatePrayerTimesFromLocation(locationResult.getLastLocation());
         }
     }
 
     // Do stuff with this location data
-    private void updateLocationText(Location l){
-        String res = String.valueOf(l.getLatitude()).concat(", "+String.valueOf(l.getLongitude()));
-        Log.d("LAT LONG DATA FROM LOCATION",res);
-        this.currentPrayerText.setText(res);
+    private void updatePrayerTimesFromLocation(Location l){
+//        String res = String.valueOf(l.getLatitude()).concat(", "+String.valueOf(l.getLongitude()));
+//        Log.d("LAT LONG DATA FROM LOCATION",res);
+
+        // Use Geocoder to get city name from location
+        Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geo.getFromLocation(l.getLatitude(), l.getLongitude(), 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (addresses.size() > 0) {
+            Log.d("CITY NAME FROM LOCATION",addresses.get(0).getSubAdminArea());
+            onAPIRequest(getView(), addresses.get(0).getSubAdminArea());            // Call API with city name
+        }
     }
 
 
-    public void onAPIRequest(View view) {
+    public void onAPIRequest(View view, String city) {
         // API URL
-        String apiUrl = "https://api.pray.zone/v2/times/today.json?city=antalya";
+        String apiUrl = "https://api.pray.zone/v2/times/today.json?city="+city;
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
         // On API request, send the JSON Object response to the handleResponse() method
@@ -226,10 +241,10 @@ public class PrayerTimesFragment extends Fragment {
             } catch (JSONException e) {
                 Log.e("ERROR!", e.toString());
             }
-        // If ArrayList of PrayerModel is not empty, then display a Toast
+        // If ArrayList of PrayerModel is not empty, clear list and recall handleResponse() method
         } else {
-            Toast.makeText(getActivity(), "You already have the current prayer times", Toast.LENGTH_SHORT).show();
-            Log.i("CURRENT PRAYER MODEL",prayerModels.toString());
+            prayerModels.clear();
+            handleResponse(items);
         }
 
         // Set current prayer text
