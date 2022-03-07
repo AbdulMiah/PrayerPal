@@ -87,7 +87,7 @@ public class PrayerTimesFragment extends Fragment {
         this.locationBtn.setOnClickListener(this::onClick);
 
         // Run the API request when fragment is loaded
-        onAPIRequest(v, "antalya");
+        onAPIRequest(v, 51.4815, -3.1790);
 
         this.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getContext());
 
@@ -160,10 +160,10 @@ public class PrayerTimesFragment extends Fragment {
 
     // Do stuff with this location data
     private void updatePrayerTimesFromLocation(Location l){
-//        String res = String.valueOf(l.getLatitude()).concat(", "+String.valueOf(l.getLongitude()));
-//        Log.d("LAT LONG DATA FROM LOCATION",res);
+        // Call API with lat and long
+        onAPIRequest(getView(), l.getLatitude(), l.getLongitude());
 
-        // Use Geocoder to get city name from location
+        // Use Geocoder to get city and country name from location
         Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
         List<Address> addresses = null;
         try {
@@ -172,15 +172,20 @@ public class PrayerTimesFragment extends Fragment {
             e.printStackTrace();
         }
         if (addresses.size() > 0) {
-            Log.d("CITY NAME FROM LOCATION",addresses.get(0).getSubAdminArea());
-            onAPIRequest(getView(), addresses.get(0).getSubAdminArea());            // Call API with city name
+            String city = addresses.get(0).getSubAdminArea();
+            String country = addresses.get(0).getCountryName();
+
+            // Setting current location text in button to prayer location from API
+            String currentLocation = city.concat(", "+country);
+            this.locationBtn.setText(currentLocation);
+            Log.d("CURRENT LOCATION", currentLocation);
         }
     }
 
 
-    public void onAPIRequest(View view, String city) {
+    public void onAPIRequest(View view, double latitude, double longitude) {
         // API URL
-        String apiUrl = "https://api.pray.zone/v2/times/today.json?city="+city;
+        String apiUrl = "https://api.pray.zone/v2/times/today.json?longitude="+longitude+"&latitude="+latitude+"&elevation=25";
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
         // On API request, send the JSON Object response to the handleResponse() method
@@ -208,8 +213,6 @@ public class PrayerTimesFragment extends Fragment {
         // Check if ArrayList of PrayerModel is empty, if it is then do this...
         if (prayerModels.size() <= 0) {
             // Initialise some variables
-            String city = "";
-            String country = "";
             String currentDate = "";
             prayerNamesList = getResources().getStringArray(R.array.prayer_names);
             int listSize = prayerNamesList.length;
@@ -218,11 +221,6 @@ public class PrayerTimesFragment extends Fragment {
                 // Setting JSON Objects and Arrays
                 JSONObject resultsJson = items.getJSONObject("results");
                 JSONArray datetimeArray = resultsJson.getJSONArray("datetime");
-                JSONObject locationObject = resultsJson.getJSONObject("location");
-
-                // Get prayer location from API
-                city = locationObject.getString("city");
-                country = locationObject.getString("country");
 
                 // Looping through datetime array to get prayer times and storing them in an ArrayList of PrayerModel objects
                 for (int i=0; i<listSize; i++) {
@@ -235,7 +233,7 @@ public class PrayerTimesFragment extends Fragment {
                 currentDate = datetimeArray.getJSONObject(0).getJSONObject("date").getString("gregorian");
 
                 // Set the location and current date texts
-                setLocationAndDateText(city, country, currentDate);
+                setCurrentDateFromAPI(currentDate);
 
             // Catch any JSONExceptions and Log to console
             } catch (JSONException e) {
@@ -255,12 +253,7 @@ public class PrayerTimesFragment extends Fragment {
         this.lv.setAdapter(prayerListAdapter);
     }
 
-    public void setLocationAndDateText(String city, String country, String currentDate) {
-        // Setting current location text in button to prayer location from API
-        String prayerLocation = city.concat(", "+country);
-        this.locationBtn.setText(prayerLocation);
-//        Log.i("PRAYER LOCATION",prayerLocation);
-
+    public void setCurrentDateFromAPI(String currentDate) {
         // Format current date from API, then set the current date text to formatted date
         DateTimeFormatter apiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy");
