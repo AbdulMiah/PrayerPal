@@ -163,11 +163,37 @@ public class PrayerTimesFragment extends Fragment {
         // Call API with lat and long
         onAPIRequest(getView(), l.getLatitude(), l.getLongitude());
 
-        // Use Geocoder to get city and country name from location
+        // If not already set, use Geocoder to get city and country name from location
+        if (locationBtn.getText().equals("")) {
+            Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = geo.getFromLocation(l.getLatitude(), l.getLongitude(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (addresses.size() > 0) {
+                String city = addresses.get(0).getSubAdminArea();
+                String country = addresses.get(0).getCountryName();
+
+                // Setting current location text in button to prayer location from API
+                String currentLocation = city.concat(", "+country);
+                this.locationBtn.setText(currentLocation);
+                Log.d("CURRENT LOCATION", currentLocation);
+            }
+        }
+    }
+
+
+    public void onAPIRequest(View view, double latitude, double longitude) {
+        // API URL
+        String apiUrl = "https://api.pray.zone/v2/times/today.json?longitude="+longitude+"&latitude="+latitude+"&elevation=25";
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
+
         Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
         List<Address> addresses = null;
         try {
-            addresses = geo.getFromLocation(l.getLatitude(), l.getLongitude(), 1);
+            addresses = geo.getFromLocation(latitude, longitude, 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -178,15 +204,8 @@ public class PrayerTimesFragment extends Fragment {
             // Setting current location text in button to prayer location from API
             String currentLocation = city.concat(", "+country);
             this.locationBtn.setText(currentLocation);
-            Log.d("CURRENT LOCATION", currentLocation);
+            Log.d("CURRENT LOCATION ON API REQUEST", currentLocation);
         }
-    }
-
-
-    public void onAPIRequest(View view, double latitude, double longitude) {
-        // API URL
-        String apiUrl = "https://api.pray.zone/v2/times/today.json?longitude="+longitude+"&latitude="+latitude+"&elevation=25";
-        RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
         // On API request, send the JSON Object response to the handleResponse() method
         JsonObjectRequest apiRequest = new JsonObjectRequest(
