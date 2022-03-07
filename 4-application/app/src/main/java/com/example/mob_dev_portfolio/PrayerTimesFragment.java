@@ -87,22 +87,21 @@ public class PrayerTimesFragment extends Fragment {
         this.locationBtn.setOnClickListener(this::onClick);
 
         // Run the API request when fragment is loaded
-        onAPIRequest(v, 51.4815, -3.1790);
+//        onAPIRequest(v, 51.4815, -3.1790);
 
         this.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getContext());
 
-        // If there are not location permissions granted, request location permissions
-//        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
-//            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
-//        } else {
-//            fetchLocationData(v.getId());           // Call fetch location method
-//        }
+        // If there are no location permissions granted, request location permissions when fragment is loaded
+        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
+            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
+        } else {
+            fetchLocationData(v.getId());           // Call fetch location method
+        }
 
         return v;
     }
 
     public void onClick(View view) {
-//        onAPIRequest(view);
         if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
             requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
         } else {
@@ -133,17 +132,13 @@ public class PrayerTimesFragment extends Fragment {
             this.mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
 
-        // Fetch location data when button is pressed
-        switch (id) {
-            case R.id.prayer_location_btn:
-                if (locationCallback == null) {
-                    locationCallback = new MyLocationCallback();
-                    this.mFusedLocationClient.requestLocationUpdates(
-                            LocationHelper.singleLocationRequest(LOCATION_PRIORITY),
-                            locationCallback,
-                            null);
-                    break;
-                }
+        // Fetch location data on single location update
+        if (locationCallback == null) {
+            locationCallback = new MyLocationCallback();
+            this.mFusedLocationClient.requestLocationUpdates(
+                    LocationHelper.singleLocationRequest(LOCATION_PRIORITY),
+                    locationCallback,
+                    null);
         }
     }
 
@@ -184,12 +179,12 @@ public class PrayerTimesFragment extends Fragment {
         }
     }
 
-
     public void onAPIRequest(View view, double latitude, double longitude) {
         // API URL
         String apiUrl = "https://api.pray.zone/v2/times/today.json?longitude="+longitude+"&latitude="+latitude+"&elevation=25";
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
+        // Set city and country text in button retrieved from location
         Geocoder geo = new Geocoder(getContext(), Locale.getDefault());
         List<Address> addresses = null;
         try {
