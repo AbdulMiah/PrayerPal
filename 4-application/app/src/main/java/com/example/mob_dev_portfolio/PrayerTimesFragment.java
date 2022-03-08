@@ -2,6 +2,7 @@ package com.example.mob_dev_portfolio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -102,11 +103,14 @@ public class PrayerTimesFragment extends Fragment {
     }
 
     public void onClick(View view) {
-        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
-            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
-        } else {
-            fetchLocationData(view.getId());
-        }
+        Intent i = new Intent(getContext(), MapsActivity.class);
+        startActivity(i);
+
+//        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
+//            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
+//        } else {
+//            fetchLocationData(view.getId());
+//        }
     }
 
     // Method to check permission results for location
