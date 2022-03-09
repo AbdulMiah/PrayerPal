@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.SearchView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,6 +45,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Geocoder geo = new Geocoder(MapsActivity.this);
                     try {
                         addressList = geo.getFromLocationName(location, 1);
+                        if (addressList.size() == 0) {
+                            searchView.setQuery("Sorry, could not find that city", false);
+                            Log.e("DOES NOT EXIST", "This location does not exist");
+                            return false;
+                        }
+                        Log.d("GETTING LOCATION DATA",addressList.toString());
                         Address address = addressList.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                         map.addMarker(new MarkerOptions().position(latLng).title(location));
@@ -68,10 +75,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng cardiff = new LatLng(51.4816, -3.1791);
-        map.addMarker(new MarkerOptions().position(cardiff).title("Marker in Cardiff"));
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(cardiff,10));
 //        map.setMinZoomPreference(10);
     }
 }

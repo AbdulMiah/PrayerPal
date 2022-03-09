@@ -120,7 +120,9 @@ public class PrayerTimesFragment extends Fragment {
         switch (requestCode) {
             case LOCATION_REQUEST_FROM_BUTTON:
                 if (!LocationPermissions.checkIfPermissionResultsGranted(grantResults)) {
-                    Toast.makeText(getContext(), "Location Permissions are denied! I need them!!", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getContext(), MapsActivity.class);
+                    startActivity(i);
+                    Toast.makeText(getContext(), "Please select a location from the map", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -171,7 +173,7 @@ public class PrayerTimesFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (addresses.size() > 0) {
+            if (addresses != null) {
                 String city = addresses.get(0).getSubAdminArea();
                 String country = addresses.get(0).getCountryName();
 
@@ -196,7 +198,7 @@ public class PrayerTimesFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (addresses.size() > 0) {
+        if (addresses != null) {
             String city = addresses.get(0).getSubAdminArea();
             String country = addresses.get(0).getCountryName();
 
