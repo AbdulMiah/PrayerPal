@@ -1,6 +1,5 @@
 package com.example.mob_dev_portfolio;
 
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
@@ -60,14 +59,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         Address address = addressList.get(0);
                         Log.d("LOCATION DATA FROM MAP", address.toString());
+
                         Intent i = new Intent();
                         i.putExtra("lat", address.getLatitude());
                         i.putExtra("long", address.getLongitude());
                         setResult(001, i);
-                        finish();
-//                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-//                        map.addMarker(new MarkerOptions().position(latLng).title(location));
-//                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+
+                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                        map.addMarker(new MarkerOptions().position(latLng).title(location));
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10), 3000, new GoogleMap.CancelableCallback() {
+                            @Override
+                            public void onCancel() {
+                                finish();
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                finish();
+                            }
+                        });
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

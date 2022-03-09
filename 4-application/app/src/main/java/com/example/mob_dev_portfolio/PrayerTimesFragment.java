@@ -88,9 +88,6 @@ public class PrayerTimesFragment extends Fragment {
         // Temporary set onClickListener to refresh API request on button click
         this.locationBtn.setOnClickListener(this::onClick);
 
-        // Run the API request when fragment is loaded
-//        onAPIRequest(v, 51.4815, -3.1790);
-
         this.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getContext());
 
         // If there are no location permissions granted, request location permissions when fragment is loaded
@@ -106,12 +103,6 @@ public class PrayerTimesFragment extends Fragment {
     public void onClick(View view) {
         Intent i = new Intent(view.getContext(), MapsActivity.class);
         startActivityForResult(i, 001);
-
-//        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
-//            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
-//        } else {
-//            fetchLocationData(view.getId());
-//        }
     }
 
     // Method to check permission results for location
