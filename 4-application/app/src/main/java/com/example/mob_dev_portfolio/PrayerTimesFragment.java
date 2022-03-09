@@ -103,7 +103,7 @@ public class PrayerTimesFragment extends Fragment {
     }
 
     public void onClick(View view) {
-        Intent i = new Intent(getContext(), MapsActivity.class);
+        Intent i = new Intent(view.getContext(), MapsActivity.class);
         startActivity(i);
 
 //        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
