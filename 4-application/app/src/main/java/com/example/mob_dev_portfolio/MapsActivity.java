@@ -1,5 +1,6 @@
 package com.example.mob_dev_portfolio;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.FragmentActivity;
 
 import android.location.Address;
@@ -7,6 +8,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +25,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap map;
     private SupportMapFragment mapFragment;
     private SearchView searchView;
+    private TextView errorMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         searchView = findViewById(R.id.sv_location);
+        errorMsg = findViewById(R.id.error_text);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -46,8 +50,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     try {
                         addressList = geo.getFromLocationName(location, 1);
                         if (addressList.size() == 0) {
-                            searchView.setQuery("Sorry, could not find that city", false);
-                            Log.e("DOES NOT EXIST", "This location does not exist");
+                            errorMsg.setPadding(20, 20, 20, 20);
+                            errorMsg.setText("Sorry, could not find that location");
                             return false;
                         }
                         Log.d("GETTING LOCATION DATA",addressList.toString());
@@ -64,6 +68,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public boolean onQueryTextChange(String s) {
+                errorMsg.setPadding(0,0,0,0);
+                errorMsg.setText("");
                 return false;
             }
         });

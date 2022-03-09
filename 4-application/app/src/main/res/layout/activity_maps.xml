@@ -25,4 +25,16 @@
         map:layout_constraintHorizontal_bias="0.495"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/error_tv_marginTop"
+        android:background="@drawable/error_text_corners"
+        android:textColor="@color/error"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/sv_location" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
