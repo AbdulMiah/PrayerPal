@@ -83,6 +83,7 @@ public class PrayerTimesFragment extends Fragment {
         this.currentDateText = v.findViewById(R.id.current_date_text);
         this.currentPrayerText = v.findViewById(R.id.current_prayer_text);
         this.lv = v.findViewById(R.id.prayer_times_list_view);
+        prayerNamesList = getResources().getStringArray(R.array.prayer_names);
 
         // Temporary set onClickListener to refresh API request on button click
         this.locationBtn.setOnClickListener(this::onClick);
@@ -104,7 +105,7 @@ public class PrayerTimesFragment extends Fragment {
 
     public void onClick(View view) {
         Intent i = new Intent(view.getContext(), MapsActivity.class);
-        startActivity(i);
+        startActivityForResult(i, 001);
 
 //        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
 //            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
@@ -121,7 +122,7 @@ public class PrayerTimesFragment extends Fragment {
             case LOCATION_REQUEST_FROM_BUTTON:
                 if (!LocationPermissions.checkIfPermissionResultsGranted(grantResults)) {
                     Intent i = new Intent(getContext(), MapsActivity.class);
-                    startActivity(i);
+                    startActivityForResult(i, 001);
                     Toast.makeText(getContext(), "Please select a location from the map", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -234,7 +235,6 @@ public class PrayerTimesFragment extends Fragment {
         if (prayerModels.size() <= 0) {
             // Initialise some variables
             String currentDate = "";
-            prayerNamesList = getResources().getStringArray(R.array.prayer_names);
             int listSize = prayerNamesList.length;
 
             try {
@@ -296,6 +296,12 @@ public class PrayerTimesFragment extends Fragment {
 //                Log.i("PRAYER TIME",pm.getPrayerName());
             }
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        onAPIRequest(getView(), data.getDoubleExtra("lat",0), data.getDoubleExtra("long",0));
     }
 
 }

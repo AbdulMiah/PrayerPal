@@ -3,10 +3,12 @@ package com.example.mob_dev_portfolio;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -22,10 +24,12 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private PrayerTimesFragment prayerFrag;
     private GoogleMap map;
     private SupportMapFragment mapFragment;
     private SearchView searchView;
     private TextView errorMsg;
+    public View v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +58,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             errorMsg.setText("Sorry, could not find that location");
                             return false;
                         }
-                        Log.d("GETTING LOCATION DATA",addressList.toString());
                         Address address = addressList.get(0);
-                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        map.addMarker(new MarkerOptions().position(latLng).title(location));
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                        Log.d("LOCATION DATA FROM MAP", address.toString());
+                        Intent i = new Intent();
+                        i.putExtra("lat", address.getLatitude());
+                        i.putExtra("long", address.getLongitude());
+                        setResult(001, i);
+                        finish();
+//                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+//                        map.addMarker(new MarkerOptions().position(latLng).title(location));
+//                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -82,5 +91,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         map = googleMap;
 
 //        map.setMinZoomPreference(10);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        prayerFrag.onActivityResult(requestCode, resultCode, data);
     }
 }
