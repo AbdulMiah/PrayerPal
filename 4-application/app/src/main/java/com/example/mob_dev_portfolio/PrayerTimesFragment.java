@@ -85,7 +85,7 @@ public class PrayerTimesFragment extends Fragment {
         this.lv = v.findViewById(R.id.prayer_times_list_view);
         prayerNamesList = getResources().getStringArray(R.array.prayer_names);
 
-        // Temporary set onClickListener to refresh API request on button click
+        // Set onClickListener to load MapActivity
         this.locationBtn.setOnClickListener(this::onClick);
 
         this.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getContext());
@@ -100,6 +100,7 @@ public class PrayerTimesFragment extends Fragment {
         return v;
     }
 
+    // Start MapActivity using intents and expect to recieve results from this activity
     public void onClick(View view) {
         Intent i = new Intent(view.getContext(), MapsActivity.class);
         startActivityForResult(i, 001);
@@ -108,7 +109,7 @@ public class PrayerTimesFragment extends Fragment {
     // Method to check permission results for location
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        // Make a Toast to say location permissions are needed if location permissions are denied
+        // If location permissions are denied, take user to MapsActivity and let them know to select a location from the map using Toast
         switch (requestCode) {
             case LOCATION_REQUEST_FROM_BUTTON:
                 if (!LocationPermissions.checkIfPermissionResultsGranted(grantResults)) {
@@ -289,10 +290,13 @@ public class PrayerTimesFragment extends Fragment {
         }
     }
 
+    // Receive data from Intents from MapsActivity, if not null, and call onAPIRequest method with Lat/Lng data
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        onAPIRequest(getView(), data.getDoubleExtra("lat",0), data.getDoubleExtra("long",0));
+        if (data != null) {
+            onAPIRequest(getView(), data.getDoubleExtra("lat",0), data.getDoubleExtra("long",0));
+        }
     }
 
 }

@@ -12,6 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/back_btn_margin"
+        android:layout_marginTop="@dimen/back_btn_margin"
+        android:background="@drawable/back_btn_corners"
+        android:text="@string/back_tv"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent" />
+
     <SearchView
         android:id="@+id/sv_location"
         android:layout_width="wrap_content"
