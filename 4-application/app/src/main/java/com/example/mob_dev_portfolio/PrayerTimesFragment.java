@@ -101,14 +101,6 @@ public class PrayerTimesFragment extends Fragment {
             fetchLocationData(v.getId());           // Call fetch location method
         }
 
-//        Fragment cf = getActivity().getSupportFragmentManager().findFragmentById(R.id.main_frag_container);
-//        if (cf instanceof PrayerTimesFragment) {
-//            FragmentTransaction ft = (getActivity()).getSupportFragmentManager().beginTransaction();
-//            ft.detach(cf);
-//            ft.attach(cf);
-//            ft.commit();
-//        }
-
         return v;
     }
 
@@ -307,6 +299,16 @@ public class PrayerTimesFragment extends Fragment {
         }
     }
 
+    public void refreshFragment() {
+        Fragment cf = getActivity().getSupportFragmentManager().findFragmentById(R.id.main_frag_container);
+        if (cf instanceof PrayerTimesFragment) {
+            FragmentTransaction ft = (getActivity()).getSupportFragmentManager().beginTransaction();
+            ft.detach(cf);
+            ft.attach(cf);
+            ft.commit();
+        }
+    }
+
     // Receive data from Intents from MapsActivity, if not null, and call onAPIRequest method with Lat/Lng data
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -331,7 +333,8 @@ public class PrayerTimesFragment extends Fragment {
 
     public void showAlertDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-        alertDialogBuilder.setMessage("PrayerPal needs you to allow Location permissions in order to use this feature. You can allow it by going on the app settings.");
+        alertDialogBuilder.setMessage("PrayerPal needs you to allow Location permissions in order to use this feature." +
+                "\n\nTo enable location permissions, go to Settings > Apps > PrayerPal > Permissions > Location > Allow (or 'ask every time')");
                 alertDialogBuilder.setPositiveButton("Okay",
                         new DialogInterface.OnClickListener() {
                             @Override
