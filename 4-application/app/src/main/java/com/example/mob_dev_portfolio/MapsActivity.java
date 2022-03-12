@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private SearchView searchView;
     private TextView errorMsg;
     private AppCompatButton backBtn;
+    private AppCompatButton currentLocationBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +40,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchView = findViewById(R.id.sv_location);
         errorMsg = findViewById(R.id.error_text);
         backBtn = findViewById(R.id.back_button);
+        currentLocationBtn = findViewById(R.id.current_location_btn);
 
-        // Setting onClick Listener on back button
+        // Setting onClick Listeners
         backBtn.setOnClickListener(this::onClick);
+        currentLocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                i.putExtra("Location Permission", true);
+                setResult(2, i);
+                finish();
+            }
+        });
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -65,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             return false;
                         }
                         Address address = addressList.get(0);
-//                        Log.d("LOCATION DATA FROM MAP", address.toString());
+                        Log.d("LOCATION DATA FROM MAP", address.toString());
 
                         // Get Lat/Lng from address and save it to an Intent
                         Intent i = new Intent();
