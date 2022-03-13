@@ -56,6 +56,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Setting onClick Listeners
         backBtn.setOnClickListener(this::onClick);
+
+        // Postponing this feature. Show a Toast for now
         currentLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,6 +157,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    // Create an AlertDialog to let user know that this app requires Location Permissions for 'Use Current Location' feature
     public void showAlertDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("PrayerPal needs you to allow Location permissions in order to use this feature." +
@@ -163,6 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
+                        // Try to request permissions again after user clicks 'Okay' on AlertDialog
                         requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_MAP);
                     }
                 });
