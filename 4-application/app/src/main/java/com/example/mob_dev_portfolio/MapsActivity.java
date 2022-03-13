@@ -1,8 +1,12 @@
 package com.example.mob_dev_portfolio;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -11,7 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.mob_dev_portfolio.location.LocationPermissions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,6 +29,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private static final int LOCATION_REQUEST_FROM_MAP = 2;
+    private static final String[] LOCATION_PERMISSIONS = new String[] {
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
 
     private PrayerTimesFragment prayerFrag;
     private GoogleMap map;
@@ -47,10 +59,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent();
-                i.putExtra("Location Permission", true);
-                setResult(2, i);
-                finish();
+//                showAlertDialog();
+                Toast.makeText(view.getContext(), "This feature is still under construction", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -129,6 +139,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+    }
+
+    // Method to check permission results for location
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // If location permissions are denied, take user to MapsActivity and let them know to select a location from the map using Toast
+        switch (requestCode) {
+            case LOCATION_REQUEST_FROM_MAP:
+                if (!LocationPermissions.checkIfPermissionResultsGranted(grantResults)) {
+                    Toast.makeText(this, "Location permissions are required to use this feature", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void showAlertDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("PrayerPal needs you to allow Location permissions in order to use this feature." +
+                "\n\nTo enable location permissions, go to Settings > Apps > PrayerPal > Permissions > Location > Allow (or 'ask every time')");
+        alertDialogBuilder.setPositiveButton("Okay",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_MAP);
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     // Send Lat/Lng results from this activity to the PrayerTimesFragment

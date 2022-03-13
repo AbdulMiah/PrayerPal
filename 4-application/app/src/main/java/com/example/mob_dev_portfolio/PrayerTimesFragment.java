@@ -2,8 +2,6 @@ package com.example.mob_dev_portfolio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -55,7 +53,6 @@ public class PrayerTimesFragment extends Fragment {
 
     private static final int LOCATION_PRIORITY = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
     private static final int LOCATION_REQUEST_FROM_BUTTON = 0;
-    private static final int LOCATION_REQUEST_FROM_MAP = 2;
     private static final String[] LOCATION_PERMISSIONS = new String[] {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -120,11 +117,6 @@ public class PrayerTimesFragment extends Fragment {
                     Intent i = new Intent(getContext(), MapsActivity.class);
                     startActivityForResult(i, 001);
                     Toast.makeText(getContext(), "Please select a location from the map", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case LOCATION_REQUEST_FROM_MAP:
-                if (!LocationPermissions.checkIfPermissionResultsGranted(grantResults)) {
-                    Toast.makeText(getContext(), "Location permissions are required to use this feature", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -299,51 +291,25 @@ public class PrayerTimesFragment extends Fragment {
         }
     }
 
-    public void refreshFragment() {
-        Fragment cf = getActivity().getSupportFragmentManager().findFragmentById(R.id.main_frag_container);
-        if (cf instanceof PrayerTimesFragment) {
-            FragmentTransaction ft = (getActivity()).getSupportFragmentManager().beginTransaction();
-            ft.detach(cf);
-            ft.attach(cf);
-            ft.commit();
-        }
-    }
+//    public void refreshFragment() {
+//        Fragment cf = getActivity().getSupportFragmentManager().findFragmentById(R.id.main_frag_container);
+//        if (cf instanceof PrayerTimesFragment) {
+//            FragmentTransaction ft = (getActivity()).getSupportFragmentManager().beginTransaction();
+//            ft.detach(cf);
+//            ft.attach(cf);
+//            ft.commit();
+//        }
+//    }
 
     // Receive data from Intents from MapsActivity, if not null, and call onAPIRequest method with Lat/Lng data
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (data != null && resultCode == 2 && data.getBooleanExtra("Location Permission", true)) {
-            if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
-                showAlertDialog();
-                Log.d("REQUEST PERMISSIONS", "Requesting location permissions because its denied");
-            } else {
-                Log.d("PRAYER TIMES FOR YOUR CURRENT LOCATION", "Fetching data from your current location");
-                fetchLocationData(getView().getId());           // Call fetch location method
-            }
-
-        } else if (data != null && resultCode == 001) {
+        if (data != null && resultCode == 001) {
             Log.i("GOT DATA FROM MAP", data.toString());
             onAPIRequest(getView(), data.getDoubleExtra("lat", 0), data.getDoubleExtra("long", 0));
         } else {
             Log.e("OnActivityResult", "Could not fetch data from MapsActivity");
         }
-    }
-
-    public void showAlertDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-        alertDialogBuilder.setMessage("PrayerPal needs you to allow Location permissions in order to use this feature." +
-                "\n\nTo enable location permissions, go to Settings > Apps > PrayerPal > Permissions > Location > Allow (or 'ask every time')");
-                alertDialogBuilder.setPositiveButton("Okay",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_MAP);
-                            }
-                        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
     }
 }
