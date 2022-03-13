@@ -2,6 +2,7 @@ package com.example.mob_dev_portfolio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,12 +84,10 @@ public class PrayerTimesFragment extends Fragment {
         this.currentDateText = v.findViewById(R.id.current_date_text);
         this.currentPrayerText = v.findViewById(R.id.current_prayer_text);
         this.lv = v.findViewById(R.id.prayer_times_list_view);
+        prayerNamesList = getResources().getStringArray(R.array.prayer_names);
 
-        // Temporary set onClickListener to refresh API request on button click
+        // Set onClickListener to load MapActivity
         this.locationBtn.setOnClickListener(this::onClick);
-
-        // Run the API request when fragment is loaded
-//        onAPIRequest(v, 51.4815, -3.1790);
 
         this.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getContext());
 
@@ -101,22 +101,22 @@ public class PrayerTimesFragment extends Fragment {
         return v;
     }
 
+    // Start MapActivity using intents and expect to receive results from this activity
     public void onClick(View view) {
-        if (!LocationPermissions.checkIfPermissionsGranted(this.getActivity(), LOCATION_PERMISSIONS)) {
-            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
-        } else {
-            fetchLocationData(view.getId());
-        }
+        Intent i = new Intent(view.getContext(), MapsActivity.class);
+        startActivityForResult(i, 001);
     }
 
     // Method to check permission results for location
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        // Make a Toast to say location permissions are needed if location permissions are denied
+        // If location permissions are denied, take user to MapsActivity and let them know to select a location from the map using Toast
         switch (requestCode) {
             case LOCATION_REQUEST_FROM_BUTTON:
                 if (!LocationPermissions.checkIfPermissionResultsGranted(grantResults)) {
-                    Toast.makeText(getContext(), "Location Permissions are denied! I need them!!", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getContext(), MapsActivity.class);
+                    startActivityForResult(i, 001);
+                    Toast.makeText(getContext(), "Please select a location from the map", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -154,7 +154,7 @@ public class PrayerTimesFragment extends Fragment {
     }
 
     // Do stuff with this location data
-    private void updatePrayerTimesFromLocation(Location l){
+    private void updatePrayerTimesFromLocation(Location l) {
         // Call API with lat and long
         onAPIRequest(getView(), l.getLatitude(), l.getLongitude());
 
@@ -167,12 +167,12 @@ public class PrayerTimesFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (addresses.size() > 0) {
+            if (addresses != null) {
                 String city = addresses.get(0).getSubAdminArea();
                 String country = addresses.get(0).getCountryName();
 
                 // Setting current location text in button to prayer location from API
-                String currentLocation = city.concat(", "+country);
+                String currentLocation = city.concat(", " + country);
                 this.locationBtn.setText(currentLocation);
                 Log.d("CURRENT LOCATION", currentLocation);
             }
@@ -181,7 +181,7 @@ public class PrayerTimesFragment extends Fragment {
 
     public void onAPIRequest(View view, double latitude, double longitude) {
         // API URL
-        String apiUrl = "https://api.pray.zone/v2/times/today.json?longitude="+longitude+"&latitude="+latitude+"&elevation=25";
+        String apiUrl = "https://api.pray.zone/v2/times/today.json?longitude=" + longitude + "&latitude=" + latitude + "&elevation=25";
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
         // Set city and country text in button retrieved from location
@@ -192,12 +192,12 @@ public class PrayerTimesFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (addresses.size() > 0) {
+        if (addresses != null) {
             String city = addresses.get(0).getSubAdminArea();
             String country = addresses.get(0).getCountryName();
 
             // Setting current location text in button to prayer location from API
-            String currentLocation = city.concat(", "+country);
+            String currentLocation = city.concat(", " + country);
             this.locationBtn.setText(currentLocation);
             Log.d("CURRENT LOCATION ON API REQUEST", currentLocation);
         }
@@ -228,7 +228,6 @@ public class PrayerTimesFragment extends Fragment {
         if (prayerModels.size() <= 0) {
             // Initialise some variables
             String currentDate = "";
-            prayerNamesList = getResources().getStringArray(R.array.prayer_names);
             int listSize = prayerNamesList.length;
 
             try {
@@ -237,7 +236,7 @@ public class PrayerTimesFragment extends Fragment {
                 JSONArray datetimeArray = resultsJson.getJSONArray("datetime");
 
                 // Looping through datetime array to get prayer times and storing them in an ArrayList of PrayerModel objects
-                for (int i=0; i<listSize; i++) {
+                for (int i = 0; i < listSize; i++) {
                     JSONObject prayerTimes = datetimeArray.getJSONObject(0).getJSONObject("times");
 //                Log.i(prayerNamesList[i],prayerTimes.getString(prayerNamesList[i]));
                     prayerModels.add(new PrayerModel(prayerNamesList[i], prayerTimes.getString(prayerNamesList[i])));
@@ -249,11 +248,11 @@ public class PrayerTimesFragment extends Fragment {
                 // Set the location and current date texts
                 setCurrentDateFromAPI(currentDate);
 
-            // Catch any JSONExceptions and Log to console
+                // Catch any JSONExceptions and Log to console
             } catch (JSONException e) {
                 Log.e("ERROR!", e.toString());
             }
-        // If ArrayList of PrayerModel is not empty, clear list and recall handleResponse() method
+            // If ArrayList of PrayerModel is not empty, clear list and recall handleResponse() method
         } else {
             prayerModels.clear();
             handleResponse(items);
@@ -292,4 +291,25 @@ public class PrayerTimesFragment extends Fragment {
         }
     }
 
+//    public void refreshFragment() {
+//        Fragment cf = getActivity().getSupportFragmentManager().findFragmentById(R.id.main_frag_container);
+//        if (cf instanceof PrayerTimesFragment) {
+//            FragmentTransaction ft = (getActivity()).getSupportFragmentManager().beginTransaction();
+//            ft.detach(cf);
+//            ft.attach(cf);
+//            ft.commit();
+//        }
+//    }
+
+    // Receive data from Intents from MapsActivity, if not null, and call onAPIRequest method with Lat/Lng data
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && resultCode == 001) {
+            Log.i("GOT DATA FROM MAP", data.toString());
+            onAPIRequest(getView(), data.getDoubleExtra("lat", 0), data.getDoubleExtra("long", 0));
+        } else {
+            Log.e("OnActivityResult", "Could not fetch data from MapsActivity");
+        }
+    }
 }

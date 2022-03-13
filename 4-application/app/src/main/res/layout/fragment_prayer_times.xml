@@ -14,7 +14,7 @@
         android:background="@color/transparent"
         android:textColor="@color/chinese_white"
         android:textSize="@dimen/txt_size"
-        app:icon="@drawable/ic_search"
+        android:drawableLeft="@drawable/ic_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -5,6 +5,10 @@
     <string name="tracker_nav_title">Tracker</string>
     <string name="dua_nav_title">Dua\'s</string>
 
+    <string name="back_tv">Back</string>
+    <string name="sv_hint">Search for your location...</string>
+    <string name="current_location_txt">Use my current location</string>
+
     <string name="hello_fragment_qibla">This is the Qibla Fragment!</string>
     <string name="hello_fragment_tracker">This is the Tracker Fragment!</string>
     <string name="hello_fragment_dua">This is the Dua Fragment!</string>
