@@ -15,9 +15,12 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TrackerFragment extends Fragment {
@@ -43,6 +46,12 @@ public class TrackerFragment extends Fragment {
         calendarView = v.findViewById(R.id.calendar);
         trackerDate = v.findViewById(R.id.tracker_date);
 
+        // Get the current date and format it, then set the tracker date to today's date by default
+        SimpleDateFormat sdfDate = new SimpleDateFormat("EEEE, d MMMM yyyy");
+        Date now = new Date();
+        String formatDate = sdfDate.format(now);
+        trackerDate.setText(formatDate);
+
         this.fajrCheckbox = v.findViewById(R.id.fajr_checkbox);
         this.dhuhrCheckbox = v.findViewById(R.id.dhuhr_checkbox);
         this.asrCheckbox = v.findViewById(R.id.asr_checkbox);
@@ -56,6 +65,7 @@ public class TrackerFragment extends Fragment {
         checkBoxList.add(ishaCheckbox);
 //        Log.d("List of Checkboxes", checkBoxList.toString());
 
+        // Set a dateChangeListener, set the tracker date to the date selected from the calendar
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {

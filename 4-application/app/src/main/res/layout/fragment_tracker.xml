@@ -22,7 +22,6 @@
             android:id="@+id/tracker_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Saturday 1 January 2022"
             android:textColor="@color/yellow"
             android:textSize="@dimen/txt_size"
             app:layout_constraintEnd_toEndOf="parent"
