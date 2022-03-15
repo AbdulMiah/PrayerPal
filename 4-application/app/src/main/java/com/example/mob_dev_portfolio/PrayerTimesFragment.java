@@ -310,13 +310,14 @@ public class PrayerTimesFragment extends Fragment {
 
         if (data != null && resultCode == 001) {
 
+            // Add exception handling
             try {
                 Log.i("GOT DATA FROM MAP", data.toString());
                 onAPIRequest(getView(), data.getDoubleExtra("lat", 0), data.getDoubleExtra("long", 0));
             } catch (Exception e) {
                 e.printStackTrace();
+                // If cannot retrieve prayer times for the location from the map, then display an error page
                 changeInternalFragment(new ErrorFragment(), R.id.main_frag_container, "Error - unable to find prayer times", "Sorry, could not find prayer times for that location");
-
             }
 
         } else {
@@ -324,7 +325,7 @@ public class PrayerTimesFragment extends Fragment {
         }
     }
 
-    // Method to replace internal fragment
+    // Method to replace internal fragment and set messages to pass through to the fragment
     private void changeInternalFragment(Fragment fragment, int fragmentContainer, String errTitle, String errMessage){
         FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
 

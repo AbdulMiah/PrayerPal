@@ -27,6 +27,7 @@ public class ErrorFragment extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_error, container, false);
 
+        // Retrieve error title and message
         String errTitle = getArguments().getString("error title");
         String errMessage = getArguments().getString("error message");
 
@@ -34,9 +35,11 @@ public class ErrorFragment extends Fragment {
         errorMsg = v.findViewById(R.id.error_message);
         returnBtn = v.findViewById(R.id.return_btn);
 
+        // Set the texts
         errorTitle.setText(errTitle);
         errorMsg.setText(errMessage);
 
+        // Add onClickListener to return back to the prayer fragment
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
