@@ -15,13 +15,15 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrackerFragment extends Fragment {
 
     private CalendarView calendarView;
-    private TextView date;
+    private TextView trackerDate;
     private CheckBox fajrCheckbox;
     private CheckBox dhuhrCheckbox;
     private CheckBox asrCheckbox;
@@ -39,7 +41,7 @@ public class TrackerFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_tracker, container, false);
 
         calendarView = v.findViewById(R.id.calendar);
-        date = v.findViewById(R.id.date);
+        trackerDate = v.findViewById(R.id.tracker_date);
 
         this.fajrCheckbox = v.findViewById(R.id.fajr_checkbox);
         this.dhuhrCheckbox = v.findViewById(R.id.dhuhr_checkbox);
@@ -52,13 +54,13 @@ public class TrackerFragment extends Fragment {
         checkBoxList.add(asrCheckbox);
         checkBoxList.add(maghribCheckbox);
         checkBoxList.add(ishaCheckbox);
-        Log.d("List of Checkboxes", checkBoxList.toString());
+//        Log.d("List of Checkboxes", checkBoxList.toString());
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                String date = day+"/"+(month+1)+"/"+year;
-                Toast.makeText(v.getContext(), "That is "+date, Toast.LENGTH_SHORT).show();
+                String date = day+"-"+(month+1)+"-"+year;
+                setTrackerDate(date);
             }
         });
 
@@ -76,5 +78,14 @@ public class TrackerFragment extends Fragment {
         }
 
         return v;
+    }
+
+    public void setTrackerDate(String calendarDate) {
+        // Format date from calendar, then set the tracker date text to formatted date
+        DateTimeFormatter trackerFormat = DateTimeFormatter.ofPattern("d-M-yyyy");
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy");
+        LocalDate formatDate = LocalDate.parse(calendarDate, trackerFormat);
+        String output = myFormat.format(formatDate);
+        trackerDate.setText(output);
     }
 }
