@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -305,11 +307,36 @@ public class PrayerTimesFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (data != null && resultCode == 001) {
-            Log.i("GOT DATA FROM MAP", data.toString());
-            onAPIRequest(getView(), data.getDoubleExtra("lat", 0), data.getDoubleExtra("long", 0));
+
+            try {
+                Log.i("GOT DATA FROM MAP", data.toString());
+                onAPIRequest(getView(), data.getDoubleExtra("lat", 0), data.getDoubleExtra("long", 0));
+            } catch (Exception e) {
+                e.printStackTrace();
+                changeInternalFragment(new ErrorFragment(), R.id.main_frag_container, "Error - unable to find prayer times", "Sorry, could not find prayer times for that location");
+
+            }
+
         } else {
             Log.e("OnActivityResult", "Could not fetch data from MapsActivity");
         }
     }
+
+    // Method to replace internal fragment
+    private void changeInternalFragment(Fragment fragment, int fragmentContainer, String errTitle, String errMessage){
+        FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("error title", errTitle);
+        bundle.putString("error message", errMessage);
+
+        fragment.setArguments(bundle);
+
+        supportFragmentManager.beginTransaction()
+                .replace(fragmentContainer, fragment)
+                .commit();
+    }
+
 }
