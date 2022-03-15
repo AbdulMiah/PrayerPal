@@ -17,4 +17,5 @@
     <dimen name="error_tv_marginTop">10dp</dimen>
     <dimen name="back_btn_margin">12dp</dimen>
     <dimen name="current_location_margin">20dp</dimen>
+    <dimen name="error_title_size">24sp</dimen>
 </resources>
