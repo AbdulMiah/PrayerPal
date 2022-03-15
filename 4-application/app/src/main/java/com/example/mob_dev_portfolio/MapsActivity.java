@@ -141,6 +141,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+
+        // Set an onMapClick listener and pin-point a marker
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                map.clear();            // Clear all previous markers on the map
+                map.addMarker(new MarkerOptions().position(latLng));            // Add the marker
+
+                // Get Lat/Lng from point and save it to an Intent
+                Intent i = new Intent();
+                i.putExtra("lat", latLng.latitude);
+                i.putExtra("long", latLng.longitude);
+                setResult(001, i);
+
+                // Animate the map camera at level 10 zoom
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10), 3000, new GoogleMap.CancelableCallback() {
+                    @Override
+                    public void onCancel() {
+                        finish();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        finish();
+                    }
+                });
+            }
+        });
     }
 
     // Method to check permission results for location
