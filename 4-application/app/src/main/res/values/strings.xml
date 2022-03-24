@@ -10,7 +10,13 @@
     <string name="current_location_txt">Use my current location</string>
 
     <string name="hello_fragment_qibla">This is the Qibla Fragment!</string>
-    <string name="hello_fragment_tracker">This is the Tracker Fragment!</string>
+
+    <string name="fajr_text">Fajr</string>
+    <string name="dhuhr_text">Dhuhr</string>
+    <string name="asr_text">Asr</string>
+    <string name="maghrib_text">Maghrib</string>
+    <string name="isha_text">Isha</string>
+
     <string name="hello_fragment_dua">This is the Dua Fragment!</string>
 
     <string name="return_btn_text">Return back to safety</string>
