@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.databases.TrackerDB;
+import com.example.mob_dev_portfolio.models.Tracker;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -55,6 +56,63 @@ public class TrackerFragment extends Fragment {
                 "tracker-database").build();
         this.executor = Executors.newFixedThreadPool(4);
 
+        Tracker t1 = new Tracker();
+        t1.setTrackerId(1);
+        t1.setDate("1-3-2022");
+        t1.setFajrPrayed(true);
+        t1.setDhuhrPrayed(false);
+        t1.setAsrPrayed(false);
+        t1.setMaghribPrayed(true);
+        t1.setIshaPrayed(true);
+
+        Tracker t2 = new Tracker();
+        t2.setTrackerId(2);
+        t2.setDate("2-3-2022");
+        t2.setFajrPrayed(false);
+        t2.setDhuhrPrayed(false);
+        t2.setAsrPrayed(true);
+        t2.setMaghribPrayed(true);
+        t2.setIshaPrayed(true);
+
+        Tracker t3 = new Tracker();
+        t3.setTrackerId(3);
+        t3.setDate("3-3-2022");
+        t3.setFajrPrayed(true);
+        t3.setDhuhrPrayed(true);
+        t3.setAsrPrayed(true);
+        t3.setMaghribPrayed(false);
+        t3.setIshaPrayed(false);
+
+        Tracker t4 = new Tracker();
+        t4.setTrackerId(4);
+        t4.setDate("4-3-2022");
+        t4.setFajrPrayed(true);
+        t4.setDhuhrPrayed(true);
+        t4.setAsrPrayed(true);
+        t4.setMaghribPrayed(true);
+        t4.setIshaPrayed(true);
+
+        Tracker t5 = new Tracker();
+        t5.setTrackerId(5);
+        t5.setDate("5-3-2022");
+        t5.setFajrPrayed(true);
+        t5.setDhuhrPrayed(false);
+        t5.setAsrPrayed(true);
+        t5.setMaghribPrayed(false);
+        t5.setIshaPrayed(true);
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.trackerDAO().insertTracker(t1);
+                db.trackerDAO().insertTracker(t2);
+                db.trackerDAO().insertTracker(t3);
+                db.trackerDAO().insertTracker(t4);
+                db.trackerDAO().insertTracker(t5);
+//                List<Tracker> trackerList = db.trackerDAO().getAllTracker();
+            }
+        });
+
         calendarView = v.findViewById(R.id.calendar);
         trackerDate = v.findViewById(R.id.tracker_date);
 
@@ -82,22 +140,51 @@ public class TrackerFragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
                 String date = day + "-" + (month + 1) + "-" + year;
+                Log.i("DATE", date);
                 setTrackerDate(date);
+
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Tracker tr = db.trackerDAO().getTrackerByDate(date);
+                            System.out.println(tr);
+
+                            if (tr != null) {
+                                fajrCheckbox.setChecked(tr.getFajrPrayed());
+                                dhuhrCheckbox.setChecked(tr.getDhuhrPrayed());
+                                asrCheckbox.setChecked(tr.getAsrPrayed());
+                                maghribCheckbox.setChecked(tr.getMaghribPrayed());
+                                ishaCheckbox.setChecked(tr.getIshaPrayed());
+                            } else {
+                                fajrCheckbox.setChecked(false);
+                                dhuhrCheckbox.setChecked(false);
+                                asrCheckbox.setChecked(false);
+                                maghribCheckbox.setChecked(false);
+                                ishaCheckbox.setChecked(false);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
             }
         });
 
-        for (int i=0; i<checkBoxList.size(); i++) {
-            checkBoxList.get(i).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (b == true) {
-                        Toast.makeText(v.getContext(), "You checked "+compoundButton.getText(), Toast.LENGTH_SHORT).show();
-                    } else if (b == false) {
-                        Toast.makeText(v.getContext(), "You unchecked "+compoundButton.getText(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
+//        for (int i=0; i<checkBoxList.size(); i++) {
+//            checkBoxList.get(i).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                    if (b == true) {
+//                        Toast.makeText(v.getContext(), "You checked "+compoundButton.getText(), Toast.LENGTH_SHORT).show();
+//                    } else if (b == false) {
+//                        Toast.makeText(v.getContext(), "You unchecked "+compoundButton.getText(), Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+//        }
 
         return v;
     }

@@ -83,4 +83,17 @@ public class Tracker {
     public void setIshaPrayed(Boolean ishaPrayed) {
         this.ishaPrayed = ishaPrayed;
     }
+
+    @Override
+    public String toString() {
+        return "Tracker{" +
+                "trackerId=" + trackerId +
+                ", date='" + date + '\'' +
+                ", fajrPrayed=" + fajrPrayed +
+                ", dhuhrPrayed=" + dhuhrPrayed +
+                ", asrPrayed=" + asrPrayed +
+                ", maghribPrayed=" + maghribPrayed +
+                ", ishaPrayed=" + ishaPrayed +
+                '}';
+    }
 }
