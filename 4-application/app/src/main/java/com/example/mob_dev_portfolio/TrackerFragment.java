@@ -14,7 +14,6 @@ import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.databases.TrackerDB;
 import com.example.mob_dev_portfolio.models.Tracker;
@@ -69,6 +68,17 @@ public class TrackerFragment extends Fragment {
         checkBoxList.add(ishaCheckbox);
 //        Log.d("List of Checkboxes", checkBoxList.toString());
 
+        // Set tracker for today
+        // Get the current date and format it, then set the tracker date to today's date by default
+        Tracker todayTracker = new Tracker();
+        SimpleDateFormat sdfDate = new SimpleDateFormat("EEEE, d MMMM yyyy");
+        SimpleDateFormat calendarFormat = new SimpleDateFormat("d-M-yyyy");
+        Date now = new Date();
+        String formatDate = sdfDate.format(now);
+        String dateToday = calendarFormat.format(now);
+        trackerDate.setText(formatDate);
+        todayTracker.setDate(dateToday);
+
         // Build the database
         TrackerDB db = Room.databaseBuilder(
                 getContext(),
@@ -77,111 +87,40 @@ public class TrackerFragment extends Fragment {
         this.executor = Executors.newFixedThreadPool(4);
 
         // Some test tracker data
-        Tracker t1 = new Tracker(1, "1-3-2022", true, false, false, true, true);
-        Tracker t2 = new Tracker(2, "2-3-2022", false, false, true, true, true);
-        Tracker t3 = new Tracker(3, "3-3-2022", true, true, true, false, false);
-        Tracker t4 = new Tracker(4, "4-3-2022", true, true, true, true, true);
-        Tracker t5 = new Tracker(5, "5-3-2022", true, false, true, false, true);
+//        Tracker t1 = new Tracker(1, "1-3-2022", true, false, false, true, true);
+//        Tracker t2 = new Tracker(2, "2-3-2022", false, false, true, true, true);
+//        Tracker t3 = new Tracker(3, "3-3-2022", true, true, true, false, false);
+//        Tracker t4 = new Tracker(4, "4-3-2022", true, true, true, true, true);
+//        Tracker t5 = new Tracker(5, "5-3-2022", true, false, true, false, true);
 
         // Insert test data into DB
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                db.trackerDAO().insertTracker(t1);
-                db.trackerDAO().insertTracker(t2);
-                db.trackerDAO().insertTracker(t3);
-                db.trackerDAO().insertTracker(t4);
-                db.trackerDAO().insertTracker(t5);
-
+//                db.trackerDAO().insertTracker(t1);
+//                db.trackerDAO().insertTracker(t2);
+//                db.trackerDAO().insertTracker(t3);
+//                db.trackerDAO().insertTracker(t4);
+//                db.trackerDAO().insertTracker(t5);
+                Tracker trToday = db.trackerDAO().getTrackerByDate(dateToday);
+                if (trToday != null) {
+                    fajrCheckbox.setChecked(trToday.getFajrPrayed());
+                    dhuhrCheckbox.setChecked(trToday.getDhuhrPrayed());
+                    asrCheckbox.setChecked(trToday.getAsrPrayed());
+                    maghribCheckbox.setChecked(trToday.getMaghribPrayed());
+                    ishaCheckbox.setChecked(trToday.getIshaPrayed());
+                    setCheckboxListenerOnDate(db, trToday, dateToday);
+                } else {
+                    fajrCheckbox.setChecked(false);
+                    dhuhrCheckbox.setChecked(false);
+                    asrCheckbox.setChecked(false);
+                    maghribCheckbox.setChecked(false);
+                    ishaCheckbox.setChecked(false);
+                }
             }
         });
 
-        // Set tracker for today
-        // Get the current date and format it, then set the tracker date to today's date by default
-        Tracker newTracker = new Tracker();
-        SimpleDateFormat sdfDate = new SimpleDateFormat("EEEE, d MMMM yyyy");
-        SimpleDateFormat calendarFormat = new SimpleDateFormat("d-M-yyyy");
-        Date now = new Date();
-        String formatDate = sdfDate.format(now);
-        String dateToday = calendarFormat.format(now);
-        trackerDate.setText(formatDate);
-        newTracker.setDate(dateToday);
-
-        // Iterate through the checkboxes and add an onClick listener to them
-        for (int i = 0; i < checkBoxList.size(); i++) {
-            checkBoxList.get(i).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // If the button is checked, find prayer that is checked and set the prayer status
-                    if (((CompoundButton) view).isChecked()) {
-                        if (((CompoundButton) view).getText().equals("Fajr")) {
-                            newTracker.setFajrPrayed(true);
-                        }
-                        if (((CompoundButton) view).getText().equals("Dhuhr")) {
-                            newTracker.setDhuhrPrayed(true);
-                        }
-                        if (((CompoundButton) view).getText().equals("Asr")) {
-                            newTracker.setAsrPrayed(true);
-                        }
-                        if (((CompoundButton) view).getText().equals("Maghrib")) {
-                            newTracker.setMaghribPrayed(true);
-                        }
-                        if (((CompoundButton) view).getText().equals("Isha")) {
-                            newTracker.setIshaPrayed(true);
-                        }
-                    } else {
-                        if (((CompoundButton) view).getText().equals("Fajr")) {
-                            newTracker.setFajrPrayed(false);
-                        }
-                        if (((CompoundButton) view).getText().equals("Dhuhr")) {
-                            newTracker.setDhuhrPrayed(false);
-                        }
-                        if (((CompoundButton) view).getText().equals("Asr")) {
-                            newTracker.setAsrPrayed(false);
-                        }
-                        if (((CompoundButton) view).getText().equals("Maghrib")) {
-                            newTracker.setMaghribPrayed(false);
-                        }
-                        if (((CompoundButton) view).getText().equals("Isha")) {
-                            newTracker.setIshaPrayed(false);
-                        }
-                    }
-
-                    // Check for any null values before inserting into the database
-                    if (newTracker.getFajrPrayed() == null) {
-                        newTracker.setFajrPrayed(false);
-                    }
-                    if (newTracker.getDhuhrPrayed() == null) {
-                        newTracker.setDhuhrPrayed(false);
-                    }
-                    if (newTracker.getAsrPrayed() == null) {
-                        newTracker.setAsrPrayed(false);
-                    }
-                    if (newTracker.getMaghribPrayed() == null) {
-                        newTracker.setMaghribPrayed(false);
-                    }
-                    if (newTracker.getIshaPrayed() == null) {
-                        newTracker.setIshaPrayed(false);
-                    }
-
-                    // Inserting the tracker into the DB
-                    executor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Since I am entering records into the database using
-                            // onClick, I delete the prior record with the same date
-                            // and just insert the most recent record.
-                            if (db.trackerDAO().getTrackerByDate(dateToday) != null) {
-                                db.trackerDAO().deleteTrackerByDate(dateToday);
-                                db.trackerDAO().insertTracker(newTracker);
-                            } else {
-                                db.trackerDAO().insertTracker(newTracker);
-                            }
-                        }
-                    });
-                }
-            });
-        }
+        setCheckboxListenerOnDate(db, todayTracker, dateToday);
 
         // Set a dateChangeListener, and set the tracker date to the date selected from the calendar
         // Set onClickListener to the checkboxes
@@ -220,87 +159,11 @@ public class TrackerFragment extends Fragment {
                                  asrCheckbox.setChecked(tr.getAsrPrayed());
                                  maghribCheckbox.setChecked(tr.getMaghribPrayed());
                                  ishaCheckbox.setChecked(tr.getIshaPrayed());
-                             } else { //if (tr == null)
-                                 // https://stackoverflow.com/questions/22564113/oncheckedchangelistener-or-onclicklistener-with-if-statement-for-checkboxs-wha
-                                 // https://stackoverflow.com/questions/8386832/android-checkbox-listener
+                                 setCheckboxListenerOnDate(db, tr, date);
+                             } else {
                                  Tracker newTracker = new Tracker();
                                  newTracker.setDate(date);
-
-                                 // Iterate through the checkboxes and add an onClick listener to them
-                                 for (int i = 0; i < checkBoxList.size(); i++) {
-                                     checkBoxList.get(i).setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View view) {
-                                             // If the button is checked, find prayer that is checked and set the prayer status
-                                             if (((CompoundButton) view).isChecked()) {
-                                                 if (((CompoundButton) view).getText().equals("Fajr")) {
-                                                     newTracker.setFajrPrayed(true);
-                                                 }
-                                                 if (((CompoundButton) view).getText().equals("Dhuhr")) {
-                                                     newTracker.setDhuhrPrayed(true);
-                                                 }
-                                                 if (((CompoundButton) view).getText().equals("Asr")) {
-                                                     newTracker.setAsrPrayed(true);
-                                                 }
-                                                 if (((CompoundButton) view).getText().equals("Maghrib")) {
-                                                     newTracker.setMaghribPrayed(true);
-                                                 }
-                                                 if (((CompoundButton) view).getText().equals("Isha")) {
-                                                     newTracker.setIshaPrayed(true);
-                                                 }
-                                             } else {
-                                                 if (((CompoundButton) view).getText().equals("Fajr")) {
-                                                     newTracker.setFajrPrayed(false);
-                                                 }
-                                                 if (((CompoundButton) view).getText().equals("Dhuhr")) {
-                                                     newTracker.setDhuhrPrayed(false);
-                                                 }
-                                                 if (((CompoundButton) view).getText().equals("Asr")) {
-                                                     newTracker.setAsrPrayed(false);
-                                                 }
-                                                 if (((CompoundButton) view).getText().equals("Maghrib")) {
-                                                     newTracker.setMaghribPrayed(false);
-                                                 }
-                                                 if (((CompoundButton) view).getText().equals("Isha")) {
-                                                     newTracker.setIshaPrayed(false);
-                                                 }
-                                             }
-
-                                             // Check for any null values before inserting into the database
-                                             if (newTracker.getFajrPrayed() == null) {
-                                                 newTracker.setFajrPrayed(false);
-                                             }
-                                             if (newTracker.getDhuhrPrayed() == null) {
-                                                 newTracker.setDhuhrPrayed(false);
-                                             }
-                                             if (newTracker.getAsrPrayed() == null) {
-                                                 newTracker.setAsrPrayed(false);
-                                             }
-                                             if (newTracker.getMaghribPrayed() == null) {
-                                                 newTracker.setMaghribPrayed(false);
-                                             }
-                                             if (newTracker.getIshaPrayed() == null) {
-                                                 newTracker.setIshaPrayed(false);
-                                             }
-
-                                             // Inserting the tracker into the DB
-                                             executor.execute(new Runnable() {
-                                                 @Override
-                                                 public void run() {
-                                                     // When I enter a record into the database using onClick,
-                                                     // I delete the prior record with the same date and just
-                                                     // insert the most recent record.
-                                                     if (db.trackerDAO().getTrackerByDate(date) != null) {
-                                                         db.trackerDAO().deleteTrackerByDate(date);
-                                                         db.trackerDAO().insertTracker(newTracker);
-                                                     } else {
-                                                         db.trackerDAO().insertTracker(newTracker);
-                                                     }
-                                                 }
-                                             });
-                                         }
-                                     });
-                                 }
+                                 setCheckboxListenerOnDate(db, newTracker, date);
                              }
                          } catch (Exception e) {
                              e.printStackTrace();
@@ -320,5 +183,85 @@ public class TrackerFragment extends Fragment {
         LocalDate formatDate = LocalDate.parse(calendarDate, trackerFormat);
         String output = myFormat.format(formatDate);
         trackerDate.setText(output);
+    }
+
+    public void setCheckboxListenerOnDate(TrackerDB db, Tracker t, String date) {
+        // https://stackoverflow.com/questions/22564113/oncheckedchangelistener-or-onclicklistener-with-if-statement-for-checkboxs-wha
+        // https://stackoverflow.com/questions/8386832/android-checkbox-listener
+        // Iterate through the checkboxes and add an onClick listener to them
+        for (int i = 0; i < checkBoxList.size(); i++) {
+            checkBoxList.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // If the button is checked, find prayer that is checked and set the prayer status
+                    if (((CompoundButton) view).isChecked()) {
+                        if (((CompoundButton) view).getText().equals("Fajr")) {
+                            t.setFajrPrayed(true);
+                        }
+                        if (((CompoundButton) view).getText().equals("Dhuhr")) {
+                            t.setDhuhrPrayed(true);
+                        }
+                        if (((CompoundButton) view).getText().equals("Asr")) {
+                            t.setAsrPrayed(true);
+                        }
+                        if (((CompoundButton) view).getText().equals("Maghrib")) {
+                            t.setMaghribPrayed(true);
+                        }
+                        if (((CompoundButton) view).getText().equals("Isha")) {
+                            t.setIshaPrayed(true);
+                        }
+                    } else {
+                        if (((CompoundButton) view).getText().equals("Fajr")) {
+                            t.setFajrPrayed(false);
+                        }
+                        if (((CompoundButton) view).getText().equals("Dhuhr")) {
+                            t.setDhuhrPrayed(false);
+                        }
+                        if (((CompoundButton) view).getText().equals("Asr")) {
+                            t.setAsrPrayed(false);
+                        }
+                        if (((CompoundButton) view).getText().equals("Maghrib")) {
+                            t.setMaghribPrayed(false);
+                        }
+                        if (((CompoundButton) view).getText().equals("Isha")) {
+                            t.setIshaPrayed(false);
+                        }
+                    }
+
+                    // Check for any null values before inserting into the database
+                    if (t.getFajrPrayed() == null) {
+                        t.setFajrPrayed(false);
+                    }
+                    if (t.getDhuhrPrayed() == null) {
+                        t.setDhuhrPrayed(false);
+                    }
+                    if (t.getAsrPrayed() == null) {
+                        t.setAsrPrayed(false);
+                    }
+                    if (t.getMaghribPrayed() == null) {
+                        t.setMaghribPrayed(false);
+                    }
+                    if (t.getIshaPrayed() == null) {
+                        t.setIshaPrayed(false);
+                    }
+
+                    // Inserting the tracker into the DB
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Since I am entering records into the database using
+                            // onClick, I delete the prior record with the same date
+                            // and just insert the most recent record.
+                            if (db.trackerDAO().getTrackerByDate(date) != null) {
+                                db.trackerDAO().deleteTrackerByDate(date);
+                                db.trackerDAO().insertTracker(t);
+                            } else {
+                                db.trackerDAO().insertTracker(t);
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 }
