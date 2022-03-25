@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,15 +16,20 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mob_dev_portfolio.databases.TrackerDB;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class TrackerFragment extends Fragment {
+
+    ExecutorService executor;
 
     private CalendarView calendarView;
     private TextView trackerDate;
@@ -42,6 +48,12 @@ public class TrackerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tracker, container, false);
+
+        TrackerDB db = Room.databaseBuilder(
+                getContext(),
+                TrackerDB.class,
+                "tracker-database").build();
+        this.executor = Executors.newFixedThreadPool(4);
 
         calendarView = v.findViewById(R.id.calendar);
         trackerDate = v.findViewById(R.id.tracker_date);
@@ -69,7 +81,7 @@ public class TrackerFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                String date = day+"-"+(month+1)+"-"+year;
+                String date = day + "-" + (month + 1) + "-" + year;
                 setTrackerDate(date);
             }
         });
