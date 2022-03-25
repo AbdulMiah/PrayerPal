@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Tracker {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int trackerId;
 
     @ColumnInfo(name = "date")
@@ -27,6 +27,19 @@ public class Tracker {
 
     @ColumnInfo(name = "isha_prayed")
     private Boolean ishaPrayed;
+
+    public Tracker() {
+    }
+
+    public Tracker(int trackerId, String date, Boolean fajrPrayed, Boolean dhuhrPrayed, Boolean asrPrayed, Boolean maghribPrayed, Boolean ishaPrayed) {
+        this.trackerId = trackerId;
+        this.date = date;
+        this.fajrPrayed = fajrPrayed;
+        this.dhuhrPrayed = dhuhrPrayed;
+        this.asrPrayed = asrPrayed;
+        this.maghribPrayed = maghribPrayed;
+        this.ishaPrayed = ishaPrayed;
+    }
 
     public int getTrackerId() {
         return trackerId;

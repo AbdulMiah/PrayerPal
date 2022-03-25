@@ -21,4 +21,10 @@ public interface TrackerDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTracker(Tracker tracker);
+
+    @Delete
+    void deleteTracker(Tracker tracker);
+
+    @Query("DELETE FROM tracker WHERE date = :date")
+    void deleteTrackerByDate(String date);
 }
