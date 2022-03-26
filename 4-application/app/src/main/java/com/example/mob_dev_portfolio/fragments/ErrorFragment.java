@@ -1,4 +1,4 @@
-package com.example.mob_dev_portfolio;
+package com.example.mob_dev_portfolio.fragments;
 
 import android.os.Bundle;
 
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.mob_dev_portfolio.R;
 
 public class ErrorFragment extends Fragment {
 

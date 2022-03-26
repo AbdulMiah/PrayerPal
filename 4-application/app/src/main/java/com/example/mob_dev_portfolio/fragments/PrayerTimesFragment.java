@@ -1,4 +1,4 @@
-package com.example.mob_dev_portfolio;
+package com.example.mob_dev_portfolio.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -13,7 +13,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +27,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.adapters.PrayerListAdapter;
+import com.example.mob_dev_portfolio.activities.MapsActivity;
 import com.example.mob_dev_portfolio.location.LocationHelper;
 import com.example.mob_dev_portfolio.location.LocationPermissions;
 import com.example.mob_dev_portfolio.models.PrayerModel;

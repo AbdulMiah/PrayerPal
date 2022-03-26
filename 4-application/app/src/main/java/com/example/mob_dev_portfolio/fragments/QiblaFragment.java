@@ -1,4 +1,4 @@
-package com.example.mob_dev_portfolio;
+package com.example.mob_dev_portfolio.fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.mob_dev_portfolio.R;
 
 public class QiblaFragment extends Fragment {
 

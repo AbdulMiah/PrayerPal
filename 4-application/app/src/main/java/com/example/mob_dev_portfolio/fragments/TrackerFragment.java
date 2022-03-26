@@ -1,4 +1,4 @@
-package com.example.mob_dev_portfolio;
+package com.example.mob_dev_portfolio.fragments;
 
 import android.os.Bundle;
 
@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.databases.TrackerDB;
 import com.example.mob_dev_portfolio.models.Tracker;
 
