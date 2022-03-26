@@ -1,4 +1,4 @@
-package com.example.mob_dev_portfolio;
+package com.example.mob_dev_portfolio.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -17,6 +17,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mob_dev_portfolio.R;
+import com.example.mob_dev_portfolio.fragments.PrayerTimesFragment;
 import com.example.mob_dev_portfolio.location.LocationPermissions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

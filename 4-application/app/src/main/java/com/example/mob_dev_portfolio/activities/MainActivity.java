@@ -1,4 +1,4 @@
-package com.example.mob_dev_portfolio;
+package com.example.mob_dev_portfolio.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -7,6 +7,11 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.mob_dev_portfolio.R;
+import com.example.mob_dev_portfolio.fragments.DuaFragment;
+import com.example.mob_dev_portfolio.fragments.PrayerTimesFragment;
+import com.example.mob_dev_portfolio.fragments.QiblaFragment;
+import com.example.mob_dev_portfolio.fragments.TrackerFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PrayerTimesFragment">
+    tools:context=".fragments.PrayerTimesFragment">
 
     <Button
         android:id="@+id/prayer_location_btn"
