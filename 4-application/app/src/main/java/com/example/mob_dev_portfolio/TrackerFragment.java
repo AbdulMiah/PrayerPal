@@ -49,11 +49,11 @@ public class TrackerFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tracker, container, false);
 
-        // Instantiating Views
+        // Initialising Views
         calendarView = v.findViewById(R.id.calendar);
         trackerDate = v.findViewById(R.id.tracker_date);
 
-        // Instantiating Checkbox Views
+        // Initialising Checkbox Views
         this.fajrCheckbox = v.findViewById(R.id.fajr_checkbox);
         this.dhuhrCheckbox = v.findViewById(R.id.dhuhr_checkbox);
         this.asrCheckbox = v.findViewById(R.id.asr_checkbox);
@@ -93,15 +93,17 @@ public class TrackerFragment extends Fragment {
 //        Tracker t4 = new Tracker(4, "4-3-2022", true, true, true, true, true);
 //        Tracker t5 = new Tracker(5, "5-3-2022", true, false, true, false, true);
 
-        // Insert test data into DB
         executor.execute(new Runnable() {
             @Override
             public void run() {
+                // Insert test data into DB
 //                db.trackerDAO().insertTracker(t1);
 //                db.trackerDAO().insertTracker(t2);
 //                db.trackerDAO().insertTracker(t3);
 //                db.trackerDAO().insertTracker(t4);
 //                db.trackerDAO().insertTracker(t5);
+
+                // Get today's tracker and set the checkboxes stored in the database
                 Tracker trToday = db.trackerDAO().getTrackerByDate(dateToday);
                 if (trToday != null) {
                     fajrCheckbox.setChecked(trToday.getFajrPrayed());
@@ -109,7 +111,9 @@ public class TrackerFragment extends Fragment {
                     asrCheckbox.setChecked(trToday.getAsrPrayed());
                     maghribCheckbox.setChecked(trToday.getMaghribPrayed());
                     ishaCheckbox.setChecked(trToday.getIshaPrayed());
-                    setCheckboxListenerOnDate(db, trToday, dateToday);
+                    // Set onClickListener to the checkboxes, in case user wants to change prayer status
+                    setListenerOnCheckboxAndSaveToDB(db, trToday, dateToday);
+                // Otherwise, set the checkboxes to unchecked
                 } else {
                     fajrCheckbox.setChecked(false);
                     dhuhrCheckbox.setChecked(false);
@@ -120,15 +124,13 @@ public class TrackerFragment extends Fragment {
             }
         });
 
-        setCheckboxListenerOnDate(db, todayTracker, dateToday);
-
         // Set a dateChangeListener, and set the tracker date to the date selected from the calendar
         // Set onClickListener to the checkboxes
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
              @Override
              public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
                  String date = day + "-" + (month + 1) + "-" + year;
-                 Log.i("DATE", date);
+//                 Log.i("DATE", date);
                  setTrackerDate(date);
 
                  // Clear all the checkboxes on calendar date change
@@ -150,7 +152,7 @@ public class TrackerFragment extends Fragment {
 
                              // Get the tracker by date selected on calendar
                              Tracker tr = db.trackerDAO().getTrackerByDate(date);
-                             System.out.println(tr);
+//                             System.out.println(tr);
 
                              // If tracker exists for this date, show tracker
                              if (tr != null) {
@@ -159,11 +161,14 @@ public class TrackerFragment extends Fragment {
                                  asrCheckbox.setChecked(tr.getAsrPrayed());
                                  maghribCheckbox.setChecked(tr.getMaghribPrayed());
                                  ishaCheckbox.setChecked(tr.getIshaPrayed());
-                                 setCheckboxListenerOnDate(db, tr, date);
+                                 // Set onClickListener to the checkboxes, in case user wants to change prayer status for that date
+                                 setListenerOnCheckboxAndSaveToDB(db, tr, date);
+                             // Otherwise, tracker doesn't exist so create a new one and set the date to date selected on calendar
                              } else {
                                  Tracker newTracker = new Tracker();
                                  newTracker.setDate(date);
-                                 setCheckboxListenerOnDate(db, newTracker, date);
+                                 // Set onClickListener to the checkboxes
+                                 setListenerOnCheckboxAndSaveToDB(db, newTracker, date);
                              }
                          } catch (Exception e) {
                              e.printStackTrace();
@@ -185,7 +190,7 @@ public class TrackerFragment extends Fragment {
         trackerDate.setText(output);
     }
 
-    public void setCheckboxListenerOnDate(TrackerDB db, Tracker t, String date) {
+    public void setListenerOnCheckboxAndSaveToDB(TrackerDB db, Tracker t, String date) {
         // https://stackoverflow.com/questions/22564113/oncheckedchangelistener-or-onclicklistener-with-if-statement-for-checkboxs-wha
         // https://stackoverflow.com/questions/8386832/android-checkbox-listener
         // Iterate through the checkboxes and add an onClick listener to them
@@ -193,7 +198,7 @@ public class TrackerFragment extends Fragment {
             checkBoxList.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // If the button is checked, find prayer that is checked and set the prayer status
+                    // If the checkbox is checked, find prayer that is checked and set the prayer status
                     if (((CompoundButton) view).isChecked()) {
                         if (((CompoundButton) view).getText().equals("Fajr")) {
                             t.setFajrPrayed(true);
@@ -210,6 +215,7 @@ public class TrackerFragment extends Fragment {
                         if (((CompoundButton) view).getText().equals("Isha")) {
                             t.setIshaPrayed(true);
                         }
+                    // Otherwise, checkbox is unchecked so find prayer that is unchecked and set the prayer status
                     } else {
                         if (((CompoundButton) view).getText().equals("Fajr")) {
                             t.setFajrPrayed(false);
@@ -228,7 +234,7 @@ public class TrackerFragment extends Fragment {
                         }
                     }
 
-                    // Check for any null values before inserting into the database
+                    // Check for any null values and change them to false before inserting into the database
                     if (t.getFajrPrayed() == null) {
                         t.setFajrPrayed(false);
                     }
