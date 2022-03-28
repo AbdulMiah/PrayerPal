@@ -21,14 +21,16 @@
     <ListView
         android:id="@+id/dua_lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="@dimen/lv_divider_height"
-        android:divider="@color/transparent"
+        android:layout_height="@dimen/dua_lv_height"
         android:layout_marginStart="@dimen/list_view_margin_edge"
         android:layout_marginTop="@dimen/margin_top"
         android:layout_marginEnd="@dimen/list_view_margin_edge"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/lv_margin_bottom"
+        android:divider="@color/transparent"
+        android:dividerHeight="@dimen/lv_divider_height"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dua_fragment_title"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dua_fragment_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
