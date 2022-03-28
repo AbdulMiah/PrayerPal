@@ -21,4 +21,7 @@
     <dimen name="prayer_times_lv_height">450dp</dimen>
     <dimen name="dua_lv_height">550dp</dimen>
     <dimen name="lv_margin_bottom">50dp</dimen>
+    <dimen name="dua_detail_tv_margin_top">10dp</dimen>
+    <dimen name="dua_item_text_size">24sp</dimen>
+    <dimen name="dua_item_margin_top">60dp</dimen>
 </resources>

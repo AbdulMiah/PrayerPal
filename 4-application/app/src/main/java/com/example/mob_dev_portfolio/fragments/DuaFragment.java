@@ -3,11 +3,13 @@ package com.example.mob_dev_portfolio.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -42,6 +44,15 @@ public class DuaFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_dua, container, false);
 
         lv = v.findViewById(R.id.dua_lv);
+
+        // Set click listener to change fragment to DuaDetailFragment on item selected from ListView
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                System.out.println(duaArrayList.get(i).toString());
+                changeInternalFragment(new DuaDetailFragment(), R.id.main_frag_container, duaArrayList.get(i));
+            }
+        });
 
         onAPIRequest(v);
         return v;
@@ -94,6 +105,23 @@ public class DuaFragment extends Fragment {
         // Populate ListView with the dua titles
         duaListAdapter = new DuaListAdapter(lv.getContext(), duaArrayList);
         this.lv.setAdapter(duaListAdapter);
+    }
+
+    // Method to change fragment and store dua details into a bundle
+    private void changeInternalFragment(Fragment fragment, int fragmentContainer, Dua dua){
+        FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title", dua.getTitle());
+        bundle.putString("arabic", dua.getArabic());
+        bundle.putString("transliteration", dua.getTransliteration());
+        bundle.putString("meaning", dua.getMeaning());
+
+        fragment.setArguments(bundle);
+
+        supportFragmentManager.beginTransaction()
+                .replace(fragmentContainer, fragment)
+                .commit();
     }
 
 

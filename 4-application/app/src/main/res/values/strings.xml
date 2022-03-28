@@ -17,5 +17,9 @@
     <string name="maghrib_text">Maghrib</string>
     <string name="isha_text">Isha</string>
 
+    <string name="arabic_tv">Arabic</string>
+    <string name="transliteration_tv">Transliteration</string>
+    <string name="meaning_tv">Meaning</string>
+
     <string name="return_btn_text">Return back to safety</string>
 </resources>
