@@ -17,7 +17,5 @@
     <string name="maghrib_text">Maghrib</string>
     <string name="isha_text">Isha</string>
 
-    <string name="hello_fragment_dua">This is the Dua Fragment!</string>
-
     <string name="return_btn_text">Return back to safety</string>
 </resources>
