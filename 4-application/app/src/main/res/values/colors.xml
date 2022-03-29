@@ -9,6 +9,8 @@
     <color name="chinese_white">#D8F3DC</color>
     <color name="yellow">#FFD166</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="error_bg">#FF9494</color>
+    <color name="error">#A50203</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

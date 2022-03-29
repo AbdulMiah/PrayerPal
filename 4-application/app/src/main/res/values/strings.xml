@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">PrayerPal</string>
+    <string name="prayers_nav_title">Prayer</string>
+    <string name="qibla_nav_title">Qibla</string>
+    <string name="tracker_nav_title">Tracker</string>
+    <string name="dua_nav_title">Dua\'s</string>
+
+    <string name="back_tv">Back</string>
+    <string name="sv_hint">Search for your location...</string>
+    <string name="current_location_txt">Use my current location</string>
+
+    <string name="hello_fragment_qibla">This is the Qibla Fragment!</string>
+
+    <string name="fajr_text">Fajr</string>
+    <string name="dhuhr_text">Dhuhr</string>
+    <string name="asr_text">Asr</string>
+    <string name="maghrib_text">Maghrib</string>
+    <string name="isha_text">Isha</string>
+
+    <string name="arabic_tv">Arabic</string>
+    <string name="transliteration_tv">Transliteration</string>
+    <string name="meaning_tv">Meaning</string>
+    <string name="sv_dua_hint">Search by title...</string>
+
+    <string name="return_btn_text">Return back to safety</string>
 </resources>

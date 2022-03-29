@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="@color/amazon_green" />
+
+    <corners android:radius="@dimen/sv_radius_corners" />
+
+    <padding android:bottom="@dimen/list_view_padding" android:left="@dimen/list_view_padding" android:right="@dimen/list_view_padding" android:top="@dimen/list_view_padding" />
+
+    <stroke android:color="@color/almost_black" android:width="@dimen/list_view_stroke_width" />
+</shape>

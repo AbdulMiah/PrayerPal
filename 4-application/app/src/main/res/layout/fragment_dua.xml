@@ -4,50 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.PrayerTimesFragment">
+    tools:context=".fragments.DuaFragment">
 
-    <Button
-        android:id="@+id/prayer_location_btn"
+    <TextView
+        android:id="@+id/dua_fragment_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/location_text_margin_top"
-        android:background="@color/transparent"
-        android:textColor="@color/chinese_white"
-        android:textSize="@dimen/txt_size"
-        android:drawableLeft="@drawable/ic_search"
+        android:layout_marginTop="@dimen/margin_top"
+        android:text="@string/dua_nav_title"
+        android:textSize="@dimen/current_prayer_txt_size"
+        android:textColor="@color/yellow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/current_prayer_text"
+    <SearchView
+        android:id="@+id/dua_title_sv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top"
-        android:textColor="@color/yellow"
-        android:textSize="@dimen/current_prayer_txt_size"
+        android:layout_marginTop="@dimen/list_view_margin_edge"
+        android:layout_marginBottom="@dimen/list_view_margin_edge"
+        android:background="@drawable/search_background"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/sv_dua_hint"
+        app:layout_constraintBottom_toTopOf="@+id/dua_lv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prayer_location_btn" />
-
-    <TextView
-        android:id="@+id/current_date_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top"
-        android:textColor="@color/chinese_white"
-        android:textSize="@dimen/txt_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_prayer_text"
-        app:layout_constraintBottom_toTopOf="@+id/prayer_times_list_view"/>
+        app:layout_constraintTop_toBottomOf="@+id/dua_fragment_title" />
 
     <ListView
-        android:id="@+id/prayer_times_list_view"
+        android:id="@+id/dua_lv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/prayer_times_lv_height"
+        android:layout_height="@dimen/dua_lv_height"
         android:layout_marginStart="@dimen/list_view_margin_edge"
-        android:layout_marginTop="@dimen/lv_margin_top"
+        android:layout_marginTop="@dimen/margin_top"
         android:layout_marginEnd="@dimen/list_view_margin_edge"
         android:layout_marginBottom="@dimen/lv_margin_bottom"
         android:divider="@color/transparent"
@@ -55,7 +45,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_date_text" />
-
+        app:layout_constraintTop_toBottomOf="@+id/dua_title_sv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
