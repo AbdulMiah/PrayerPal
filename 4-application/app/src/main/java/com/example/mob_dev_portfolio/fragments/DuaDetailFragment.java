@@ -55,9 +55,9 @@ public class DuaDetailFragment extends Fragment {
         return v;
     }
 
-    // Return back to the DuaFragment
+    // Return back to the DuaApiFragment
     private void onClick(View view) {
-        changeInternalFragment(new DuaFragment(), R.id.main_frag_container);
+        changeInternalFragment(new DuaApiFragment(), R.id.main_frag_container);
     }
 
     private void changeInternalFragment(Fragment fragment, int fragmentContainer){

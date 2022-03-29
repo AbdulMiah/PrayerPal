@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.mob_dev_portfolio.R;
-import com.example.mob_dev_portfolio.fragments.DuaFragment;
+import com.example.mob_dev_portfolio.fragments.DuaApiFragment;
 import com.example.mob_dev_portfolio.fragments.PrayerTimesFragment;
 import com.example.mob_dev_portfolio.fragments.QiblaFragment;
 import com.example.mob_dev_portfolio.fragments.TrackerFragment;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 changeInternalFragment(new TrackerFragment(), R.id.main_frag_container);
                 break;
             case R.id.nav_dua:
-                changeInternalFragment(new DuaFragment(), R.id.main_frag_container);
+                changeInternalFragment(new DuaApiFragment(), R.id.main_frag_container);
                 break;
             default:
                 changeInternalFragment(new PrayerTimesFragment(), R.id.main_frag_container);
