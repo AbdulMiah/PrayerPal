@@ -55,4 +55,15 @@ public class Dua {
     public void setMeaning(String meaning) {
         this.meaning = meaning;
     }
+
+    @Override
+    public String toString() {
+        return "Dua{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", arabic='" + arabic + '\'' +
+                ", transliteration='" + transliteration + '\'' +
+                ", meaning='" + meaning + '\'' +
+                '}';
+    }
 }
