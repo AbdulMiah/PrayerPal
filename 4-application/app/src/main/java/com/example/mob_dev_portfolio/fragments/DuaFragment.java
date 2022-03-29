@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,6 +33,7 @@ public class DuaFragment extends Fragment {
     private ArrayList<Dua> duaArrayList = new ArrayList<>();
     private DuaListAdapter duaListAdapter;
     private ListView lv;
+    private SearchView sv;
 
 
     public DuaFragment() {
@@ -44,6 +46,7 @@ public class DuaFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_dua, container, false);
 
         lv = v.findViewById(R.id.dua_lv);
+        sv = v.findViewById(R.id.dua_title_sv);
 
         // Set click listener to change fragment to DuaDetailFragment on item selected from ListView
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -55,6 +58,20 @@ public class DuaFragment extends Fragment {
         });
 
         onAPIRequest(v);
+
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                duaListAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
         return v;
     }
 
