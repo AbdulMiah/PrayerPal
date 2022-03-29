@@ -24,4 +24,5 @@
     <dimen name="dua_detail_tv_margin_top">10dp</dimen>
     <dimen name="dua_item_text_size">24sp</dimen>
     <dimen name="dua_item_margin_top">60dp</dimen>
+    <dimen name="loading_size">200dp</dimen>
 </resources>

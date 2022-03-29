@@ -20,6 +20,7 @@
     <string name="arabic_tv">Arabic</string>
     <string name="transliteration_tv">Transliteration</string>
     <string name="meaning_tv">Meaning</string>
+    <string name="sv_dua_hint">Search by title...</string>
 
     <string name="return_btn_text">Return back to safety</string>
 </resources>
