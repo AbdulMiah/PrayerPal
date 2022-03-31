@@ -53,7 +53,7 @@ public class TrackerFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tracker, container, false);
 
-        this.vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        this.vibrator = (Vibrator) this.getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         // Initialising Views
         calendarView = v.findViewById(R.id.calendar);
