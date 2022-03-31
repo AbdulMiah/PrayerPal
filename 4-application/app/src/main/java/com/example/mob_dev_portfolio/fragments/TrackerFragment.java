@@ -1,12 +1,14 @@
 package com.example.mob_dev_portfolio.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.room.Room;
 
-import android.util.Log;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ public class TrackerFragment extends Fragment {
 
     ExecutorService executor;
 
+    private Vibrator vibrator;
     private CalendarView calendarView;
     private TextView trackerDate;
     private CheckBox fajrCheckbox;
@@ -49,6 +52,8 @@ public class TrackerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tracker, container, false);
+
+        this.vibrator = (Vibrator) this.getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         // Initialising Views
         calendarView = v.findViewById(R.id.calendar);
@@ -199,6 +204,9 @@ public class TrackerFragment extends Fragment {
             checkBoxList.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // Vibrate the device for 50ms when checkbox is being clicked
+                    vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+
                     // If the checkbox is checked, find prayer that is checked and set the prayer status
                     if (((CompoundButton) view).isChecked()) {
                         if (((CompoundButton) view).getText().equals("Fajr")) {
