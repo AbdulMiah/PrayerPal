@@ -40,7 +40,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private PrayerTimesFragment prayerFrag;
     private GoogleMap map;
-    private SupportMapFragment mapFragment;
     private SearchView searchView;
     private TextView errorMsg;
     private AppCompatButton backBtn;
@@ -72,6 +71,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
+        searchQueryAction();
+
+        mapFragment.getMapAsync(this);
+    }
+
+    // Finish activity once user clicks back button
+    private void onClick(View view) {
+        finish();
+    }
+
+    // Render map
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        mapClickAction();
+    }
+
+    public void searchQueryAction() {
         // Set on query listener on search bar
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -94,10 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Log.d("LOCATION DATA FROM MAP", address.toString());
 
                         // Get Lat/Lng from address and save it to an Intent
-                        Intent i = new Intent();
-                        i.putExtra("lat", address.getLatitude());
-                        i.putExtra("long", address.getLongitude());
-                        setResult(001, i);
+                        addIntentData(address.getLatitude(), address.getLongitude());
 
                         // Add a marker on the map for the location so user can verify
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
@@ -130,20 +144,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return false;
             }
         });
-
-        mapFragment.getMapAsync(this);
     }
 
-    // Finish activity once user clicks back button
-    private void onClick(View view) {
-        finish();
-    }
-
-    // Render map
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        map = googleMap;
-
+    public void mapClickAction() {
         // Set an onMapClick listener and pin-point a marker
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -152,10 +155,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 map.addMarker(new MarkerOptions().position(latLng));            // Add the marker
 
                 // Get Lat/Lng from point and save it to an Intent
-                Intent i = new Intent();
-                i.putExtra("lat", latLng.latitude);
-                i.putExtra("long", latLng.longitude);
-                setResult(001, i);
+                addIntentData(latLng.latitude, latLng.longitude);
 
                 // Animate the map camera at level 10 zoom
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10), 3000, new GoogleMap.CancelableCallback() {
@@ -171,6 +171,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
             }
         });
+    }
+
+    public void addIntentData(double latitude, double longitude) {
+        Intent i = new Intent();
+        i.putExtra("lat", latitude);
+        i.putExtra("long", longitude);
+        setResult(001, i);
     }
 
     // Method to check permission results for location
