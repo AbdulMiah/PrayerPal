@@ -12,12 +12,12 @@ import java.util.List;
 @Dao
 public interface PrayerDAO {
 
-    @Query("SELECT * FROM prayerModel")
+    @Query("SELECT * FROM prayers")
     List<PrayerModel> getAllPrayers();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPrayerModel(PrayerModel prayerModel);
 
-    @Query("DELETE FROM prayerModel")
+    @Query("DELETE FROM prayers")
     void clearPrayerTable();
 }

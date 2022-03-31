@@ -59,6 +59,7 @@ public class PrayerTimesFragment extends Fragment {
 
     ExecutorService executor;
 
+    // Variables for Location
     private static final int LOCATION_PRIORITY = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
     private static final int LOCATION_REQUEST_FROM_BUTTON = 0;
     private static final String[] LOCATION_PERMISSIONS = new String[] {
@@ -66,18 +67,16 @@ public class PrayerTimesFragment extends Fragment {
             Manifest.permission.ACCESS_FINE_LOCATION
     };
     private LocationCallback locationCallback;
-
-    private String[] prayerNamesList;
-    private ArrayList<PrayerModel> prayerModels = new ArrayList<PrayerModel>();
-
     private FusedLocationProviderClient mFusedLocationClient;
 
-    private ListView lv;
-    private PrayerListAdapter prayerListAdapter;
-    private AppCompatButton locationBtn;
-    private AppCompatTextView currentDateText;
-    private AppCompatTextView currentPrayerText;
+    private String[] prayerNamesList;
+    private ArrayList<PrayerModel> prayerModels = new ArrayList<>();
     private PrayerDB db;
+
+    // Declare View components from Layout
+    private ListView lv;
+    private AppCompatButton locationBtn;
+    private AppCompatTextView currentDateText, currentPrayerText;
 
     public PrayerTimesFragment() {
         // Required empty public constructor
@@ -105,54 +104,45 @@ public class PrayerTimesFragment extends Fragment {
                 getContext(),
                 PrayerDB.class,
                 "prayer-database")
-                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
                 .build();
         this.executor = Executors.newFixedThreadPool(4);
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    List<PrayerModel> prayers = db.prayerDAO().getAllPrayers();
-//                    System.out.println("INITIAL PRAYER GET DB: "+prayers);
-
-                    if (!prayers.isEmpty()) {
-//                        updatePrayerModel(prayerModels);
-                        System.out.println("GOT PRAYER: "+prayerModels.toString());
-                    } else {
-                        System.out.println("NULL");
-                        // If there are no location permissions granted, request location permissions when fragment is loaded
-                        if (!LocationPermissions.checkIfPermissionsGranted(getActivity(), LOCATION_PERMISSIONS)) {
-                            requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
-                        } else {
-                            fetchLocationData(v.getId());           // Call fetch location method
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        System.out.println("OUTSIDE RUN: "+prayerModels.toString());
-        updateListView(prayerModels);
-        setCurrentPrayerText(prayerModels);
-        setCurrentDateText();
         return v;
     }
 
-    public void updateListView(ArrayList<PrayerModel> pm) {
-        prayerListAdapter = new PrayerListAdapter(lv.getContext(), pm);
-        lv.setAdapter(prayerListAdapter);
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPrayerData();
     }
 
-    public void updatePrayerModel(ArrayList<PrayerModel> pm) {
-        this.prayerModels = pm;
+    public void getPrayerData() {
+        this.prayerModels = (ArrayList<PrayerModel>) db.prayerDAO().getAllPrayers();
+
+        if (!prayerModels.isEmpty()) {
+            updateListView(prayerModels);
+            setCurrentPrayerText(prayerModels);
+            setCurrentDateText();
+        } else {
+            // If there are no location permissions granted, request location permissions when fragment is loaded
+            if (!LocationPermissions.checkIfPermissionsGranted(getActivity(), LOCATION_PERMISSIONS)) {
+                requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
+            } else {
+                fetchLocationData(getId());           // Call fetch location method
+            }
+        }
     }
 
     // Start MapActivity using intents and expect to receive results from this activity
     public void onClick(View view) {
         Intent i = new Intent(view.getContext(), MapsActivity.class);
         startActivityForResult(i, 001);
+    }
+
+    public void updateListView(ArrayList<PrayerModel> pm) {
+        PrayerListAdapter prayerListAdapter = new PrayerListAdapter(lv.getContext(), pm);
+        lv.setAdapter(prayerListAdapter);
     }
 
     // Method to check permission results for location
@@ -204,10 +194,10 @@ public class PrayerTimesFragment extends Fragment {
     // Do stuff with this location data
     private void updatePrayerTimesFromLocation(Location l) {
         // Call API with lat and long
-        onAPIRequest(getView(), l.getLatitude(), l.getLongitude());
+        onAPIRequest(l.getLatitude(), l.getLongitude());
     }
 
-    public void onAPIRequest(View view, double latitude, double longitude) {
+    public void onAPIRequest(double latitude, double longitude) {
         // API URL
         String apiUrl = "https://api.pray.zone/v2/times/today.json?longitude=" + longitude + "&latitude=" + latitude + "&elevation=25";
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
@@ -333,11 +323,11 @@ public class PrayerTimesFragment extends Fragment {
             // Add exception handling
             try {
                 Log.i("GOT DATA FROM MAP", data.toString());
-                onAPIRequest(getView(), data.getDoubleExtra("lat", 0), data.getDoubleExtra("long", 0));
+                onAPIRequest(data.getDoubleExtra("lat", 0), data.getDoubleExtra("long", 0));
             } catch (Exception e) {
                 e.printStackTrace();
                 // If cannot retrieve prayer times for the location from the map, then display an error page
-                changeInternalFragment(new ErrorFragment(), R.id.main_frag_container, "Error - unable to find prayer times", "Sorry, could not find prayer times for that location");
+                changeInternalFragment(new ErrorFragment(), R.id.main_frag_container);
             }
 
         } else {
@@ -346,12 +336,12 @@ public class PrayerTimesFragment extends Fragment {
     }
 
     // Method to replace internal fragment and set messages to pass through to the fragment
-    private void changeInternalFragment(Fragment fragment, int fragmentContainer, String errTitle, String errMessage){
+    private void changeInternalFragment(Fragment fragment, int fragmentContainer){
         FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
 
         Bundle bundle = new Bundle();
-        bundle.putString("error title", errTitle);
-        bundle.putString("error message", errMessage);
+        bundle.putString("error title", "Error - unable to find prayer times");
+        bundle.putString("error message", "Sorry, could not find prayer times for that location");
 
         fragment.setArguments(bundle);
 

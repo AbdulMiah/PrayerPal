@@ -1,13 +1,15 @@
 package com.example.mob_dev_portfolio.models;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "prayers")
 public class PrayerModel {
 
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private int prayerId;
 
     @ColumnInfo(name = "prayer_name")
