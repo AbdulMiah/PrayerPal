@@ -111,6 +111,7 @@ public class PrayerTimesFragment extends Fragment {
                 PrayerDB.class,
                 "prayer-database")
                 .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
                 .build();
         this.executor = Executors.newFixedThreadPool(4);
 
@@ -118,8 +119,8 @@ public class PrayerTimesFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         getPrayerData();
     }
 
