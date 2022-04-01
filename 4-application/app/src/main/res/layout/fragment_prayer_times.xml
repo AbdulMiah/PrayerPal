@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="25dp"
     tools:context=".fragments.PrayerTimesFragment">
 
     <Button
         android:id="@+id/prayer_location_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/location_text_margin_top"
         android:background="@color/transparent"
         android:textColor="@color/chinese_white"
         android:textSize="@dimen/txt_size"
@@ -26,6 +26,7 @@
         android:layout_marginTop="@dimen/margin_top"
         android:textColor="@color/yellow"
         android:textSize="@dimen/current_prayer_txt_size"
+        app:layout_constraintBottom_toTopOf="@+id/current_date_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/prayer_location_btn" />
@@ -46,9 +47,7 @@
         android:id="@+id/prayer_times_list_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/prayer_times_lv_height"
-        android:layout_marginStart="@dimen/list_view_margin_edge"
         android:layout_marginTop="@dimen/lv_margin_top"
-        android:layout_marginEnd="@dimen/list_view_margin_edge"
         android:layout_marginBottom="@dimen/lv_margin_bottom"
         android:divider="@color/transparent"
         android:dividerHeight="@dimen/lv_divider_height"
