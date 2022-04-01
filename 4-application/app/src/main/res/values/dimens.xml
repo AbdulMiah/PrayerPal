@@ -25,4 +25,5 @@
     <dimen name="dua_item_text_size">24sp</dimen>
     <dimen name="dua_item_margin_top">60dp</dimen>
     <dimen name="loading_size">200dp</dimen>
+    <dimen name="constraint_padding_bottom">80dp</dimen>
 </resources>

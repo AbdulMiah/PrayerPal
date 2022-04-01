@@ -8,14 +8,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/constraint_padding_bottom">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dua_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dua_detail_tv_margin_top"
-            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginTop="@dimen/dua_detail_tv_margin_top"
             android:background="@drawable/back_btn_corners"
             android:drawableLeft="@drawable/ic_arrow_back"
             android:text="@string/back_tv"
@@ -41,8 +42,8 @@
             android:id="@+id/arabic_constraint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dua_item_margin_top"
             android:layout_marginStart="@dimen/list_view_margin_edge"
+            android:layout_marginTop="@dimen/dua_item_margin_top"
             android:layout_marginEnd="@dimen/list_view_margin_edge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,8 +79,8 @@
             android:id="@+id/transliteration_constraint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dua_item_margin_top"
             android:layout_marginStart="@dimen/list_view_margin_edge"
+            android:layout_marginTop="@dimen/dua_item_margin_top"
             android:layout_marginEnd="@dimen/list_view_margin_edge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +119,6 @@
             android:layout_marginStart="@dimen/list_view_margin_edge"
             android:layout_marginTop="@dimen/dua_item_margin_top"
             android:layout_marginEnd="@dimen/list_view_margin_edge"
-            android:layout_marginBottom="@dimen/margin_top"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
