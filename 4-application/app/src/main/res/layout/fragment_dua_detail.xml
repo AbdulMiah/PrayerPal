@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dua_detail_tv_margin_top"
-            android:layout_marginTop="@dimen/dua_detail_tv_margin_top"
+            android:layout_marginTop="@dimen/margin_top"
             android:background="@drawable/back_btn_corners"
             android:drawableLeft="@drawable/ic_arrow_back"
             android:text="@string/back_tv"
