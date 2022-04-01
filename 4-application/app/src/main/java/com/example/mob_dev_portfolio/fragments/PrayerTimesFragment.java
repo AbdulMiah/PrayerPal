@@ -49,6 +49,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class PrayerTimesFragment extends Fragment {
     private AppCompatTextView currentDateText, currentPrayerText;
 
     private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
 
     public PrayerTimesFragment() {
         // Required empty public constructor
@@ -92,6 +94,7 @@ public class PrayerTimesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_prayer_times, container, false);
 
         sp = getContext().getSharedPreferences("locationData", Context.MODE_PRIVATE);
+        this.editor = sp.edit();
 
         // Getting all the Views from fragment_prayer_times layout
         this.locationBtn = v.findViewById(R.id.prayer_location_btn);
@@ -127,7 +130,17 @@ public class PrayerTimesFragment extends Fragment {
     public void getPrayerData() {
         this.prayerModels = (ArrayList<PrayerModel>) db.prayerDAO().getAllPrayers();
 
-        if (!prayerModels.isEmpty()) {
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy");
+        LocalDate now = LocalDate.now();
+        String dateNow = myFormat.format(now);
+
+        String storedDate = sp.getString("date", "");
+
+        if ((!prayerModels.isEmpty()) && (!storedDate.equals(dateNow))) {
+            float lat = sp.getFloat("latitude", 0f);
+            float lng = sp.getFloat("longitude", 0f);
+            onAPIRequest(lat, lng);
+        } else if (!prayerModels.isEmpty()) {
             updatePrayerTimes(prayerModels);
         } else {
             checkLocationPermissions();
@@ -231,8 +244,9 @@ public class PrayerTimesFragment extends Fragment {
 
             // Setting current location text in button to prayer location from API
             String currentLocation = city.concat(", " + country);
-            SharedPreferences.Editor editor = sp.edit();
             editor.putString("location", currentLocation);
+            editor.putFloat("latitude", (float) latitude);
+            editor.putFloat("longitude", (float) longitude);
             editor.commit();
             Log.d("CURRENT LOCATION ON API REQUEST", currentLocation);
         }
@@ -306,6 +320,8 @@ public class PrayerTimesFragment extends Fragment {
         DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy");
         LocalDate now = LocalDate.now();
         String output = myFormat.format(now);
+        editor.putString("date", output);
+        editor.commit();
         currentDateText.setText(output);
     }
 
