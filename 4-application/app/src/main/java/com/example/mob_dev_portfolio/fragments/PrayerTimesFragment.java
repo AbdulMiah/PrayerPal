@@ -338,7 +338,7 @@ public class PrayerTimesFragment extends Fragment {
 //                Log.i("PRAYER TIME",pm.getPrayerName());
             // If the prayer text is empty, set the text to Isha by default
             } else if (currentPrayerText.getText().equals("")) {
-                currentPrayerText.setText(getResources().getString(R.string.isha_text));
+                currentPrayerText.setText(getResources().getString(R.string.tf_isha_text));
             }
         }
     }
