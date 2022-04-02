@@ -37,12 +37,7 @@ public class DuaFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_dua, container, false);
 
         // Get bundle data
-        try {
-            this.duaArrayList = (ArrayList<Dua>) getArguments().getSerializable("apiDuaData");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        this.duaArrayList = (ArrayList<Dua>) getArguments().getSerializable("apiDuaData");
 
         lv = v.findViewById(R.id.dua_lv);
         sv = v.findViewById(R.id.dua_title_sv);
