@@ -9,26 +9,50 @@
     <dimen name="pf_current_prayer_txt_size">40sp</dimen>
     <dimen name="pf_lv_height">450dp</dimen>
     <dimen name="pf_lv_margin_top">20dp</dimen>
-    <dimen name="pf_lv_margin_bottom">80dp</dimen>
+    <dimen name="pf_lv_padding_bottom">80dp</dimen>
     <dimen name="pf_lv_divider_height">20dp</dimen>
 
+<!--    Map Activity Layout-->
+    <dimen name="ma_back_btn_margin">12dp</dimen>
+    <dimen name="ma_sv_margin_top">40dp</dimen>
+    <dimen name="ma_error_tv_margin_top">10dp</dimen>
+    <dimen name="ma_current_location_margin">20dp</dimen>
 
+<!--    Tracker Frag Layout-->
+    <dimen name="tf_constraint_padding">20dp</dimen>
+    <dimen name="tf_margin_top">20dp</dimen>
+    <dimen name="tf_margin_bottom">40dp</dimen>
+
+<!--    Dua Frag Layout-->
+    <dimen name="df_constraint_padding">20dp</dimen>
+    <dimen name="df_margin_top">20dp</dimen>
+    <dimen name="df_txt_size">40sp</dimen>
+    <dimen name="df_lv_padding_bottom">80dp</dimen>
+    <dimen name="df_lv_divider_height">20dp</dimen>
+    <dimen name="df_lv_height">450dp</dimen>
+
+<!--    Dua Detail Frag Layout-->
+    <dimen name="ddf_constraint_padding">20dp</dimen>
+    <dimen name="ddf_margin_top">40dp</dimen>
+    <dimen name="ddf_title_txt_size">40sp</dimen>
+    <dimen name="ddf_item_margin_top">60dp</dimen>
+    <dimen name="ddf_tv_margin_top">10dp</dimen>
+    <dimen name="ddf_item_txt_size">24sp</dimen>
+    <dimen name="ddf_padding_bottom">50dp</dimen>
+
+<!--    Error Frag Layout-->
+    <dimen name="ef_margin">40dp</dimen>
+    <dimen name="ef_title_size">24sp</dimen>
+
+<!--    Loading Frag Layout-->
+    <dimen name="lf_size">200dp</dimen>
+
+<!--    Others-->
     <dimen name="location_text_margin_top">25dp</dimen>
-    <dimen name="list_view_margin_edge">20dp</dimen>
     <dimen name="list_view_radius">20dp</dimen>
     <dimen name="list_view_stroke_width">1dp</dimen>
     <dimen name="list_view_padding">13dp</dimen>
     <dimen name="lv_items_margin">3dp</dimen>
     <dimen name="lv_items_text_size">20sp</dimen>
-    <dimen name="sv_marginTop">80dp</dimen>
     <dimen name="sv_radius_corners">15dp</dimen>
-    <dimen name="error_tv_marginTop">10dp</dimen>
-    <dimen name="back_btn_margin">12dp</dimen>
-    <dimen name="error_title_size">24sp</dimen>
-    <dimen name="dua_lv_height">550dp</dimen>
-    <dimen name="dua_detail_tv_margin_top">10dp</dimen>
-    <dimen name="dua_item_text_size">24sp</dimen>
-    <dimen name="dua_item_margin_top">60dp</dimen>
-    <dimen name="loading_size">200dp</dimen>
-    <dimen name="constraint_padding_bottom">80dp</dimen>
 </resources>

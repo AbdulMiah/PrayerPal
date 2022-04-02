@@ -5,22 +5,30 @@
     <string name="tracker_nav_title">Tracker</string>
     <string name="dua_nav_title">Dua\'s</string>
 
-    <string name="back_tv">Back</string>
-    <string name="sv_hint">Search for your location...</string>
-    <string name="current_location_txt">Use my current location</string>
+<!--    Map Activity Layout-->
+    <string name="ma_back_btn_txt">Back</string>
+    <string name="ma_sv_hint">Search for your location…</string>
+    <string name="ma_current_location_txt">Use my current location</string>
 
+<!--    Qibla Frag Layout-->
     <string name="hello_fragment_qibla">This is the Qibla Fragment!</string>
 
-    <string name="fajr_text">Fajr</string>
-    <string name="dhuhr_text">Dhuhr</string>
-    <string name="asr_text">Asr</string>
-    <string name="maghrib_text">Maghrib</string>
-    <string name="isha_text">Isha</string>
+<!--    Tracker Frag Layout-->
+    <string name="tf_fajr_text">Fajr</string>
+    <string name="tf_dhuhr_text">Dhuhr</string>
+    <string name="tf_asr_text">Asr</string>
+    <string name="tf_maghrib_text">Maghrib</string>
+    <string name="tf_isha_text">Isha</string>
 
-    <string name="arabic_tv">Arabic</string>
-    <string name="transliteration_tv">Transliteration</string>
-    <string name="meaning_tv">Meaning</string>
-    <string name="sv_dua_hint">Search by title...</string>
+<!--    Dua Frag Layout-->
+    <string name="df_sv_hint">Search by title…</string>
 
-    <string name="return_btn_text">Return back to safety</string>
+<!--    Dua Detail Frag Layout-->
+    <string name="ddf_back_btn_txt">Back</string>
+    <string name="ddf_arabic_tv">Arabic</string>
+    <string name="ddf_transliteration_tv">Transliteration</string>
+    <string name="ddf_meaning_tv">Meaning</string>
+
+<!--    Error Frag Layout-->
+    <string name="ef_return_btn_txt">Return back to safety</string>
 </resources>

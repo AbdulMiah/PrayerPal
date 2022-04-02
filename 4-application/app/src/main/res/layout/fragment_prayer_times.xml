@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/pf_lv_height"
         android:layout_marginTop="@dimen/pf_lv_margin_top"
-        android:paddingBottom="@dimen/pf_lv_margin_bottom"
+        android:paddingBottom="@dimen/pf_lv_padding_bottom"
         android:divider="@color/transparent"
         android:dividerHeight="@dimen/pf_lv_divider_height"
         app:layout_constraintBottom_toBottomOf="parent"
