@@ -75,7 +75,7 @@ public class DuaListAdapter extends BaseAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                System.out.println(filterResults.values);
+//                System.out.println(filterResults.values);
                 duasFiltered = (ArrayList<Dua>) filterResults.values;
                 notifyDataSetChanged();
             }
