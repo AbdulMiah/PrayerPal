@@ -1,6 +1,8 @@
 package com.example.mob_dev_portfolio.models;
 
-public class Dua {
+import java.io.Serializable;
+
+public class Dua implements Serializable {
 
     private int id;
     private String title;

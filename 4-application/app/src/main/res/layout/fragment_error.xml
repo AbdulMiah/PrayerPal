@@ -6,42 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ErrorFragment">
 
-    <TextView
-        android:id="@+id/error_title"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_top"
-        android:text="Error Title"
-        android:textAlignment="center"
-        android:textSize="@dimen/error_title_size"
-        android:textColor="@color/yellow"
-        app:layout_constraintBottom_toTopOf="@+id/error_message"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/error_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Error Message"
-        android:textSize="@dimen/txt_size"
-        android:textColor="@color/chinese_white"
-        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/return_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top"
-        android:text="@string/return_btn_text"
-        android:textColor="@color/chinese_white"
-        android:background="@drawable/back_btn_corners"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/error_message" />
+        <TextView
+            android:id="@+id/error_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/ef_margin"
+            android:text="Error Title"
+            android:textAlignment="center"
+            android:textColor="@color/yellow"
+            android:textSize="@dimen/ef_title_size"
+            app:layout_constraintBottom_toTopOf="@+id/error_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Error Message"
+            android:textAlignment="center"
+            android:textColor="@color/chinese_white"
+            android:textSize="@dimen/txt_size"
+            app:layout_constraintBottom_toTopOf="@+id/return_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/error_title" />
+
+        <Button
+            android:id="@+id/return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ef_margin"
+            android:background="@drawable/back_btn_corners"
+            android:text="@string/ef_return_btn_txt"
+            android:textColor="@color/chinese_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/error_message" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
