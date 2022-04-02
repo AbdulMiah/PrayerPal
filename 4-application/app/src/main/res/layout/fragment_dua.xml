@@ -23,6 +23,7 @@
         android:id="@+id/dua_title_sv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/df_margin_top"
         android:background="@drawable/search_background"
         android:iconifiedByDefault="false"
         android:queryHint="@string/df_sv_hint"

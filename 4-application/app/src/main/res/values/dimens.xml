@@ -12,6 +12,10 @@
     <dimen name="pf_lv_padding_bottom">80dp</dimen>
     <dimen name="pf_lv_divider_height">20dp</dimen>
 
+<!--    Prayer LV Adapter Layout-->
+    <dimen name="plva_items_margin">3dp</dimen>
+    <dimen name="plva_txt_size">18sp</dimen>
+
 <!--    Map Activity Layout-->
     <dimen name="ma_back_btn_margin">12dp</dimen>
     <dimen name="ma_sv_margin_top">40dp</dimen>
@@ -29,7 +33,7 @@
     <dimen name="df_txt_size">40sp</dimen>
     <dimen name="df_lv_padding_bottom">80dp</dimen>
     <dimen name="df_lv_divider_height">20dp</dimen>
-    <dimen name="df_lv_height">450dp</dimen>
+    <dimen name="df_lv_height">550dp</dimen>
 
 <!--    Dua Detail Frag Layout-->
     <dimen name="ddf_constraint_padding">20dp</dimen>
@@ -39,6 +43,9 @@
     <dimen name="ddf_tv_margin_top">10dp</dimen>
     <dimen name="ddf_item_txt_size">24sp</dimen>
     <dimen name="ddf_padding_bottom">50dp</dimen>
+
+<!--    Dua LV Adapter Layout-->
+    <dimen name="dlva_items_txt_size">20sp</dimen>
 
 <!--    Error Frag Layout-->
     <dimen name="ef_margin">40dp</dimen>
@@ -52,7 +59,5 @@
     <dimen name="list_view_radius">20dp</dimen>
     <dimen name="list_view_stroke_width">1dp</dimen>
     <dimen name="list_view_padding">13dp</dimen>
-    <dimen name="lv_items_margin">3dp</dimen>
-    <dimen name="lv_items_text_size">20sp</dimen>
     <dimen name="sv_radius_corners">15dp</dimen>
 </resources>
