@@ -47,12 +47,12 @@ public class DuaApiFragment extends Fragment {
         lv = duaFrag.findViewById(R.id.dua_lv);
 
         // Request API
-        onAPIRequest(v);
+        onAPIRequest();
 
         return v;
     }
 
-    public void onAPIRequest(View view) {
+    public void onAPIRequest() {
         // API URL
         String apiUrl = "https://abdulmiah.pythonanywhere.com/api/getAllDuas";
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
@@ -65,8 +65,12 @@ public class DuaApiFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        handleResponse(response);
-                        changeInternalFragment(new DuaFragment(), R.id.dua_api_frag_container, apiDuaList);
+                        try {
+                            handleResponse(response);
+                            changeInternalFragment(new DuaFragment(), R.id.dua_api_frag_container, apiDuaList);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
