@@ -7,7 +7,7 @@
     <dimen name="pf_constraint_padding">20dp</dimen>
     <dimen name="pf_margin_top">40dp</dimen>
     <dimen name="pf_current_prayer_txt_size">40sp</dimen>
-    <dimen name="pf_lv_height">450dp</dimen>
+    <dimen name="pf_lv_height">510dp</dimen>
     <dimen name="pf_lv_margin_top">20dp</dimen>
     <dimen name="pf_lv_padding_bottom">80dp</dimen>
     <dimen name="pf_lv_divider_height">20dp</dimen>
