@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
+        android:drawableLeft="@drawable/ic_search"
         android:textColor="@color/chinese_white"
         android:textSize="@dimen/txt_size"
-        android:drawableLeft="@drawable/ic_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,23 +38,32 @@
         android:layout_marginTop="@dimen/pf_margin_top"
         android:textColor="@color/chinese_white"
         android:textSize="@dimen/txt_size"
+        app:layout_constraintBottom_toTopOf="@+id/constraint_lv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_prayer_text"
-        app:layout_constraintBottom_toTopOf="@+id/prayer_times_list_view"/>
+        app:layout_constraintTop_toBottomOf="@+id/current_prayer_text" />
 
-    <ListView
-        android:id="@+id/prayer_times_list_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_lv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/pf_lv_height"
-        android:layout_marginTop="@dimen/pf_lv_margin_top"
-        android:paddingBottom="@dimen/pf_lv_padding_bottom"
-        android:divider="@color/transparent"
-        android:dividerHeight="@dimen/pf_lv_divider_height"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_date_text" />
+        app:layout_constraintTop_toBottomOf="@id/current_date_text"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <ListView
+            android:id="@+id/prayer_times_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pf_lv_height"
+            android:layout_marginTop="@dimen/pf_lv_margin_top"
+            android:paddingBottom="@dimen/pf_lv_padding_bottom"
+            android:divider="@color/transparent"
+            android:dividerHeight="@dimen/pf_lv_divider_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
