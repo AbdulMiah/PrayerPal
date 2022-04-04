@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -40,7 +42,7 @@ public class DuaApiFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_dua_api, container, false);
 
         // Set the LoadingFrag onCreate
-        changeInternalFragment(new LoadingFragment(), R.id.dua_api_frag_container, null);
+        changeInternalFragment(new LoadingFragment(), R.id.dua_api_frag_container, null, false);
 
         // Get ListView from DuaFragment layout
         View duaFrag = inflater.inflate(R.layout.fragment_dua, container, false);
@@ -67,7 +69,7 @@ public class DuaApiFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             handleResponse(response);
-                            changeInternalFragment(new DuaFragment(), R.id.dua_api_frag_container, apiDuaList);
+                            changeInternalFragment(new DuaFragment(), R.id.dua_api_frag_container, apiDuaList, false);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -76,7 +78,7 @@ public class DuaApiFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("REQUEST FROM API ERROR", String.valueOf(error));
+                        handleError(error);
                     }
                 }
         );
@@ -102,13 +104,26 @@ public class DuaApiFragment extends Fragment {
         }
     }
 
-    private void changeInternalFragment(Fragment fragment, int fragmentContainer, ArrayList<Dua> data){
+    public void handleError(VolleyError error) {
+        Log.e("REQUEST FROM API ERROR", String.valueOf(error));
+
+        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+            changeInternalFragment(new ErrorFragment(), R.id.dua_api_frag_container, null, true);
+        }
+    }
+
+    private void changeInternalFragment(Fragment fragment, int fragmentContainer, ArrayList<Dua> data, boolean error){
         FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
 
-        if (data != null) {
+        if (data != null && !error) {
             Bundle b = new Bundle();
             b.putSerializable("apiDuaData", apiDuaList);
             fragment.setArguments(b);
+        } else if (error) {
+            Bundle errBundle = new Bundle();
+            errBundle.putString("error title", "No Internet Connection!");
+            errBundle.putString("error message", "This feature requires you to connect to the internet. Please check your internet connection and try again.");
+            fragment.setArguments(errBundle);
         }
 
         supportFragmentManager.beginTransaction()
