@@ -321,7 +321,7 @@ public class PrayerTimesFragment extends Fragment {
         Log.e("REQUEST FROM API ERROR", String.valueOf(error));
 
         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-            changeInternalFragment(new ErrorFragment(), R.id.main_frag_container, "No Internet Connection!", "To get prayer times for a new location requires you to connect to the internet. Please check your internet connection and try again.");
+            changeInternalFragment(new ErrorFragment(), R.id.main_frag_container, "No Internet Connection!", "Getting prayer times for a new location requires you to connect to the internet. Please check your internet connection and try again.");
         }
     }
 
