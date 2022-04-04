@@ -24,9 +24,11 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -276,7 +278,7 @@ public class PrayerTimesFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("REQUEST FROM API ERROR", String.valueOf(error));
+                        handleError(error);
                     }
                 }
         );
@@ -313,6 +315,14 @@ public class PrayerTimesFragment extends Fragment {
 
         // Populate ListView with the prayer times and names
         updatePrayerTimes(prayerModels);
+    }
+
+    public void handleError(VolleyError error) {
+        Log.e("REQUEST FROM API ERROR", String.valueOf(error));
+
+        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+            changeInternalFragment(new ErrorFragment(), R.id.main_frag_container, "No Internet Connection!", "Getting prayer times for a new location requires you to connect to the internet. Please check your internet connection and try again.");
+        }
     }
 
     public void setCurrentDateText() {
@@ -357,7 +367,7 @@ public class PrayerTimesFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
                 // If cannot retrieve prayer times for the location from the map, then display an error page
-                changeInternalFragment(new ErrorFragment(), R.id.main_frag_container);
+                changeInternalFragment(new ErrorFragment(), R.id.main_frag_container, "Unable To Find Prayer Times!", "Sorry, could not find prayer times for that location. Pick another location and try again.");
             }
 
         } else {
@@ -366,12 +376,12 @@ public class PrayerTimesFragment extends Fragment {
     }
 
     // Method to replace internal fragment and set messages to pass through to the fragment
-    private void changeInternalFragment(Fragment fragment, int fragmentContainer){
+    private void changeInternalFragment(Fragment fragment, int fragmentContainer, String errTitle, String errMsg){
         FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
 
         Bundle bundle = new Bundle();
-        bundle.putString("error title", "Error - unable to find prayer times");
-        bundle.putString("error message", "Sorry, could not find prayer times for that location");
+        bundle.putString("error title", errTitle);
+        bundle.putString("error message", errMsg);
 
         fragment.setArguments(bundle);
 
