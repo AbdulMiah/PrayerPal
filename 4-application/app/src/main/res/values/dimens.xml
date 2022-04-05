@@ -22,6 +22,20 @@
     <dimen name="ma_error_tv_margin_top">10dp</dimen>
     <dimen name="ma_current_location_margin">20dp</dimen>
 
+<!--    Qibla Frag Layout-->
+    <dimen name="qf_constraint_padding">25dp</dimen>
+    <dimen name="qf_inner_constraint_margin_top">20dp</dimen>
+    <dimen name="qf_location_txt_margin_start">8dp</dimen>
+    <dimen name="qf_location_txt_size">25sp</dimen>
+    <dimen name="qf_location_name_margin_top">5dp</dimen>
+    <dimen name="qf_location_name_txt_size">32sp</dimen>
+    <dimen name="qf_compass_width">0dp</dimen>
+
+    <dimen name="qf_bg_margin_top_bottom">10dp</dimen>
+    <dimen name="qf_bg_margin_left_right">20dp</dimen>
+    <dimen name="qf_bg_stroke_width">1dp</dimen>
+    <dimen name="qf_bg_radius">20dp</dimen>
+
 <!--    Tracker Frag Layout-->
     <dimen name="tf_constraint_padding">20dp</dimen>
     <dimen name="tf_margin_top">20dp</dimen>

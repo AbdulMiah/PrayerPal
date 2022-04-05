@@ -4,15 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/qf_constraint_padding"
     tools:context=".fragments.QiblaFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/qf_location_constraint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_fragment_qibla"
+        android:layout_marginTop="@dimen/qf_inner_constraint_margin_top"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/qf_location_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/qf_location_txt_margin_start"
+            android:text="@string/location_txt"
+            android:textSize="@dimen/qf_location_txt_size"
+            android:textColor="@color/chinese_white"
+            app:layout_constraintBottom_toTopOf="@+id/qf_location_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/qf_location_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/qf_location_name_margin_top"
+            android:text="Cardiff"
+            android:textSize="@dimen/qf_location_name_txt_size"
+            android:textColor="@color/yellow"
+            android:background="@drawable/qf_location_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qf_location_txt" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/qibla_compass"
+        android:layout_width="@dimen/qf_compass_width"
+        android:layout_height="wrap_content"
+        android:src="@drawable/qibla_compass"
+        android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/qf_location_constraint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

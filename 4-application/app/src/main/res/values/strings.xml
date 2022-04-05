@@ -11,7 +11,7 @@
     <string name="ma_current_location_txt">Use my current location</string>
 
 <!--    Qibla Frag Layout-->
-    <string name="hello_fragment_qibla">This is the Qibla Fragment!</string>
+    <string name="location_txt">Location</string>
 
 <!--    Tracker Frag Layout-->
     <string name="tf_fajr_text">Fajr</string>
