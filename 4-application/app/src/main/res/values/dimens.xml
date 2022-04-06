@@ -30,6 +30,7 @@
     <dimen name="qf_location_name_margin_top">5dp</dimen>
     <dimen name="qf_location_name_txt_size">32sp</dimen>
     <dimen name="qf_compass_width">0dp</dimen>
+    <dimen name="qf_degree_tv_margin_bottom">10dp</dimen>
 
     <dimen name="qf_bg_margin_top_bottom">10dp</dimen>
     <dimen name="qf_bg_margin_left_right">20dp</dimen>

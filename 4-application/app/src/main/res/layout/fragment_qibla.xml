@@ -32,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/qf_location_name_margin_top"
-            android:text="Cardiff"
             android:textSize="@dimen/qf_location_name_txt_size"
             android:textColor="@color/yellow"
             android:background="@drawable/qf_location_background"
@@ -41,6 +40,15 @@
             app:layout_constraintTop_toBottomOf="@+id/qf_location_txt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/qf_degree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/qf_degree_tv_margin_bottom"
+        app:layout_constraintBottom_toTopOf="@+id/qibla_compass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/qibla_compass"
