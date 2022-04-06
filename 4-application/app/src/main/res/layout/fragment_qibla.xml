@@ -42,6 +42,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:id="@+id/qf_qibla_bearing_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/qf_bearing_tv_margin_top"
+        android:textColor="@color/chinese_white"
+        android:textSize="@dimen/qf_bearing_txt_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qf_location_constraint" />
+
+
+    <TextView
         android:id="@+id/qf_degree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -6,10 +6,13 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +25,7 @@ import com.example.mob_dev_portfolio.R;
 
 public class QiblaFragment extends Fragment implements SensorEventListener {
 
-    private TextView usersLocation, degreeTV;
+    private TextView locationTV, degreeTV, qiblaBearingTV;
     private ImageView qiblaIV;
 
     private SensorManager sm;
@@ -39,7 +42,10 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
     long lastUpdatedTime = 0;
     private float currentDegree = 0f;
 
+    Location usersCurrentLocation = new Location("service provider");
+
     private SharedPreferences sp;
+    private Vibrator vibrator;
 
     public QiblaFragment() {
         // Required empty public constructor
@@ -52,9 +58,11 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         View v = inflater.inflate(R.layout.fragment_qibla, container, false);
 
         sp = getContext().getSharedPreferences("locationData", Context.MODE_PRIVATE);
+        this.vibrator = (Vibrator) this.getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
-        usersLocation = v.findViewById(R.id.qf_location_name);
+        locationTV = v.findViewById(R.id.qf_location_name);
         degreeTV = v.findViewById(R.id.qf_degree);
+        qiblaBearingTV = v.findViewById(R.id.qf_qibla_bearing_tv);
 
         qiblaIV = v.findViewById(R.id.qibla_compass);
 
@@ -64,7 +72,10 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         magnetometer = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         // Setting current location from SharedPreference
-        usersLocation.setText(sp.getString("location", ""));
+        locationTV.setText(sp.getString("location", ""));
+
+        usersCurrentLocation.setLatitude(sp.getFloat("latitude", 0f));
+        usersCurrentLocation.setLongitude(sp.getFloat("longitude", 0f));
 
         return v;
     }
@@ -88,6 +99,17 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
     // Adapted from https://www.techrepublic.com/article/pro-tip-create-your-own-magnetic-compass-using-androids-internal-sensors/
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+
+        float qiblaBearing;
+
+        // Get bearing of Qibla from users current location
+        Location qiblaDirection = new Location("service provider");
+        qiblaDirection.setLatitude(21.4225);
+        qiblaDirection.setLongitude(39.8262);
+        qiblaBearing = usersCurrentLocation.bearingTo(qiblaDirection);
+        // Set bearing TextView
+        qiblaBearingTV.setText("Qibla Direction: "+qiblaBearing+"°");
+
         if (sensorEvent.sensor == accelerometer) {
             System.arraycopy(sensorEvent.values, 0, lastAccelerometer, 0, sensorEvent.values.length);
             lastAccelerometerSet = true;
@@ -105,6 +127,9 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
             float azimuthInRadians = orientation[0];
             float azimuthToDegree = (float) Math.toDegrees(azimuthInRadians);
 
+            // Get direction of Qibla
+            float direction = qiblaBearing - azimuthToDegree;
+
             // Start animation of compass ImageView
             setRotationAnimation(azimuthToDegree);
 
@@ -114,7 +139,17 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
 
             // Set the degree TextView
             int x = (int) azimuthToDegree;
+            if (x<0) {
+                x = x+360;
+            }
             degreeTV.setText(x+"°");
+
+            // Set off a vibration if user is facing towards the Qibla (+- 5°)
+            int a = (int) (qiblaBearing-5);
+            int b = (int) (qiblaBearing+5);
+            if (x>=a && x<=b) {
+                vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+            }
         }
     }
 
