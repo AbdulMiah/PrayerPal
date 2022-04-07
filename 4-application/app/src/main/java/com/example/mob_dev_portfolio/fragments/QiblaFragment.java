@@ -19,14 +19,16 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.mob_dev_portfolio.R;
 
 public class QiblaFragment extends Fragment implements SensorEventListener {
 
-    private TextView locationTV, degreeTV, qiblaBearingTV;
+    private TextView locationTV, degreeTV, qiblaBearingTV, facingQiblaTV;
     private ImageView qiblaIV;
+    private RadioButton radioBtn;
 
     private SensorManager sm;
     private Sensor accelerometer, magnetometer;
@@ -43,6 +45,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
     private float currentDegree = 0f;
 
     Location usersCurrentLocation = new Location("service provider");
+    private float qiblaBearing;
 
     private SharedPreferences sp;
     private Vibrator vibrator;
@@ -63,6 +66,8 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         locationTV = v.findViewById(R.id.qf_location_name);
         degreeTV = v.findViewById(R.id.qf_degree);
         qiblaBearingTV = v.findViewById(R.id.qf_qibla_bearing_tv);
+        facingQiblaTV = v.findViewById(R.id.qf_facing_qibla_txt);
+        radioBtn = v.findViewById(R.id.qf_radio);
 
         qiblaIV = v.findViewById(R.id.qibla_compass);
 
@@ -76,6 +81,8 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
 
         usersCurrentLocation.setLatitude(sp.getFloat("latitude", 0f));
         usersCurrentLocation.setLongitude(sp.getFloat("longitude", 0f));
+
+        getQiblaBearing();
 
         return v;
     }
@@ -99,17 +106,6 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
     // Adapted from https://www.techrepublic.com/article/pro-tip-create-your-own-magnetic-compass-using-androids-internal-sensors/
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-
-        float qiblaBearing;
-
-        // Get bearing of Qibla from users current location
-        Location qiblaDirection = new Location("service provider");
-        qiblaDirection.setLatitude(21.4225);
-        qiblaDirection.setLongitude(39.8262);
-        qiblaBearing = usersCurrentLocation.bearingTo(qiblaDirection);
-        // Set bearing TextView
-        qiblaBearingTV.setText("Qibla Direction: "+qiblaBearing+"°");
-
         if (sensorEvent.sensor == accelerometer) {
             System.arraycopy(sensorEvent.values, 0, lastAccelerometer, 0, sensorEvent.values.length);
             lastAccelerometerSet = true;
@@ -145,10 +141,17 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
             degreeTV.setText(x+"°");
 
             // Set off a vibration if user is facing towards the Qibla (+- 5°)
+            // And set visibility of TextView and RatioButton to visible
             int a = (int) (qiblaBearing-5);
             int b = (int) (qiblaBearing+5);
             if (x>=a && x<=b) {
                 vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+                facingQiblaTV.setVisibility(View.VISIBLE);
+                radioBtn.setVisibility(View.VISIBLE);
+            // If user is not facing towards Qibla, make Views invisible
+            } else {
+                facingQiblaTV.setVisibility(View.INVISIBLE);
+                radioBtn.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -173,6 +176,16 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         rotateAnimation.setFillAfter(true);
         // Start the animation
         qiblaIV.startAnimation(rotateAnimation);
+    }
+
+    public void getQiblaBearing() {
+        // Get bearing of Qibla from users current location
+        Location qiblaDirection = new Location("service provider");
+        qiblaDirection.setLatitude(21.4225);
+        qiblaDirection.setLongitude(39.8262);
+        qiblaBearing = usersCurrentLocation.bearingTo(qiblaDirection);
+        // Set bearing TextView
+        qiblaBearingTV.setText("Qibla Direction: "+qiblaBearing+"°");
     }
 
 }

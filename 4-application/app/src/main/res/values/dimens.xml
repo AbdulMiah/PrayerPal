@@ -33,6 +33,10 @@
     <dimen name="qf_degree_tv_margin_bottom">10dp</dimen>
     <dimen name="qf_bearing_tv_margin_top">10dp</dimen>
     <dimen name="qf_bearing_txt_size">15sp</dimen>
+    <dimen name="qf_facing_qibla_txt_margin_top">30dp</dimen>
+    <dimen name="qf_facing_qibla_txt_size">25sp</dimen>
+    <dimen name="qf_radio_margin_bottom">20dp</dimen>
+    <dimen name="qf_radio_margin_start">15dp</dimen>
 
     <dimen name="qf_bg_margin_top_bottom">10dp</dimen>
     <dimen name="qf_bg_margin_left_right">20dp</dimen>
