@@ -37,6 +37,7 @@
     <dimen name="qf_facing_qibla_txt_size">25sp</dimen>
     <dimen name="qf_radio_margin_bottom">20dp</dimen>
     <dimen name="qf_radio_margin_start">15dp</dimen>
+    <dimen name="qf_needle_width">190dp</dimen>
 
     <dimen name="qf_bg_margin_top_bottom">10dp</dimen>
     <dimen name="qf_bg_margin_left_right">20dp</dimen>

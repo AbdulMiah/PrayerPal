@@ -27,7 +27,7 @@ import com.example.mob_dev_portfolio.R;
 public class QiblaFragment extends Fragment implements SensorEventListener {
 
     private TextView locationTV, degreeTV, qiblaBearingTV, facingQiblaTV;
-    private ImageView qiblaIV;
+    private ImageView qiblaCompass, qiblaDirectionNeedle;
     private RadioButton radioBtn;
 
     private SensorManager sm;
@@ -43,9 +43,11 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
 
     long lastUpdatedTime = 0;
     private float currentDegree = 0f;
+    private float currentDegreeNeedle = 0f;
 
     Location usersCurrentLocation = new Location("service provider");
     private float qiblaBearing;
+    private float direction;
 
     private SharedPreferences sp;
     private Vibrator vibrator;
@@ -69,7 +71,8 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         facingQiblaTV = v.findViewById(R.id.qf_facing_qibla_txt);
         radioBtn = v.findViewById(R.id.qf_radio);
 
-        qiblaIV = v.findViewById(R.id.qibla_compass);
+        qiblaCompass = v.findViewById(R.id.qibla_compass);
+        qiblaDirectionNeedle = v.findViewById(R.id.qf_direction_needle);
 
         // Instantiating Sensors
         sm = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
@@ -123,28 +126,30 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
             float azimuthInRadians = orientation[0];
             float azimuthToDegree = (float) Math.toDegrees(azimuthInRadians);
 
+            if (azimuthToDegree < 0) {
+                azimuthToDegree = azimuthToDegree + 360;
+            }
+
             // Get direction of Qibla
-            float direction = qiblaBearing - azimuthToDegree;
+            direction = qiblaBearing - azimuthToDegree;
 
-            // Start animation of compass ImageView
-            setRotationAnimation(azimuthToDegree);
+            // Start animation of compass and needle ImageView
+            setRotationAnimation(currentDegree, -azimuthToDegree, qiblaCompass);
+            setRotationAnimation(currentDegreeNeedle, direction, qiblaDirectionNeedle);
 
-            // Set currentDegree and lastUpdatedTime
+            // Set currentDegree, currentDegreeNeedle and lastUpdatedTime
             currentDegree = -azimuthToDegree;
+            currentDegreeNeedle = direction;
             lastUpdatedTime = System.currentTimeMillis();
 
             // Set the degree TextView
-            int x = (int) azimuthToDegree;
-            if (x<0) {
-                x = x+360;
-            }
-            degreeTV.setText(x+"°");
+            degreeTV.setText(azimuthToDegree+"°");
 
             // Set off a vibration if user is facing towards the Qibla (+- 5°)
             // And set visibility of TextView and RatioButton to visible
             int a = (int) (qiblaBearing-5);
             int b = (int) (qiblaBearing+5);
-            if (x>=a && x<=b) {
+            if (azimuthToDegree>=a && azimuthToDegree<=b) {
                 vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
                 facingQiblaTV.setVisibility(View.VISIBLE);
                 radioBtn.setVisibility(View.VISIBLE);
@@ -161,10 +166,10 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
 
     }
 
-    public void setRotationAnimation(float degree) {
+    public void setRotationAnimation(float currDegree, float degree, ImageView imageView) {
         RotateAnimation rotateAnimation = new RotateAnimation(
-                currentDegree,
-                -degree,
+                currDegree,
+                degree,
                 Animation.RELATIVE_TO_SELF,
                 0.5f,
                 Animation.RELATIVE_TO_SELF,
@@ -175,7 +180,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         // Set the compass animation after the end of the reservation status
         rotateAnimation.setFillAfter(true);
         // Start the animation
-        qiblaIV.startAnimation(rotateAnimation);
+        imageView.startAnimation(rotateAnimation);
     }
 
     public void getQiblaBearing() {
@@ -184,6 +189,11 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         qiblaDirection.setLatitude(21.4225);
         qiblaDirection.setLongitude(39.8262);
         qiblaBearing = usersCurrentLocation.bearingTo(qiblaDirection);
+
+        if (qiblaBearing < 0) {
+            qiblaBearing = qiblaBearing + 360;
+        }
+
         // Set bearing TextView
         qiblaBearingTV.setText("Qibla Direction: "+qiblaBearing+"°");
     }
