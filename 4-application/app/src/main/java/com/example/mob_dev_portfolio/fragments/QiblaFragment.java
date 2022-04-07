@@ -79,8 +79,9 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        // Setting current location from SharedPreference
-        locationTV.setText(sp.getString("location", ""));
+        // Setting current city location from SharedPreference
+        String[] loc = sp.getString("location", "").split(",");
+        locationTV.setText(loc[0]);
 
         usersCurrentLocation.setLatitude(sp.getFloat("latitude", 0f));
         usersCurrentLocation.setLongitude(sp.getFloat("longitude", 0f));
