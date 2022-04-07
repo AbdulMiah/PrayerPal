@@ -1,113 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/qf_constraint_padding"
-    tools:context=".fragments.QiblaFragment">
+    tools:context=".fragments.QiblaFragment" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/qf_location_constraint"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/qf_inner_constraint_margin_top"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="@dimen/qf_constraint_padding">
 
-        <TextView
-            android:id="@+id/qf_location_txt"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/qf_location_constraint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/qf_location_txt_margin_start"
-            android:text="@string/qf_location_txt"
-            android:textSize="@dimen/qf_location_txt_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/qf_location_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/qf_location_txt_margin_start"
+                android:text="@string/qf_location_txt"
+                android:textSize="@dimen/qf_location_txt_size"
+                android:textColor="@color/chinese_white"
+                app:layout_constraintBottom_toTopOf="@+id/qf_location_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/qf_location_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/qf_location_name_margin_top"
+                android:textSize="@dimen/qf_location_name_txt_size"
+                android:textColor="@color/yellow"
+                android:background="@drawable/qf_location_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/qf_location_txt" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/qf_qibla_bearing_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/qf_bearing_tv_margin_top"
             android:textColor="@color/chinese_white"
-            app:layout_constraintBottom_toTopOf="@+id/qf_location_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="@dimen/qf_bearing_txt_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qf_location_constraint" />
 
-        <TextView
-            android:id="@+id/qf_location_name"
+        <RadioButton
+            android:id="@+id/qf_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/qf_location_name_margin_top"
-            android:textSize="@dimen/qf_location_name_txt_size"
-            android:textColor="@color/yellow"
-            android:background="@drawable/qf_location_background"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/qf_radio_margin_top"
+            android:layout_marginStart="@dimen/qf_radio_margin_start"
+            android:layout_marginBottom="@dimen/qf_radio_margin_bottom"
+            android:buttonTint="@color/yellow"
+            android:checked="true"
+            android:clickable="false"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/qf_degree"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qf_location_txt" />
+            app:layout_constraintTop_toBottomOf="@+id/qf_qibla_bearing_tv" />
+
+        <TextView
+            android:id="@+id/qf_degree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/chinese_white"
+            android:layout_marginBottom="@dimen/qf_degree_tv_margin_bottom"
+            app:layout_constraintBottom_toTopOf="@+id/qibla_compass"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/qibla_compass"
+            android:layout_width="@dimen/qf_compass_width"
+            android:layout_height="wrap_content"
+            android:src="@drawable/qibla_compass"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qf_location_constraint" />
+
+        <ImageView
+            android:id="@+id/qf_direction_needle"
+            android:layout_width="@dimen/qf_needle_width"
+            android:layout_height="wrap_content"
+            android:src="@drawable/qibla_direction_needle"
+            app:layout_constraintBottom_toBottomOf="@id/qibla_compass"
+            app:layout_constraintEnd_toEndOf="@id/qibla_compass"
+            app:layout_constraintStart_toStartOf="@id/qibla_compass"
+            app:layout_constraintTop_toBottomOf="@+id/qf_degree" />
+
+        <TextView
+            android:id="@+id/qf_facing_qibla_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/qf_facing_qibla_txt_margin_top"
+            android:text="@string/qf_facing_qibla"
+            android:textSize="@dimen/qf_facing_qibla_txt_size"
+            android:textAlignment="center"
+            android:textColor="@color/yellow"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qibla_compass" />
+
+        <Button
+            android:id="@+id/qf_calibrate_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/qf_calibrate_margin_top"
+            android:layout_marginBottom="@dimen/qf_calibrate_margin_bottom"
+            android:text="@string/qf_calibrate_txt"
+            android:textSize="@dimen/qf_calibrate_txt_size"
+            android:textColor="@color/yellow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qf_facing_qibla_txt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/qf_qibla_bearing_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/qf_bearing_tv_margin_top"
-        android:textColor="@color/chinese_white"
-        android:textSize="@dimen/qf_bearing_txt_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qf_location_constraint" />
-
-    <RadioButton
-        android:id="@+id/qf_radio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/qf_radio_margin_bottom"
-        android:layout_marginStart="@dimen/qf_radio_margin_start"
-        android:buttonTint="@color/yellow"
-        android:checked="true"
-        android:clickable="false"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/qf_degree"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/qf_degree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/chinese_white"
-        android:layout_marginBottom="@dimen/qf_degree_tv_margin_bottom"
-        app:layout_constraintBottom_toTopOf="@+id/qibla_compass"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/qibla_compass"
-        android:layout_width="@dimen/qf_compass_width"
-        android:layout_height="wrap_content"
-        android:src="@drawable/qibla_compass"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qf_location_constraint" />
-
-    <ImageView
-        android:id="@+id/qf_direction_needle"
-        android:layout_width="@dimen/qf_needle_width"
-        android:layout_height="wrap_content"
-        android:src="@drawable/qibla_direction_needle"
-        app:layout_constraintBottom_toBottomOf="@id/qibla_compass"
-        app:layout_constraintEnd_toEndOf="@id/qibla_compass"
-        app:layout_constraintStart_toStartOf="@id/qibla_compass"
-        app:layout_constraintTop_toBottomOf="@+id/qf_degree" />
-
-    <TextView
-        android:id="@+id/qf_facing_qibla_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/qf_facing_qibla_txt_margin_top"
-        android:text="@string/qf_facing_qibla"
-        android:textSize="@dimen/qf_facing_qibla_txt_size"
-        android:textAlignment="center"
-        android:textColor="@color/yellow"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qibla_compass" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

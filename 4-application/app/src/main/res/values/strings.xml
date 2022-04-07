@@ -13,6 +13,11 @@
 <!--    Qibla Frag Layout-->
     <string name="qf_location_txt">Location</string>
     <string name="qf_facing_qibla">You\'re facing the <b>Qibla</b></string>
+    <string name="qf_calibrate_txt">Calibrate</string>
+
+<!--    Calibrate Popup Layout-->
+    <string name="popup_title">Wave the device in a figure 8 motion to calibrate</string>
+    <string name="popup_btn_txt">Done</string>
 
 <!--    Tracker Frag Layout-->
     <string name="tf_fajr_text">Fajr</string>

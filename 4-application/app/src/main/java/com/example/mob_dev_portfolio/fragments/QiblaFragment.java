@@ -13,12 +13,16 @@ import androidx.fragment.app.Fragment;
 
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -29,6 +33,9 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
     private TextView locationTV, degreeTV, qiblaBearingTV, facingQiblaTV;
     private ImageView qiblaCompass, qiblaDirectionNeedle;
     private RadioButton radioBtn;
+    private Button calibrateBtn;
+
+    private PopupWindow popupWindow;
 
     private SensorManager sm;
     private Sensor accelerometer, magnetometer;
@@ -61,6 +68,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_qibla, container, false);
+        View popupView = inflater.inflate(R.layout.calibrate_popup, null);
 
         sp = getContext().getSharedPreferences("locationData", Context.MODE_PRIVATE);
         this.vibrator = (Vibrator) this.getContext().getSystemService(Context.VIBRATOR_SERVICE);
@@ -70,6 +78,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         qiblaBearingTV = v.findViewById(R.id.qf_qibla_bearing_tv);
         facingQiblaTV = v.findViewById(R.id.qf_facing_qibla_txt);
         radioBtn = v.findViewById(R.id.qf_radio);
+        calibrateBtn = v.findViewById(R.id.qf_calibrate_btn);
 
         qiblaCompass = v.findViewById(R.id.qibla_compass);
         qiblaDirectionNeedle = v.findViewById(R.id.qf_direction_needle);
@@ -88,7 +97,35 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
 
         getQiblaBearing();
 
+        calibratePopup(popupView);
+
         return v;
+    }
+
+    private void calibratePopup(View popupView) {
+        // Adapted from https://www.android--code.com/2016/01/android-popup-window-example.html
+        popupWindow = new PopupWindow(
+                popupView,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                true);      // Lets you to tap outside the popup to dismiss it
+
+        calibrateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+                Button popupCloseBtn = (Button) popupView.findViewById(R.id.popup_done_btn);
+
+                // Dismiss popup when done button in popup is clicked
+                popupCloseBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
     }
 
     @Override
