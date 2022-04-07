@@ -14,6 +14,8 @@
     <string name="qf_location_txt">Location</string>
     <string name="qf_facing_qibla">You\'re facing the <b>Qibla</b></string>
     <string name="qf_calibrate_txt">Calibrate</string>
+    <string name="qf_turn_left_txt">Turn Left</string>
+    <string name="qf_turn_right_txt">Turn Right</string>
 
 <!--    Calibrate Popup Layout-->
     <string name="popup_title">Wave the device in a figure 8 motion to calibrate</string>

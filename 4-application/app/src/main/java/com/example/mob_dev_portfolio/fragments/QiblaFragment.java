@@ -30,7 +30,7 @@ import com.example.mob_dev_portfolio.R;
 
 public class QiblaFragment extends Fragment implements SensorEventListener {
 
-    private TextView locationTV, degreeTV, qiblaBearingTV, facingQiblaTV;
+    private TextView locationTV, degreeTV, qiblaBearingTV, facingQiblaTV, turnLeftTV, turnRightTV;
     private ImageView qiblaCompass, qiblaDirectionNeedle;
     private RadioButton radioBtn;
     private Button calibrateBtn;
@@ -79,6 +79,8 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         facingQiblaTV = v.findViewById(R.id.qf_facing_qibla_txt);
         radioBtn = v.findViewById(R.id.qf_radio);
         calibrateBtn = v.findViewById(R.id.qf_calibrate_btn);
+        turnLeftTV = v.findViewById(R.id.turn_left_txt);
+        turnRightTV = v.findViewById(R.id.turn_right_txt);
 
         qiblaCompass = v.findViewById(R.id.qibla_compass);
         qiblaDirectionNeedle = v.findViewById(R.id.qf_direction_needle);
@@ -183,18 +185,32 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
             // Set the degree TextView
             degreeTV.setText(azimuthToDegree+"°");
 
-            // Set off a vibration if user is facing towards the Qibla (+- 5°)
-            // And set visibility of TextView and RatioButton to visible
             int a = (int) (qiblaBearing-5);
             int b = (int) (qiblaBearing+5);
-            if (azimuthToDegree>=a && azimuthToDegree<=b) {
+
+            // If user is not facing towards Qibla, make Views invisible
+            if (azimuthToDegree < a ) {
+                facingQiblaTV.setVisibility(View.INVISIBLE);
+                radioBtn.setVisibility(View.INVISIBLE);
+                turnLeftTV.setVisibility(View.INVISIBLE);
+                // Let user know to turn right
+                turnRightTV.setVisibility(View.VISIBLE);
+            } else if (azimuthToDegree > b) {
+                facingQiblaTV.setVisibility(View.INVISIBLE);
+                radioBtn.setVisibility(View.INVISIBLE);
+                turnRightTV.setVisibility(View.INVISIBLE);
+                // Let user know to turn left
+                turnLeftTV.setVisibility(View.VISIBLE);
+
+            // Set off a vibration if user is facing towards the Qibla (+- 5°)
+            // And set visibility of View components to visible
+            } else if (azimuthToDegree>=a && azimuthToDegree<=b) {
                 vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
                 facingQiblaTV.setVisibility(View.VISIBLE);
                 radioBtn.setVisibility(View.VISIBLE);
-            // If user is not facing towards Qibla, make Views invisible
-            } else {
-                facingQiblaTV.setVisibility(View.INVISIBLE);
-                radioBtn.setVisibility(View.INVISIBLE);
+                // Make these invisible to remove any confusion
+                turnLeftTV.setVisibility(View.INVISIBLE);
+                turnRightTV.setVisibility(View.INVISIBLE);
             }
         }
     }

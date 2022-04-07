@@ -80,6 +80,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:id="@+id/turn_left_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/qf_degree_tv_margin_bottom"
+            android:text="@string/qf_turn_left_txt"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/qibla_compass"
+            app:layout_constraintEnd_toStartOf="@+id/qf_degree"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/turn_right_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/qf_degree_tv_margin_bottom"
+            android:text="@string/qf_turn_right_txt"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/qibla_compass"
+            app:layout_constraintStart_toEndOf="@id/qf_degree"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <ImageView
             android:id="@+id/qibla_compass"
             android:layout_width="@dimen/qf_compass_width"
