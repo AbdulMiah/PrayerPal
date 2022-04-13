@@ -11,7 +11,15 @@
     <string name="ma_current_location_txt">Use my current location</string>
 
 <!--    Qibla Frag Layout-->
-    <string name="hello_fragment_qibla">This is the Qibla Fragment!</string>
+    <string name="qf_location_txt">Location</string>
+    <string name="qf_facing_qibla">You\'re facing the <b>Qibla</b></string>
+    <string name="qf_calibrate_txt">Calibrate</string>
+    <string name="qf_turn_left_txt">Turn Left</string>
+    <string name="qf_turn_right_txt">Turn Right</string>
+
+<!--    Calibrate Popup Layout-->
+    <string name="popup_title">Wave the device in a figure 8 motion to calibrate</string>
+    <string name="popup_btn_txt">Done</string>
 
 <!--    Tracker Frag Layout-->
     <string name="tf_fajr_text">Fajr</string>

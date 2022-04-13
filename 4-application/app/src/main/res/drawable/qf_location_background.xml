@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <solid android:color="@color/almost_black" />
+
+    <padding android:bottom="@dimen/qf_bg_margin_top_bottom" android:left="@dimen/qf_bg_margin_left_right" android:right="@dimen/qf_bg_margin_left_right" android:top="@dimen/qf_bg_margin_top_bottom" />
+
+    <stroke android:color="@color/aquamarine" android:width="@dimen/qf_bg_stroke_width" />
+
+    <corners android:radius="@dimen/qf_bg_radius" />
+
+</shape>

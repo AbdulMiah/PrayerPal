@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/layout_padding"
+    android:orientation="vertical"
+    android:background="@color/almost_black">
+
+    <TextView
+        android:id="@+id/popup_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/popup_title"
+        android:textAlignment="center"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/popup_title_txt_size" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/calibrate_gif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gif_margin_top"
+        android:src="@drawable/calibrate_compass" />
+
+    <Button
+        android:id="@+id/popup_done_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/done_btn_margin_top"
+        android:text="@string/popup_btn_txt"
+        android:textColor="@color/yellow"
+        android:textSize="@dimen/done_btn_txt_size" />
+
+</LinearLayout>

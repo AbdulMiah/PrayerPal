@@ -22,6 +22,39 @@
     <dimen name="ma_error_tv_margin_top">10dp</dimen>
     <dimen name="ma_current_location_margin">20dp</dimen>
 
+<!--    Qibla Frag Layout-->
+    <dimen name="qf_constraint_padding">25dp</dimen>
+    <dimen name="qf_inner_constraint_margin_top">20dp</dimen>
+    <dimen name="qf_location_txt_margin_start">8dp</dimen>
+    <dimen name="qf_location_txt_size">25sp</dimen>
+    <dimen name="qf_location_name_margin_top">5dp</dimen>
+    <dimen name="qf_location_name_txt_size">32sp</dimen>
+    <dimen name="qf_compass_width">0dp</dimen>
+    <dimen name="qf_degree_tv_margin_bottom">10dp</dimen>
+    <dimen name="qf_bearing_tv_margin_top">10dp</dimen>
+    <dimen name="qf_bearing_txt_size">15sp</dimen>
+    <dimen name="qf_facing_qibla_txt_margin_top">30dp</dimen>
+    <dimen name="qf_facing_qibla_txt_size">25sp</dimen>
+    <dimen name="qf_radio_margin_bottom">20dp</dimen>
+    <dimen name="qf_radio_margin_top">10dp</dimen>
+    <dimen name="qf_radio_margin_start">15dp</dimen>
+    <dimen name="qf_needle_width">190dp</dimen>
+    <dimen name="qf_calibrate_margin_top">15dp</dimen>
+    <dimen name="qf_calibrate_margin_bottom">40dp</dimen>
+    <dimen name="qf_calibrate_txt_size">20sp</dimen>
+
+    <dimen name="qf_bg_margin_top_bottom">10dp</dimen>
+    <dimen name="qf_bg_margin_left_right">20dp</dimen>
+    <dimen name="qf_bg_stroke_width">1dp</dimen>
+    <dimen name="qf_bg_radius">20dp</dimen>
+
+<!--    Calibrate Popup Layout-->
+    <dimen name="layout_padding">30dp</dimen>
+    <dimen name="popup_title_txt_size">35sp</dimen>
+    <dimen name="gif_margin_top">40dp</dimen>
+    <dimen name="done_btn_margin_top">20dp</dimen>
+    <dimen name="done_btn_txt_size">20sp</dimen>
+
 <!--    Tracker Frag Layout-->
     <dimen name="tf_constraint_padding">20dp</dimen>
     <dimen name="tf_margin_top">20dp</dimen>
