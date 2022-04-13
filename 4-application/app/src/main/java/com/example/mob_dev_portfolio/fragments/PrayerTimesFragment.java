@@ -86,6 +86,9 @@ public class PrayerTimesFragment extends Fragment {
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
+    private SharedPreferences currentLocationSp;
+    private SharedPreferences.Editor currentLocationEditor;
+
     public PrayerTimesFragment() {
         // Required empty public constructor
     }
@@ -97,6 +100,8 @@ public class PrayerTimesFragment extends Fragment {
 
         sp = getContext().getSharedPreferences("locationData", Context.MODE_PRIVATE);
         this.editor = sp.edit();
+        currentLocationSp = getContext().getSharedPreferences("userCurrentLocationData", Context.MODE_PRIVATE);
+        this.currentLocationEditor = currentLocationSp.edit();
 
         // Getting all the Views from fragment_prayer_times layout
         this.locationBtn = v.findViewById(R.id.prayer_location_btn);
@@ -185,6 +190,8 @@ public class PrayerTimesFragment extends Fragment {
                     Intent i = new Intent(getContext(), MapsActivity.class);
                     startActivityForResult(i, 001);
                     Toast.makeText(getContext(), "Please select a location from the map", Toast.LENGTH_SHORT).show();
+                } else {
+                    fetchLocationData(getId());
                 }
                 break;
         }
@@ -225,6 +232,10 @@ public class PrayerTimesFragment extends Fragment {
     private void updatePrayerTimesFromLocation(Location l) {
         // Call API with lat and long
         onAPIRequest(l.getLatitude(), l.getLongitude());
+        // Storing Lat/Lng from user's current location
+        currentLocationEditor.putFloat("latitude", (float) l.getLatitude());
+        currentLocationEditor.putFloat("longitude", (float) l.getLongitude());
+        currentLocationEditor.commit();
     }
 
     public void onAPIRequest(double latitude, double longitude) {
