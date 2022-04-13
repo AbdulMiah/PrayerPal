@@ -6,8 +6,10 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -45,6 +47,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private AppCompatButton backBtn;
     private AppCompatButton currentLocationBtn;
 
+    private SharedPreferences userCurrentLocationSp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +66,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                showAlertDialog();
-                Toast.makeText(view.getContext(), "This feature is still under construction", Toast.LENGTH_SHORT).show();
+                userCurrentLocationSp = getSharedPreferences("userCurrentLocationData", Context.MODE_PRIVATE);
+                if (userCurrentLocationSp.getAll().isEmpty()) {
+                    showAlertDialog();
+                } else {
+                    float lat = userCurrentLocationSp.getFloat("latitude", 0f);
+                    float lng = userCurrentLocationSp.getFloat("longitude", 0f);
+                    findUsersCurrentLocation(lat, lng);
+                }
             }
         });
 
@@ -169,6 +179,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         finish();
                     }
                 });
+            }
+        });
+    }
+
+    public void findUsersCurrentLocation(float lat, float lng) {
+        LatLng latLng = new LatLng(lat, lng);
+        map.addMarker(new MarkerOptions().position(latLng));            // Add the marker
+
+        // Save Lat/Lng to an Intent
+        addIntentData(lat, lng);
+
+        // Animate the map camera at level 10 zoom
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10), 3000, new GoogleMap.CancelableCallback() {
+            @Override
+            public void onCancel() {
+                finish();
+            }
+
+            @Override
+            public void onFinish() {
+                finish();
             }
         });
     }

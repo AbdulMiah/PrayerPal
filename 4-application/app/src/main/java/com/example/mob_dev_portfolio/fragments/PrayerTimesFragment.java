@@ -55,6 +55,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -86,6 +87,9 @@ public class PrayerTimesFragment extends Fragment {
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
+    private SharedPreferences currentLocationSp;
+    private SharedPreferences.Editor currentLocationEditor;
+
     public PrayerTimesFragment() {
         // Required empty public constructor
     }
@@ -97,6 +101,8 @@ public class PrayerTimesFragment extends Fragment {
 
         sp = getContext().getSharedPreferences("locationData", Context.MODE_PRIVATE);
         this.editor = sp.edit();
+        currentLocationSp = getContext().getSharedPreferences("userCurrentLocationData", Context.MODE_PRIVATE);
+        this.currentLocationEditor = currentLocationSp.edit();
 
         // Getting all the Views from fragment_prayer_times layout
         this.locationBtn = v.findViewById(R.id.prayer_location_btn);
@@ -225,6 +231,10 @@ public class PrayerTimesFragment extends Fragment {
     private void updatePrayerTimesFromLocation(Location l) {
         // Call API with lat and long
         onAPIRequest(l.getLatitude(), l.getLongitude());
+        // Storing Lat/Lng from user's current location
+        currentLocationEditor.putFloat("latitude", (float) l.getLatitude());
+        currentLocationEditor.putFloat("longitude", (float) l.getLongitude());
+        currentLocationEditor.commit();
     }
 
     public void onAPIRequest(double latitude, double longitude) {
