@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,7 +22,13 @@ import android.widget.Toast;
 
 import com.example.mob_dev_portfolio.R;
 import com.example.mob_dev_portfolio.fragments.PrayerTimesFragment;
+import com.example.mob_dev_portfolio.location.LocationHelper;
 import com.example.mob_dev_portfolio.location.LocationPermissions;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,20 +41,27 @@ import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    // Variables for Location
+    private static final int LOCATION_PRIORITY = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
     private static final int LOCATION_REQUEST_FROM_MAP = 2;
     private static final String[] LOCATION_PERMISSIONS = new String[] {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
     };
+    private LocationCallback locationCallback;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     private PrayerTimesFragment prayerFrag;
     private GoogleMap map;
     private SearchView searchView;
     private TextView errorMsg;
-    private AppCompatButton backBtn;
-    private AppCompatButton currentLocationBtn;
+    private AppCompatButton backBtn, currentLocationBtn;
 
     private SharedPreferences userCurrentLocationSp;
+    private SharedPreferences.Editor userCurrentLocationEditor;
+
+    public MapsActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +72,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         errorMsg = findViewById(R.id.error_text);
         backBtn = findViewById(R.id.back_button);
         currentLocationBtn = findViewById(R.id.current_location_btn);
+
+        this.mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
         // Setting onClick Listeners
         backBtn.setOnClickListener(this::onClick);
@@ -219,11 +235,52 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             case LOCATION_REQUEST_FROM_MAP:
                 if (!LocationPermissions.checkIfPermissionResultsGranted(grantResults)) {
                     Toast.makeText(this, "Location permissions are required to use this feature", Toast.LENGTH_SHORT).show();
+                } else {
+                    fetchLocationData();
                 }
                 break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+    @SuppressLint("MissingPermission")
+    private void fetchLocationData() {
+        // Cancel any ongoing location requests before requesting
+        if (locationCallback != null) {
+            this.mFusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+
+        // Fetch location data on single location update
+        if (locationCallback == null) {
+            locationCallback = new MyLocationCallback();
+            this.mFusedLocationClient.requestLocationUpdates(
+                    LocationHelper.singleLocationRequest(LOCATION_PRIORITY),
+                    locationCallback,
+                    null);
+        }
+    }
+
+    // Extended location callback to retrieve single location request
+    private class MyLocationCallback extends LocationCallback {
+        @Override
+        public void onLocationResult(@NonNull LocationResult locationResult) {
+            super.onLocationResult(locationResult);
+
+            float lat = (float) locationResult.getLastLocation().getLatitude();
+            float lng = (float) locationResult.getLastLocation().getLongitude();
+
+            // Storing lat/lng from current location from MapActivity into SharedPreference
+            userCurrentLocationSp = getSharedPreferences("userCurrentLocationData", Context.MODE_PRIVATE);
+            userCurrentLocationEditor = userCurrentLocationSp.edit();
+            userCurrentLocationEditor.putFloat("latitude", lat);
+            userCurrentLocationEditor.putFloat("longitude", lng);
+            userCurrentLocationEditor.commit();
+
+            // Zoom into map of current location
+            findUsersCurrentLocation(lat, lng);
+        }
+    }
+
 
     // Create an AlertDialog to let user know that this app requires Location Permissions for 'Use Current Location' feature
     public void showAlertDialog() {

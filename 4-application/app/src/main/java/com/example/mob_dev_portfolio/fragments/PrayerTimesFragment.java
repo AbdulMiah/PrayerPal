@@ -190,6 +190,8 @@ public class PrayerTimesFragment extends Fragment {
                     Intent i = new Intent(getContext(), MapsActivity.class);
                     startActivityForResult(i, 001);
                     Toast.makeText(getContext(), "Please select a location from the map", Toast.LENGTH_SHORT).show();
+                } else {
+                    fetchLocationData(getId());
                 }
                 break;
         }
