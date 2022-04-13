@@ -7,17 +7,4 @@ Student ID: `2035950`
 
 _Complete the information above and then write your 200 word overview below.__
 
-My objective is to develop a practical Islamic prayer application for Muslims. Prayer is one of the most essential pillars of Islam, so I decided to design a useful Islamic prayer application that Muslim’s could utilise. Muslims are obligated to worship five times a day, and these prayers must be completed at certain times. As a result, having an application that displays all the prayer times would be beneficial to Muslims and will assist them in keeping track of their prayers. This application will contain numerous features such as a page where users can find invocations (Duas) to add to their prayers, as well as other handy features that will assist Muslims in improving their worship.
-
-<!-- 
-Formative feedback from Sandy
-
-This is a good idea, Abdul, there's plenty of scope with an app like this to display your Android skills. You have plenty of headroom with the word limit, so I have some comments on how you could improve this:
-
-– Try to 'signpost' how you will demonstrate a variety of Android skills to me as the reader. You don't have to go into API detail, that is for other components. But if you can give me an idea of what the 'handy features' might be, I get a better idea of what kind of coverage you might be getting with the API. So more detail and clarity about what you're planning would be really good. I think that's the main feedback here – what is the app going to do?
-
-– Can you expand more on why this might be useful? How do people who don't use smartphones track this? What advantages would a smartphone app bring over these methods? 
-
-– Why would tracking be useful over time? What do you think the benefit of this would be to the users?
-
--->
+My objective is to develop a practical Islamic prayer application for Muslims. Prayer is one of the most essential pillars of Islam, so I decided to design a useful Islamic prayer application that Muslim’s could utilise. Muslims are obligated to worship five times a day, and these prayers must be completed at certain times. One of the ways Muslims determine when to pray is by using a physical copy of a prayer timetable obtained from their local mosque. As a result, having a digitally displayed prayer schedule would be advantageous since Muslims could access it from anywhere and it will assist them in keeping track of their prayers. This application will contain numerous features, such as, the ability to use a map to search for prayer times in different locations around the world, a compass that the user can use to find the direction of which they need to pray, a tracker where the user can check off the prayers they have completed throughout the day, and finally a page where users can find a list of supplications (Dua’s) to add to their prayers. In addition, a notification system to notify users when it’s time for the next prayer.
