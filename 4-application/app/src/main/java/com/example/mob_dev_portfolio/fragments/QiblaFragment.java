@@ -183,7 +183,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
             lastUpdatedTime = System.currentTimeMillis();
 
             // Set the degree TextView
-            degreeTV.setText(azimuthToDegree+"°");
+            degreeTV.setText((int) azimuthToDegree+"°");
 
             int a = (int) (qiblaBearing-5);
             int b = (int) (qiblaBearing+5);
@@ -249,7 +249,7 @@ public class QiblaFragment extends Fragment implements SensorEventListener {
         }
 
         // Set bearing TextView
-        qiblaBearingTV.setText("Qibla Direction: "+qiblaBearing+"°");
+        qiblaBearingTV.setText("Qibla Direction: "+(int) qiblaBearing+"°");
     }
 
 }

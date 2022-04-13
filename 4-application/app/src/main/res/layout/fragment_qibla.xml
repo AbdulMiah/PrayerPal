@@ -89,7 +89,8 @@
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/qibla_compass"
             app:layout_constraintEnd_toStartOf="@+id/qf_degree"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:drawableLeftCompat="@drawable/ic_arrow_circle_left" />
 
         <TextView
             android:id="@+id/turn_right_txt"
@@ -100,7 +101,8 @@
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/qibla_compass"
             app:layout_constraintStart_toEndOf="@id/qf_degree"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:drawableRightCompat="@drawable/ic_arrow_circle_right" />
 
         <ImageView
             android:id="@+id/qibla_compass"
