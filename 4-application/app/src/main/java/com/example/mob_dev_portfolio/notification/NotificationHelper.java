@@ -23,7 +23,7 @@ public class NotificationHelper {
 
             NotificationChannelGroup group = new NotificationChannelGroup(
                     PRAYER_GROUP_ID,
-                    "Prayer"
+                    "Prayers"
             );
 
             // Fajr Channel
