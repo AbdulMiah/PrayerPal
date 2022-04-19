@@ -22,42 +22,42 @@ public class NotificationHelper {
             // Fajr Channel
             NotificationChannel fajrChannel = new NotificationChannel(
                     FAJR_CHANNEL_ID,
-                    "Fajr Channel",
+                    "Fajr Notification",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            fajrChannel.setDescription("Description of Fajr Channel");
+            fajrChannel.setDescription("This Channel Is For The Fajr Notification");
 
             // Dhuhr Channel
             NotificationChannel dhuhrChannel = new NotificationChannel(
                     DHUHR_CHANNEL_ID,
-                    "Dhuhr Channel",
+                    "Dhuhr Notification",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            dhuhrChannel.setDescription("Description of Dhuhr Channel");
+            dhuhrChannel.setDescription("This Channel Is For The Dhuhr Notification");
 
             // Asr Channel
             NotificationChannel asrChannel = new NotificationChannel(
                     ASR_CHANNEL_ID,
-                    "Asr Channel",
+                    "Asr Notification",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            asrChannel.setDescription("Description of Asr Channel");
+            asrChannel.setDescription("This Channel Is For The Asr Notification");
 
             // Maghrib Channel
             NotificationChannel maghribChannel = new NotificationChannel(
                     MAGHRIB_CHANNEL_ID,
-                    "Maghrib Channel",
+                    "Maghrib Notification",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            maghribChannel.setDescription("Description of Maghrib Channel");
+            maghribChannel.setDescription("This Channel Is For The Maghrib Notification");
 
             // Isha Channel
             NotificationChannel ishaChannel = new NotificationChannel(
                     ISHA_CHANNEL_ID,
-                    "Isha Channel",
+                    "Isha Notification",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            ishaChannel.setDescription("Description of Isha Channel");
+            ishaChannel.setDescription("This Channel Is For The Isha Notification");
 
             NotificationManager notifManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
             notifManager.createNotificationChannel(fajrChannel);
