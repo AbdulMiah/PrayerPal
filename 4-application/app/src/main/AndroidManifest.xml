@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -33,8 +34,13 @@
             </intent-filter>
         </activity>
         <receiver
-            android:name=".activities.NotificationReceiver"
-            android:enabled="true" />
+            android:name=".notification.NotificationReceiver"
+            android:enabled="true"
+            android:process=":remote" />
+        <service
+            android:name=".notification.NotificationService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>
