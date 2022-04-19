@@ -2,6 +2,7 @@ package com.example.mob_dev_portfolio.notification;
 
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
+import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.os.Build;
 
 public class NotificationHelper {
 
+    public static final String PRAYER_GROUP_ID = "prayerChannel";
     public static final String FAJR_CHANNEL_ID = "Fajr";
     public static final String DHUHR_CHANNEL_ID = "Dhuhr";
     public static final String ASR_CHANNEL_ID = "Asr";
@@ -19,6 +21,11 @@ public class NotificationHelper {
     public static void createNotificationChannels(Context c) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
+            NotificationChannelGroup group = new NotificationChannelGroup(
+                    PRAYER_GROUP_ID,
+                    "Prayer"
+            );
+
             // Fajr Channel
             NotificationChannel fajrChannel = new NotificationChannel(
                     FAJR_CHANNEL_ID,
@@ -26,6 +33,7 @@ public class NotificationHelper {
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             fajrChannel.setDescription("This Channel Is For The Fajr Notification");
+            fajrChannel.setGroup(PRAYER_GROUP_ID);
 
             // Dhuhr Channel
             NotificationChannel dhuhrChannel = new NotificationChannel(
@@ -34,6 +42,7 @@ public class NotificationHelper {
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             dhuhrChannel.setDescription("This Channel Is For The Dhuhr Notification");
+            dhuhrChannel.setGroup(PRAYER_GROUP_ID);
 
             // Asr Channel
             NotificationChannel asrChannel = new NotificationChannel(
@@ -42,6 +51,7 @@ public class NotificationHelper {
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             asrChannel.setDescription("This Channel Is For The Asr Notification");
+            asrChannel.setGroup(PRAYER_GROUP_ID);
 
             // Maghrib Channel
             NotificationChannel maghribChannel = new NotificationChannel(
@@ -50,6 +60,7 @@ public class NotificationHelper {
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             maghribChannel.setDescription("This Channel Is For The Maghrib Notification");
+            maghribChannel.setGroup(PRAYER_GROUP_ID);
 
             // Isha Channel
             NotificationChannel ishaChannel = new NotificationChannel(
@@ -58,8 +69,10 @@ public class NotificationHelper {
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             ishaChannel.setDescription("This Channel Is For The Isha Notification");
+            ishaChannel.setGroup(PRAYER_GROUP_ID);
 
             NotificationManager notifManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            notifManager.createNotificationChannelGroup(group);
             notifManager.createNotificationChannel(fajrChannel);
             notifManager.createNotificationChannel(dhuhrChannel);
             notifManager.createNotificationChannel(asrChannel);
