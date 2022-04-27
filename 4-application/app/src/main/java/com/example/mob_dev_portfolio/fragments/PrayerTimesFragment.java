@@ -45,13 +45,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -239,8 +237,12 @@ public class PrayerTimesFragment extends Fragment {
     }
 
     public void onAPIRequest(double latitude, double longitude) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate now = LocalDate.now();
+        String today = dtf.format(now);
+
         // API URL
-        String apiUrl = "https://api.pray.zone/v2/times/today.json?longitude=" + longitude + "&latitude=" + latitude + "&elevation=25";
+        String apiUrl = "https://api.aladhan.com/v1/timings/" + today + "?latitude=" + latitude + "&longitude=" + longitude + "&method=15";
         RequestQueue requestQueue = Volley.newRequestQueue(this.getContext());
 
         // Set city and country text in button retrieved from location
@@ -304,14 +306,13 @@ public class PrayerTimesFragment extends Fragment {
 
             try {
                 // Setting JSON Objects and Arrays
-                JSONObject resultsJson = items.getJSONObject("results");
-                JSONArray datetimeArray = resultsJson.getJSONArray("datetime");
+                JSONObject resultsJson = items.getJSONObject("data");
+                JSONObject timingsObject = resultsJson.getJSONObject("timings");
 
-                // Looping through datetime array to get prayer times and storing them in an ArrayList of PrayerModel objects
+                // Looping through timings object to get prayer times and storing them in an ArrayList of PrayerModel objects
                 for (int i = 0; i < listSize; i++) {
-                    JSONObject prayerTimes = datetimeArray.getJSONObject(0).getJSONObject("times");
-//                Log.i(prayerNamesList[i],prayerTimes.getString(prayerNamesList[i]));
-                    prayerModels.add(new PrayerModel(prayerNamesList[i], prayerTimes.getString(prayerNamesList[i])));
+//                    Log.i(prayerNamesList[i],timingsObject.getString(prayerNamesList[i]));
+                    prayerModels.add(new PrayerModel(prayerNamesList[i], timingsObject.getString(prayerNamesList[i])));
                 }
 
                 // Catch any JSONExceptions and Log to console
