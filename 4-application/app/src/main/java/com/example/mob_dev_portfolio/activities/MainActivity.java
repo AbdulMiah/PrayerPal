@@ -75,7 +75,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Date d = new Date(entry.getValue());
             SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
             String date = sdf.format(d);
-            NotificationHelper.scheduleNotification(c, entry.getValue(), x, entry.getKey(), entry.getKey()+" is at "+date, "Hurry up! It's time to pray "+entry.getKey()+"!");
+            if (entry.getValue()>=System.currentTimeMillis()) {
+                NotificationHelper.scheduleNotification(c, entry.getValue(), x, entry.getKey(), entry.getKey()+" is at "+date, "Hurry up! It's time to pray "+entry.getKey()+"!");
+            }
             x += 1;
         }
 
