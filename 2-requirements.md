@@ -30,3 +30,16 @@ Non-Functional Requirements
 •	When the user clicks on a checkbox on the tracker, the device shall vibrate for 50ms
 •	When the user navigates to the Dua (supplications) page, the application shall display a loading fragment immediately
 •	Once the JSON response is received for the Dua page, the application shall display a ListView of all the supplications within 3 seconds
+ 
+
+ <!--
+ Formative feedback from Sandy
+
+- I don't think having to deal with location permissions really counts a functional requirement – the function is being able to get information about prayer times based on location. Obtaining permissions is incidental to this, and is not a function in and of itself. Think carefully about the *functionality* users want access to.
+
+- If I implemented all the functional requirements you have here, would the application meet your expectations? For example, currently there is no requirement that the app store any information, so the user is effectively starting the app from scratch each time. Is that your intention? Make sure you are covering the substantive functionality so that if I were to implement it the result would fit what you've imagined.
+
+- Are there any other nonfunctional requirements you have for the application, perhaps in term of visual appearance/design language?
+
+- This is a good starting point overall and gives me a fairly clear idea of what you're going to produce at the end of the process.
+ -->
