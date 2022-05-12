@@ -19,8 +19,10 @@ import com.example.mob_dev_portfolio.activities.MainActivity;
 // Used Service instead of IntentService shown in tutorial
 public class NotificationService extends Service {
 
-    public String titleExtra = "title";
-    public String msgExtra = "message";
+    public static String titleExtra = "title";
+    public static String msgExtra = "message";
+    public static String channelIDExtra = "channelID";
+    public static String notificationIDExtra = "notificationID";
 
     public NotificationService() {
     }
@@ -33,7 +35,7 @@ public class NotificationService extends Service {
         PendingIntent openAppIntent = PendingIntent.getActivity(getApplicationContext(), 10, appIntent, PendingIntent.FLAG_IMMUTABLE);
 
         // Build the notification
-        Notification notif = new NotificationCompat.Builder(getApplicationContext(), intent.getStringExtra("channelID"))
+        Notification notif = new NotificationCompat.Builder(getApplicationContext(), intent.getStringExtra(channelIDExtra))
                 .setSmallIcon(R.drawable.ic_hands_praying_notif)
                 .setContentTitle(intent.getStringExtra(titleExtra))
                 .setContentText(intent.getStringExtra(msgExtra))
@@ -45,7 +47,7 @@ public class NotificationService extends Service {
                 .build();
 
         NotificationManager notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notifManager.notify(intent.getIntExtra("notifID", 0), notif);
+        notifManager.notify(intent.getIntExtra(notificationIDExtra, 0), notif);
 
         return START_STICKY;
     }

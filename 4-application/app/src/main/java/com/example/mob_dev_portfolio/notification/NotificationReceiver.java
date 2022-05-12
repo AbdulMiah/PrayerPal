@@ -13,10 +13,10 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         // Create an intent for the Notification Service and pass the relevant data
         Intent i = new Intent(context, NotificationService.class);
-        i.putExtra("notifID", intent.getIntExtra("notifID", 0));
-        i.putExtra("channelID", intent.getStringExtra("channelID"));
-        i.putExtra("title", intent.getStringExtra("title"));
-        i.putExtra("message", intent.getStringExtra("message"));
+        i.putExtra(NotificationService.notificationIDExtra, intent.getIntExtra(NotificationService.notificationIDExtra, 0));
+        i.putExtra(NotificationService.channelIDExtra, intent.getStringExtra(NotificationService.channelIDExtra));
+        i.putExtra(NotificationService.titleExtra, intent.getStringExtra(NotificationService.titleExtra));
+        i.putExtra(NotificationService.msgExtra, intent.getStringExtra(NotificationService.msgExtra));
 
         // Start the Service
         context.startService(i);

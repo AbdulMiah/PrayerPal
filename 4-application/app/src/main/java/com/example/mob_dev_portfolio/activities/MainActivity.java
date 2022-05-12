@@ -76,20 +76,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             e.printStackTrace();
         }
 
-        // Iterate through the notification HashMap
-        int x = 0;
-        for (Map.Entry<String, Long> entry: notificationTimes.entrySet()) {
-            // Format the date to use in the notification title
-            Date d = new Date(entry.getValue());
-            SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
-            String date = sdf.format(d);
-
-            // If the prayer time is after or equal to now, then schedule the notification
-            if (entry.getValue()>=System.currentTimeMillis()) {
-                NotificationHelper.scheduleNotification(c, entry.getValue(), x, entry.getKey(), entry.getKey()+" is at "+date, "Hurry up! It's time to pray "+entry.getKey()+"!");
-            }
-            x += 1;
-        }
+        setNotificationScheduler(c);
 
         // Load PrayerTimesFragment on application startup
         changeInternalFragment(new PrayerTimesFragment(), R.id.main_frag_container);
@@ -106,6 +93,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         supportFragmentManager.beginTransaction()
                 .replace(fragmentContainer, fragment)
                 .commit();
+    }
+
+    public void setNotificationScheduler(Context c) {
+        // Iterate through the notification HashMap
+        int x = 0;
+        for (Map.Entry<String, Long> entry: notificationTimes.entrySet()) {
+            // Format the date to use in the notification title
+            Date d = new Date(entry.getValue());
+            SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
+            String date = sdf.format(d);
+
+            // If the prayer time is after or equal to now, then schedule the notification
+            if (entry.getValue()>=System.currentTimeMillis()) {
+                NotificationHelper.scheduleNotification(c, entry.getValue(), x, entry.getKey(), entry.getKey()+" is at "+date, "Hurry up! It's time to pray "+entry.getKey()+"!");
+            }
+            x += 1;
+        }
     }
 
     @Override
