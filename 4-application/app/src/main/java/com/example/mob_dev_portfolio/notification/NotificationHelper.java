@@ -21,6 +21,7 @@ public class NotificationHelper {
     public static void createNotificationChannels(Context c) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
+            // Create a notification group for prayers
             NotificationChannelGroup group = new NotificationChannelGroup(
                     PRAYER_GROUP_ID,
                     "Prayers"
@@ -71,6 +72,7 @@ public class NotificationHelper {
             ishaChannel.setDescription("This Channel Is For The Isha Notification");
             ishaChannel.setGroup(PRAYER_GROUP_ID);
 
+            // Create the notification groups and channels
             NotificationManager notifManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
             notifManager.createNotificationChannelGroup(group);
             notifManager.createNotificationChannel(fajrChannel);
@@ -82,6 +84,7 @@ public class NotificationHelper {
     }
 
     public static void scheduleNotification(Context c, long time, int notifID, String channelID, String title, String msg) {
+        // Create an intent for the Notification Broadcast Receiver
         Intent intent = new Intent(c, NotificationReceiver.class);
         intent.putExtra("notifID", notifID);
         intent.putExtra("channelID", channelID);
@@ -95,6 +98,7 @@ public class NotificationHelper {
                 PendingIntent.FLAG_IMMUTABLE
         );
 
+        // Create an alarm manager to set an alarm notification for the prayer time
         AlarmManager alarm = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         alarm.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,

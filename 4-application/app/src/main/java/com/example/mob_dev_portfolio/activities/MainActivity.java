@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Context c = getBaseContext();
 
+        // Create the Notification channels
         NotificationHelper.createNotificationChannels(c);
 
         this.db = Room.databaseBuilder(
@@ -51,30 +52,39 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .fallbackToDestructiveMigration()
                 .build();
 
+        // Get the list of all prayers and their times
         try {
             List<PrayerModel> prayers = db.prayerDAO().getAllPrayers();
             for (int i = 0; i < 6; i++) {
                 if (i==1) {
                     continue;
                 }
+                // Get the prayer time
                 String time = prayers.get(i).getPrayerTime();
+
+                // Convert time into Unix timestamp
                 LocalDate now = LocalDate.now();
                 String comb = now.toString()+" "+time+":00";
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = sdf.parse(comb);
                 long millis = date.getTime();
 
+                // Add the prayer times in millis to a HashMap to use for notifications
                 notificationTimes.put(prayers.get(i).getPrayerName(), millis);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        // Iterate through the notification HashMap
         int x = 0;
         for (Map.Entry<String, Long> entry: notificationTimes.entrySet()) {
+            // Format the date to use in the notification title
             Date d = new Date(entry.getValue());
             SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
             String date = sdf.format(d);
+
+            // If the prayer time is after or equal to now, then schedule the notification
             if (entry.getValue()>=System.currentTimeMillis()) {
                 NotificationHelper.scheduleNotification(c, entry.getValue(), x, entry.getKey(), entry.getKey()+" is at "+date, "Hurry up! It's time to pray "+entry.getKey()+"!");
             }

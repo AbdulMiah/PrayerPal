@@ -32,6 +32,7 @@ public class NotificationService extends Service {
         Intent appIntent = new Intent(getApplicationContext(), MainActivity.class);
         PendingIntent openAppIntent = PendingIntent.getActivity(getApplicationContext(), 10, appIntent, PendingIntent.FLAG_IMMUTABLE);
 
+        // Build the notification
         Notification notif = new NotificationCompat.Builder(getApplicationContext(), intent.getStringExtra("channelID"))
                 .setSmallIcon(R.drawable.ic_hands_praying_notif)
                 .setContentTitle(intent.getStringExtra(titleExtra))
@@ -53,5 +54,10 @@ public class NotificationService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }
