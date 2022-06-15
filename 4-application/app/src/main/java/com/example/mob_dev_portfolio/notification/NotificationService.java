@@ -28,7 +28,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,28 +81,12 @@ public class NotificationService extends Service {
         LocalDate now = LocalDate.now();
         String dateNow = myFormat.format(now);
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime localTimeNow = LocalTime.now();
-        String timeNow = dtf.format(localTimeNow);
-        System.out.println("The time now is: "+timeNow);
-
-        LocalTime callAPITime = LocalTime.of(1,0);
-        System.out.println("call API at: "+callAPITime.toString());
-
         String storedDate = sp.getString("date", "");
 
         // If prayer list is not empty and the date is not equal to today's date, then request the data from API and schedule notifications
         if ((!prayerModels.isEmpty()) && (!storedDate.equals(dateNow))) {
             System.out.println("Oops, getting it!");
-            float lat = sp.getFloat("latitude", 0f);
-            float lng = sp.getFloat("longitude", 0f);
-            onAPIRequest(getApplicationContext(), lat, lng);
-
-            System.out.println(prayerModels.toString());
-            getPrayerTimes();
-            scheduleNotifications();
-        } else if (timeNow.equals(callAPITime.toString())) {
-            System.out.println("IT IS TIME!!");
+            callAPIAndScheduleNotifications();
         } else {
             System.out.println("Got it!");
             System.out.println(prayerModels.toString());
@@ -111,6 +94,16 @@ public class NotificationService extends Service {
             scheduleNotifications();
         }
         return START_STICKY;
+    }
+
+    private void callAPIAndScheduleNotifications() {
+        float lat = sp.getFloat("latitude", 0f);
+        float lng = sp.getFloat("longitude", 0f);
+        onAPIRequest(getApplicationContext(), lat, lng);
+
+        System.out.println(prayerModels.toString());
+        getPrayerTimes();
+        scheduleNotifications();
     }
 
     private void getPrayerTimes() {

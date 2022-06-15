@@ -100,7 +100,7 @@ public class NotificationHelper {
 
         // Create an alarm manager to set an alarm notification for the prayer time
         AlarmManager alarm = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-        alarm.setExactAndAllowWhileIdle(
+        alarm.setAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 time,
                 pendingIntent

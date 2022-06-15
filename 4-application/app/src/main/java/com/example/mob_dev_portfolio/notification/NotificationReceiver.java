@@ -40,9 +40,5 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         NotificationManager notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notifManager.notify(intent.getIntExtra(notificationIDExtra, 0), notif);
-
-        // Start the Service
-//        Intent i = new Intent(context, NotificationService.class);
-//        context.startService(i);
     }
 }
