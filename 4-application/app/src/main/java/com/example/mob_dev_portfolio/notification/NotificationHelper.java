@@ -86,10 +86,10 @@ public class NotificationHelper {
     public static void scheduleNotification(Context c, long time, int notifID, String channelID, String title, String msg) {
         // Create an intent for the Notification Broadcast Receiver
         Intent intent = new Intent(c, NotificationReceiver.class);
-        intent.putExtra(NotificationService.notificationIDExtra, notifID);
-        intent.putExtra(NotificationService.channelIDExtra, channelID);
-        intent.putExtra(NotificationService.titleExtra, title);
-        intent.putExtra(NotificationService.msgExtra, msg);
+        intent.putExtra(NotificationReceiver.notificationIDExtra, notifID);
+        intent.putExtra(NotificationReceiver.channelIDExtra, channelID);
+        intent.putExtra(NotificationReceiver.titleExtra, title);
+        intent.putExtra(NotificationReceiver.msgExtra, msg);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 c,
