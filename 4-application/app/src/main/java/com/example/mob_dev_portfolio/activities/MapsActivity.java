@@ -58,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private AppCompatButton backBtn, currentLocationBtn;
 
     private SharedPreferences userCurrentLocationSp;
+    private SharedPreferences locationData;
     private SharedPreferences.Editor userCurrentLocationEditor;
 
     public MapsActivity() {
@@ -102,6 +103,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    private void addMarkerOnSelectedLocation() {
+        locationData = getSharedPreferences("locationData", Context.MODE_PRIVATE);
+
+        if (locationData.getAll().isEmpty()) {
+            System.out.println("Location is empty, cannot add marker");
+        } else {
+            float lat = locationData.getFloat("latitude", 0f);
+            float lng = locationData.getFloat("longitude", 0f);
+
+            // Add a marker on the map for the location user currently selected for prayer times
+            LatLng latLng = new LatLng(lat, lng);
+            map.addMarker(new MarkerOptions().position(latLng).title("Location Selected for Prayer Times"));
+        }
+    }
+
     // Finish activity once user clicks back button
     private void onClick(View view) {
         finish();
@@ -112,6 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         mapClickAction();
+        addMarkerOnSelectedLocation();
     }
 
     public void searchQueryAction() {
