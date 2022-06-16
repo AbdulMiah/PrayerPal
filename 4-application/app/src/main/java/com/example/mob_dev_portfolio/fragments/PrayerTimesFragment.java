@@ -132,7 +132,7 @@ public class PrayerTimesFragment extends Fragment {
         getPrayerData();
     }
 
-    public void getPrayerData() {
+    private void getPrayerData() {
         this.prayerModels = (ArrayList<PrayerModel>) db.prayerDAO().getAllPrayers();
 
         DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy");
@@ -153,12 +153,12 @@ public class PrayerTimesFragment extends Fragment {
     }
 
     // Start MapActivity using intents and expect to receive results from this activity
-    public void onClick(View view) {
+    private void onClick(View view) {
         Intent i = new Intent(view.getContext(), MapsActivity.class);
         startActivityForResult(i, 001);
     }
 
-    public void updatePrayerTimes(ArrayList<PrayerModel> pm) {
+    private void updatePrayerTimes(ArrayList<PrayerModel> pm) {
         // Set the ListView
         PrayerListAdapter prayerListAdapter = new PrayerListAdapter(lv.getContext(), pm);
         lv.setAdapter(prayerListAdapter);
@@ -169,7 +169,7 @@ public class PrayerTimesFragment extends Fragment {
         locationBtn.setText(sp.getString("location", ""));
     }
 
-    public void checkLocationPermissions() {
+    private void checkLocationPermissions() {
         // If there are no location permissions granted, request location permissions when fragment is loaded
         if (!LocationPermissions.checkIfPermissionsGranted(getActivity(), LOCATION_PERMISSIONS)) {
             requestPermissions(LOCATION_PERMISSIONS, LOCATION_REQUEST_FROM_BUTTON);
@@ -236,7 +236,7 @@ public class PrayerTimesFragment extends Fragment {
         currentLocationEditor.commit();
     }
 
-    public void onAPIRequest(double latitude, double longitude) {
+    private void onAPIRequest(double latitude, double longitude) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate now = LocalDate.now();
         String today = dtf.format(now);
@@ -298,7 +298,7 @@ public class PrayerTimesFragment extends Fragment {
         requestQueue.add(apiRequest);
     }
 
-    public void handleResponse(JSONObject items) {
+    private void handleResponse(JSONObject items) {
         // Check if ArrayList of PrayerModel is empty, if it is then do this...
         if (prayerModels.size() <= 0) {
             // Initialise some variables
@@ -329,7 +329,7 @@ public class PrayerTimesFragment extends Fragment {
         updatePrayerTimes(prayerModels);
     }
 
-    public void handleError(VolleyError error) {
+    private void handleError(VolleyError error) {
         Log.e("REQUEST FROM API ERROR", String.valueOf(error));
 
         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
@@ -337,7 +337,7 @@ public class PrayerTimesFragment extends Fragment {
         }
     }
 
-    public void setCurrentDateText() {
+    private void setCurrentDateText() {
         // Format current date from API, then set the current date text to formatted date
         DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy");
         LocalDate now = LocalDate.now();
@@ -347,7 +347,7 @@ public class PrayerTimesFragment extends Fragment {
         currentDateText.setText(output);
     }
 
-    public void setCurrentPrayerText(ArrayList<PrayerModel> prayers) {
+    private void setCurrentPrayerText(ArrayList<PrayerModel> prayers) {
         // Get the current time
         LocalTime timeNow = LocalTime.now();
 
